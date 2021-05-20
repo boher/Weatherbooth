@@ -12,11 +12,6 @@ def locationPage(name):
     return f"Showing weather for {name}" # f-String avail from python3.6 onwards,
                         # basically String formatter as seen in Java etc.
 
-### TODO: Redirect not working, may have to do w render_template & request import
-##@app.route("/admin/")
-##def adminPage():
-##    return redirect(url_for("userPage", name="admin!")) # Name of function instead of URL path
-
 @app.route("/search", methods=["POST", "GET"])
 def search():
     searchedString = request.args.get("search") # TODO: Matched against DB
