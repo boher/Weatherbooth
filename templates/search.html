@@ -1,7 +1,11 @@
 {% extends "base.html" %}
+{# {% from 'bootstrap/form.html' import render_form %}#}
 {% block title %} Search Results {% endblock %}
 {% block content %}
 <p>
 TODO: Search String matched (Python lib Elasticsearch?) against a DB, probably stored in dockerised SQLAlchemy
 </p>
+<div>
+    {# {{ render_form(url_for('search'), form) }} # note: render_form is a marco from pip install bootstrap-flask#}
+</div>
 {% endblock %}

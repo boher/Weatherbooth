@@ -1,21 +1,19 @@
 from flask import Flask, redirect, url_for, render_template, request, session
-from datetime import timedelta
+from datetime import datetime, timedelta
 
-app = Flask(__name__)
+app = Flask(__name__, template_folder= 'templates')
 
 @app.route("/")
 def homePage():
     return render_template("index.html")
 
-@app.route("/<name>") # URL appended String var passed as param to userPage()
-def locationPage(name):
-    return f"Showing weather for {name}" # f-String avail from python3.6 onwards,
-                        # basically String formatter as seen in Java etc.
+@app.route('/hourly')
+def hourly():
+    return render_template('hourly.html')
 
-### TODO: Redirect not working, may have to do w render_template & request import
-##@app.route("/admin/")
-##def adminPage():
-##    return redirect(url_for("userPage", name="admin!")) # Name of function instead of URL path
+@app.route('/weekly')
+def weekly():
+    return render_template('weekly.html')
 
 @app.route("/search", methods=["POST", "GET"])
 def search():
@@ -26,9 +24,10 @@ def search():
 def location():
     if request.method == "POST":
         location = request.form["name"]
-        return redirect(url_for("locationPage", name=location))
+        dt = str(datetime.now().isoformat(timespec='seconds', sep=' '))
+        return render_template("location.html", location = location, dt = dt)
     else:
         return render_template("location.html")
 
 if __name__ == "__main__":
-    app.run(debug = True) # Simply refresh the opened webpage instead of running
+    app.run(host="localhost", debug = True) # Simply refresh the opened webpage
