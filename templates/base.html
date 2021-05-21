@@ -6,20 +6,11 @@
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet">
 	<link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
 	<title>{% block title %}{% endblock %}</title>
-	<style>
-    	/* TODO: External CSS file instead of internal CSS */
-		.nav-tabs > li > a:hover {
-    		background-color: #CFF;
-		}
-
-		.active {
-			background-color: #CFF;
-		}
-	</style>
+	<link rel = "stylesheet" href = "{{url_for('static', filename = 'main.css')}}">
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #8fcbf7;">
-  		<a class="navbar-app-name mr-sm-4" style="text-decoration: none;" href="/">
+  		<a class="navbar-app-name mr-sm-4" style="text-decoration: none;">
   			<img src="https://qqpublic.qpic.cn/qq_public/0/0-2155386201-BBDD52D08D09041EBF6A75DA04B6021C/0?fmt=jpg" width="50" height="50" class="d-inline-block" alt="">
   			Weatherbooth
   		</a>
@@ -53,14 +44,14 @@
 	</div>
 	<nav class="navbar-expand-sm fixed-bottom navbar-light bg-light">
 	    <ul class="nav nav-tabs nav-fill nav-justified">
-	        <li class="nav-item active">
-	        	<a href="/" class="nav-link" action="/">Current</a> <!-- TODO: JS to change active state of tags li class for hourly & weekly weather redirected url(maybe no need redirect in the future, but use actions for API retrieval at flask backend?)-->
+	        <li class="nav-item">
+	        	<a href="/" class="nav-link">Current</a> <!-- TODO: JS to change active state of tags li class for hourly & weekly weather redirected url(maybe no need redirect in the future, but use actions for API retrieval at flask backend?)-->
 	        </li>
 	        <li class="nav-item">
-	        	<a href="/hourly" class="nav-link" action="hourly">Hourly</a>
+	        	<a href="/hourly" class="nav-link">Hourly</a>
 	        </li>
 	        <li class="nav-item">
-	        	<a href="/weekly" class="nav-link" action="weekly">Weekly</a>
+	        	<a href="/weekly" class="nav-link">Weekly</a>
 	        </li>
 	    </ul>
     	<p class="text-center mt-2">Copyright and last updated:</p>
@@ -79,14 +70,15 @@
 	    });
   })
   	// Change active state of bottom nav-tab links
-	$(document).ready(function () {
-        $('ul.nav > li').click(function (e) {
-            e.preventDefault();
-            $('ul.nav> li').removeClass('active');
-            $(this).addClass('active');                
-        });            
-    });
 </script>
-<script>
+<script type = "text/javascript">
+	const currentLocation = location.href;
+	const menuItem = document.querySelectorAll('a');
+	const menuLength = menuItem.length
+	for (let i = 0; i<menuLength;i++){
+		if(menuItem[i].href === currentLocation){
+			menuItem[i].className = "active"
+		}
+	}
 </script>
 </html>
