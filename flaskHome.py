@@ -11,13 +11,10 @@ def homePage():
 def hourly():
     return render_template('hourly.html')
 
-<<<<<<< HEAD
-=======
 @app.route('/weekly')
 def weekly():
     return render_template('weekly.html')
 
->>>>>>> main
 @app.route("/search", methods=["POST", "GET"])
 def search():
     searchedString = request.args.get("search") # TODO: Matched against DB
