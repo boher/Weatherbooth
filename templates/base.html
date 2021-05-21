@@ -6,6 +6,15 @@
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet">
 	<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
 	<title>{% block title %}{% endblock %}</title>
+	<style>
+		.nav-tabs > li > a:hover{
+    	background-color:#FCC;
+		}
+
+		.active{
+			background-color: rgb(119, 118, 117);
+		}
+	</style>
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #8fcbf7;">
@@ -42,9 +51,9 @@
 		{% endblock %}
 	</div>
 	<nav class="navbar-expand-sm fixed-bottom navbar-light bg-light">
-	    <ul class="nav nav-pills nav-fill nav-justified"> <!-- Can use nav-tabs instead of nav-pills for tab borders, hover colour change w/o external CSS-->
-	        <li class="nav-item">
-	        	<a href="/" class="nav-link active" action="/">Current</a> <!-- TODO: JS to change active state (to colour blue) of tags a class for hourly & weekly weather 
+	    <ul class="nav nav-tabs nav-fill nav-justified"> <!-- Can use nav-tabs instead of nav-pills for tab borders, hover colour change w/o external CSS-->
+	        <li class="nav-item active">
+	        	<a href="/" class="nav-link" action="/">Current</a> <!-- TODO: JS to change active state (to colour blue) of tags a class for hourly & weekly weather 
 	        	redirected url(maybe no need redirect in the future, at flask backend?)
 	        	TODO: External CSS, whether nav-pills or nav-tabs, for distinctive hover colour change & thicker dark colour borders for nav links-->
 	        </li>
@@ -69,5 +78,14 @@
       off: 'Metric'
     });
   })
+</script>
+<script>
+	$(document).ready(function () {
+        $('ul.nav > li').click(function (e) {
+            e.preventDefault();
+            $('ul.nav> li').removeClass('active');
+            $(this).addClass('active');                
+        });            
+    });
 </script>
 </html>
