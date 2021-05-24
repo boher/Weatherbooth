@@ -5,7 +5,7 @@ app = Flask(__name__, template_folder= 'templates')
 
 @app.route("/")
 def homePage():
-    return render_template("index.html")
+    return render_template("current.html")
 
 @app.route('/hourly')
 def hourly():
@@ -30,4 +30,5 @@ def location():
         return render_template("location.html")
 
 if __name__ == "__main__":
-    app.run(host="localhost", debug = True) # Simply refresh the opened webpage
+    app.run(host="localhost", debug = True) # Simply refresh the opened webpage,
+                            # but Python Shell requires manual restart to quit
