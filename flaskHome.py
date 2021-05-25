@@ -3,9 +3,18 @@ from datetime import datetime, timedelta
 
 app = Flask(__name__, template_folder= 'templates')
 
-@app.route("/")
+#@app.route("/")
+#def homePage():
+#    return render_template("current.html")
+
+@app.route("/", methods=["POST", "GET"])
 def homePage():
-    return render_template("current.html")
+    if request.method == "POST":
+        location = request.form["name"]
+        dt = str(datetime.now().isoformat(timespec='seconds', sep=' '))
+        return render_template("current.html", location = location, dt = dt)
+    else:
+        return render_template("current.html")
 
 @app.route('/hourly')
 def hourly():
