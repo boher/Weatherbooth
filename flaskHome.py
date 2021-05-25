@@ -3,40 +3,46 @@ from datetime import datetime, timedelta
 
 app = Flask(__name__, template_folder= 'templates')
 
-#@app.route("/")
-#def homePage():
-#    return render_template("current.html")
-
 @app.route("/", methods=["POST", "GET"])
 def homePage():
     if request.method == "POST":
-        location = request.form["name"]
+        location = request.form["location"]
         dt = str(datetime.now().isoformat(timespec='seconds', sep=' '))
         return render_template("current.html", location = location, dt = dt)
     else:
         return render_template("current.html")
 
-@app.route('/hourly')
+@app.route('/hourly', methods=["POST", "GET"])
 def hourly():
-    return render_template('hourly.html')
+    if request.method == "POST":
+        location = request.form["location"]
+        dt = str(datetime.now().isoformat(timespec='seconds', sep=' '))
+        return render_template("hourly.html", location = location, dt = dt)
+    else:
+        return render_template('hourly.html')
 
-@app.route('/weekly')
+@app.route('/weekly', methods=["POST", "GET"])
 def weekly():
-    return render_template('weekly.html')
+    if request.method == "POST":
+        location = request.form["location"]
+        dt = str(datetime.now().isoformat(timespec='seconds', sep=' '))
+        return render_template("weekly.html", location = location, dt = dt)
+    else:
+        return render_template('weekly.html')
 
 @app.route("/search", methods=["POST", "GET"])
 def search():
     searchedString = request.args.get("search") # TODO: Matched against DB
     return render_template("search.html")
 
-@app.route("/location", methods=["POST", "GET"])
-def location():
-    if request.method == "POST":
-        location = request.form["name"]
-        dt = str(datetime.now().isoformat(timespec='seconds', sep=' '))
-        return render_template("location.html", location = location, dt = dt)
-    else:
-        return render_template("location.html")
+##@app.route("/location", methods=["POST", "GET"])
+##def location():
+##    if request.method == "POST":
+##        location = request.form["location"]
+##        dt = str(datetime.now().isoformat(timespec='seconds', sep=' '))
+##        return render_template("location.html", location = location, dt = dt)
+##    else:
+##        return render_template("location.html")
 
 if __name__ == "__main__":
     app.run(host="localhost", debug = True) # Simply refresh the opened webpage,

@@ -1,6 +1,11 @@
 {% extends "base.html" %}
 {% block title %} Weatherbooth - Weekly Weather {% endblock %}
 {% block content %}
+<div class="container">
+  {% if location %}
+  <p>Information retrieved at {{ dt }}</p>
+  {% endif %}
+</div>
 <div class="jumbotron jumbotron-fluid">
   <div class="container">
 	<h2 class="display-4" style="text-align:center;">UNDER CONSTRUCTION, PLEASE STAND BY</h2>

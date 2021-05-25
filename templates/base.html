@@ -19,9 +19,12 @@
 		    <span class="navbar-toggler-icon"></span>
 		  </button>
 		    <div class="collapse navbar-collapse" id="navbarText">
-				<form class="form-inline mx-0" action="/" method="post">
-					<input class="form-control mt-3 mr-sm-2" name="name" type="search" placeholder="Location" aria-label="Location" id = "Location" value="{{ request.form['name'] }}">
+				<form class="form-inline mx-0 needs-validation" method="post" novalidate>
+					<input class="form-control mt-3 mr-sm-2" name="location" type="search" placeholder="Location" aria-label="Location" id = "Location" value="{{ request.form['location'] }}">
 					<button class="btn btn-outline-success mt-3" type="submit">Search</button>
+					<div class="invalid-tooltip">
+			        	Please provide a valid location.
+			      	</div>
 				  </form>
 		      <form class="form-inline ml-auto" action="search" style = "margin-right: 30px;">
 			      <input class="form-control mt-3 mr-sm-2" name="search" type="search" placeholder="Search" aria-label="Search">
@@ -74,7 +77,7 @@
 			menuItem[i].className = "active"
 		}
 	}
-
+	// TODO: Autocomplete location input (user input retained for current, 24-hour & 7-day display) validated w/ 1st char of comma sepearated string & https://getbootstrap.com/docs/5.0/forms/validation/
 	var availableTags = [
       "Singapore, Singapore", "Osaka, Japan", "Seoul, South Korea"
     ];
