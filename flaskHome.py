@@ -3,6 +3,19 @@ from datetime import datetime, timedelta
 
 app = Flask(__name__, template_folder= 'templates')
 
+@app.route("/")
+def base():
+    dt = str(datetime.now().isoformat(timespec='seconds', sep=' '))
+    date = dt.split(' ')
+    info ={
+        'temp': 32,
+        'cond': 'Sunny',
+        'date': date[0],
+        'time': date[1]
+    }
+    return render_template('base.html', info = info)
+
+'''
 @app.route("/", methods=["POST", "GET"])
 def homePage():
     if request.method == "POST":
@@ -43,7 +56,7 @@ def search():
 ##        return render_template("location.html", location = location, dt = dt)
 ##    else:
 ##        return render_template("location.html")
-
+'''
 if __name__ == "__main__":
     app.run(host="localhost", debug = True) # Simply refresh the opened webpage,
                             # but Python Shell requires manual restart to quit
