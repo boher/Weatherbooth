@@ -24,46 +24,9 @@
 		    </div>
 	</nav>
 
-	  <div class="tab-content" id="pills-tabContent">
-		<div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
-			<div class = "container">
-				<div class="row" style = "margin-top: 20px;">
-					<div class="col-sm" style="background-color:rgb(214, 214, 209); height: 800px;">
-						<ul class="list-group">
-							<li class="list-group-item" style = "margin-top: 20px; height:50px;">Warning and Advisories</li>
-							<li class="list-group-item" style = "margin-top: 20px; height:180px;">Information</li>
-							<li class="list-group-item" style = "margin-top: 20px; height:180px;">Information</li>
-						</ul>
-					</div>
-					<div class="col-sm" style="background-color:rgb(194, 194, 189); height: 800px; background-image: url(https://gray-wymt-prod.cdn.arcpublishing.com/resizer/sdULGgQ81GuEHqy5JJbwH5_bTw0=/1200x675/smart/cloudfront-us-east-1.images.arcpublishing.com/gray/AQLQZUCO3FKSTHLXOSYDHJ2NHE.png);">
-						<ul class="list-group">
-							<li class="list-group-item border-0" style = "margin-top: 350px; height:50px; background-color: transparent;"><div class= "display-4" id = 'console-event'></div></li>
-							<li class="list-group-item border-0" style = "margin-top: 20px; height:20px; background-color: transparent;">Condition: {{info.cond}}</li>
-							<li class="list-group-item border-0" style = "margin-top: 20px; height:20px; background-color: transparent;">Date: {{info.date}}</li>
-							<li class="list-group-item border-0" style = "margin-top: 20px; height:20px; background-color: transparent;">Time: {{info.time}}</li>
-						</ul>
-					</div>
-					<div class="col-sm" style="background-color:rgb(177, 177, 174); height: 800px;">
-						<div class="row" style = "margin-top:250px;">
-							<div class = "col-sm-4 offset-1 mb-5 border" style = "height: 30px;">Humidity</div>
-							<div class = "col-sm-4 offset-1 mb-5 border" style = "height: 30px">Precipitation</div>
-						</div>
-						<div class="row">
-						  <div class = "col-sm-4 offset-1 mb-5 border" style = "height: 30px">Air pressure</div>
-						  <div class = "col-sm-4 offset-1 mb-5 border" style = "height: 30px">Wind-speed</div>
-						</div> 
-						<div class="row">
-						  <div class = "col-sm-4 offset-1 mb-5 border" style = "height: 30px">Ultraviolet index</div>
-						  <div class = "col-sm-4 offset-1 border" style = "height: 30px">Cloudiness</div>
-						</div>  
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">2</div>
-		<div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">3</div>
-	  </div>
-	  
+	  {% block content %}
+	  {% endblock %}
+
 	  <nav class="navbar-expand-sm fixed-bottom navbar-light bg-light">
 		<ul class="nav nav-pills nav-justified" id="pills-tab" role="tablist">
 			<li class="nav-item" role="presentation">
