@@ -1,4 +1,4 @@
-from flask import Flask, redirect, url_for, render_template, request, session
+from flask import Flask, redirect, url_for, render_template, request, session, flash
 from datetime import datetime
 import time
 from view.api import startRun, getCurrent
@@ -8,7 +8,7 @@ from view.api import startRun, getCurrent
 app = Flask(__name__, template_folder= 'templates')
 
 @app.route("/")
-def base():
+def homePage():
     dt = datetime.now()
     dt = int(time.mktime(dt.timetuple()))
 
