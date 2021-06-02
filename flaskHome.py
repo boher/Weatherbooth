@@ -1,7 +1,7 @@
 from flask import Flask, redirect, url_for, render_template, request, session
 from datetime import datetime
 import time
-from view.api import startRun, getCurrent
+from view.api import startRun, getCurrent, getPic
 
 #ignore test.py, is just a place to test the API calling
 
@@ -15,6 +15,7 @@ def base():
     data = startRun(dt)
     dateTime, temp, condi, uvi, humd, cloud, ws, p = getCurrent(data)
     date = dateTime.split(' ')
+    pic = getPic(condi)
     info ={
         'temp': int(temp),
         'cond': condi,
@@ -24,7 +25,8 @@ def base():
         'humd': humd,
         'cloud': cloud,
         'ws': ws,
-        'p': p
+        'p': p,
+        'pic': pic
     }
     return render_template('index.html', info = info)
 

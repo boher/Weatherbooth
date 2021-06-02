@@ -29,3 +29,6 @@ def getCurrent(data):
 
     return dateTime, temp, condi, uvi, humd, cloud, ws, p
 
+def getPic(condi):
+    str = "pics/"+condi+".jpeg"
+    return str

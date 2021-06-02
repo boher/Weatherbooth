@@ -12,7 +12,7 @@
             <li class="list-group-item" style = "margin-top: 20px; height:180px;">Information</li>
           </ul>
         </div>
-        <div class="col-sm" style="background-color:rgb(194, 194, 189); height: 750px; background-image: url(https://gray-wymt-prod.cdn.arcpublishing.com/resizer/sdULGgQ81GuEHqy5JJbwH5_bTw0=/1200x675/smart/cloudfront-us-east-1.images.arcpublishing.com/gray/AQLQZUCO3FKSTHLXOSYDHJ2NHE.png);">
+        <div class="col-sm" style="background-color:rgb(194, 194, 189); height: 750px; background-image: url({{ url_for('static', filename=info.pic) }});">
           <ul class="list-group">
             <li class="list-group-item border-0" style = "margin-top: 350px; height:50px; background-color: transparent;"><div class= "display-4" id = 'console-event'></div></li>
             <li class="list-group-item border-0" style = "margin-top: 20px; height:20px; background-color: transparent;">Condition: {{info.cond}}</li>
@@ -20,7 +20,7 @@
             <li class="list-group-item border-0" style = "margin-top: 20px; height:20px; background-color: transparent;">Time: {{info.time}}</li>
           </ul>
         </div>
-        <div class="col-sm" style="background-color:rgb(177, 177, 174); height: 750px;">
+        <div class="col-sm" style="background-color:rgb(201, 201, 195); height: 750px;">
           <div class="row" style = "margin-top:250px;">
             <div class = "col-sm-4 offset-1 mb-5" style = "height: 30px;">Humidity: {{info.humd}}%</div>
             <div class = "col-sm-4 offset-1 mb-5" style = "height: 30px">Precipitation</div>
