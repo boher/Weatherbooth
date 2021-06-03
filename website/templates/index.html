@@ -12,7 +12,7 @@
             <li class="list-group-item" style = "margin-top: 20px; height:180px;">Information</li>
           </ul>
         </div>
-        <div class="col-sm" style="background-color:rgb(194, 194, 189); height: 750px; background-image: url({{ url_for('static', filename=info.pic) }});">
+        <div class="col-sm" style="background-color:rgb(194, 194, 189); height: 750px; background-image: url({{ url_for('static', filename=info.img) }});">
           <ul class="list-group">
             <li class="list-group-item border-0" style = "margin-top: 350px; height:50px; background-color: transparent;"><div class= "display-4" id = 'console-event'></div></li>
             <li class="list-group-item border-0" style = "margin-top: 20px; height:20px; background-color: transparent;">Condition: {{info.cond}}</li>
@@ -37,7 +37,7 @@
       </div>
     </div>
   </div>
-  <div class="tab-pane fade" id="pills-hourly" role="tabpanel" aria-labelledby="pills-24hr-tab">2</div>
-  <div class="tab-pane fade" id="pills-weekly" role="tabpanel" aria-labelledby="pills-7day-tab">3</div>
+  <div class="tab-pane fade" id="pills-24hr" role="tabpanel" aria-labelledby="pills-24hr-tab">2</div>
+  <div class="tab-pane fade" id="pills-7day" role="tabpanel" aria-labelledby="pills-7day-tab">3</div>
   </div>
 {% endblock %}

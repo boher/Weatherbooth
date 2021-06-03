@@ -12,7 +12,6 @@ def startRun(dt):
     data = json.loads(response.text)
     return data
 
-
 def getCurrent(data):
     current = data["current"]["dt"]
     temp = data["current"]["temp"]
@@ -29,6 +28,6 @@ def getCurrent(data):
 
     return dateTime, temp, condi, uvi, humd, cloud, ws, p
 
-def getPic(condi):
-    str = "pics/"+condi+".jpeg"
+def getImg(condi):
+    str = "images/"+condi+".jpeg"
     return str

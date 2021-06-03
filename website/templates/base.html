@@ -13,7 +13,7 @@
 <body>
 	<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #8fcbf7;">
   		<a class="navbar-app-name mr-sm-4" style="text-decoration: none;">
-  			<img src="https://hanwen360.com/img/shufa/ls/4/f38ad4968a006088.png" width="60" height="60" class="d-inline-block" alt="">
+  			<img src="{{url_for('static', filename='images/logo.png')}}" width="60" height="60" class="d-inline-block" alt="">
   			Weatherbooth
   		</a>
 		  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
@@ -34,10 +34,10 @@
 			<a class="nav-link active" id="pills-current-tab" data-toggle="pill" href="#pills-current" role="tab" aria-controls="pills-current" aria-selected="true">Current</a>
 			</li>
 			<li class="nav-item" role="presentation">
-			<a class="nav-link" id="pills-hourly-tab" data-toggle="pill" href="#pills-hourly" role="tab" aria-controls="pills-hourly" aria-selected="false">24-Hour</a>
+			<a class="nav-link" id="pills-24hr-tab" data-toggle="pill" href="#pills-24hr" role="tab" aria-controls="pills-24hr" aria-selected="false">24-Hour</a>
 			</li>
 			<li class="nav-item" role="presentation">
-			<a class="nav-link" id="pills-weekly-tab" data-toggle="pill" href="#pills-weekly" role="tab" aria-controls="pills-weekly" aria-selected="false">7-Day</a>
+			<a class="nav-link" id="pills-7day-tab" data-toggle="pill" href="#pills-7day" role="tab" aria-controls="pills-7day" aria-selected="false">7-Day</a>
 			</li>
 		</ul> 
 	  </nav>

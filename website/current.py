@@ -1,21 +1,21 @@
-from flask import Flask, redirect, url_for, render_template, request, session, flash
+from flask import Blueprint, redirect, url_for, render_template, request, session, flash
 from datetime import datetime
 import time
-from view.api import startRun, getCurrent, getPic
+from website.api import startRun, getCurrent, getImg
 
 #ignore test.py, is just a place to test the API calling
 
-app = Flask(__name__, template_folder= 'templates')
+current = Blueprint('current', __name__)
 
-@app.route("/")
-def homePage():
+@current.route("/")
+def currentPage():
     dt = datetime.now()
     dt = int(time.mktime(dt.timetuple()))
 
     data = startRun(dt)
     dateTime, temp, condi, uvi, humd, cloud, ws, p = getCurrent(data)
     date = dateTime.split(' ')
-    pic = getPic(condi)
+    img = getImg(condi)
     info ={
         'temp': int(temp),
         'cond': condi,
@@ -26,11 +26,6 @@ def homePage():
         'cloud': cloud,
         'ws': ws,
         'p': p,
-        'pic': pic
+        'img': img
     }
     return render_template('index.html', info = info)
-
-if __name__ == "__main__":
-    app.run(host="localhost", debug = True) # Simply refresh the opened webpage,
-                            # but Python Shell requires manual restart to quit
-
