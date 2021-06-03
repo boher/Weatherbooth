@@ -3,8 +3,6 @@ from datetime import datetime
 import time
 from website.api import startRun, getCurrent, getImg
 
-#ignore test.py, is just a place to test the API calling
-
 current = Blueprint('current', __name__)
 
 @current.route("/")
@@ -28,4 +26,4 @@ def currentPage():
         'p': p,
         'img': img
     }
-    return render_template('index.html', info = info)
+    return render_template('current.html', info = info)

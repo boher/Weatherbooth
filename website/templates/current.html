@@ -1,16 +1,43 @@
 {% extends "base.html" %}
-{% block title %} Weatherbooth - Current Weather {% endblock %}
+{% block title %}Weatherbooth - Home{% endblock %}
 {% block content %}
-<div class="container">
-  {% if location %}
-  <p>Information retrieved at {{ dt }}</p>
-  {% endif %}
-</div>
-<div class="jumbotron jumbotron-fluid">
-  <div class="container">
-	<h2 class="display-4" style="text-align:center;">UNDER CONSTRUCTION, PLEASE STAND BY</h2>
-	<p class ="lead p-4" style="text-align:center;">Thank you for your patience :)</p>
+<div class="tab-content" id="pills-tabContent">
+  <div class="tab-pane fade show active" id="pills-current" role="tabpanel" aria-labelledby="pills-current-tab">
+    <div class = "container mt-3">
+      <div class="row">
+        <div class="col-sm" style="background-color:rgb(214, 214, 209); height: 750px;">
+          <ul class="list-group">
+            <li class="list-group-item" style = "margin-top: 20px; height:50px;">Warning and Advisories</li>
+            <li class="list-group-item" style = "margin-top: 20px; height:180px;">Information</li>
+            <li class="list-group-item" style = "margin-top: 20px; height:180px;">Information</li>
+          </ul>
+        </div>
+        <div class="col-sm" style="background-color:rgb(194, 194, 189); height: 750px; background-image: url({{url_for('static', filename=info.img)}});">
+          <ul class="list-group">
+            <li class="list-group-item border-0" style = "margin-top: 350px; height:50px; background-color: transparent;"><div class= "display-4" id = 'console-event'></div></li>
+            <li class="list-group-item border-0" style = "margin-top: 20px; height:20px; background-color: transparent;">Condition: {{info.cond}}</li>
+            <li class="list-group-item border-0" style = "margin-top: 20px; height:20px; background-color: transparent;">Date: {{info.date}}</li>
+            <li class="list-group-item border-0" style = "margin-top: 20px; height:20px; background-color: transparent;">Time: {{info.time}}</li>
+          </ul>
+        </div>
+        <div class="col-sm" style="background-color:rgb(201, 201, 195); height: 750px;">
+          <div class="row" style = "margin-top:250px;">
+            <div class = "col-sm-4 offset-1 mb-5" style = "height: 30px;">Humidity: {{info.humd}}%</div>
+            <div class = "col-sm-4 offset-1 mb-5" style = "height: 30px">Precipitation</div>
+          </div>
+          <div class="row">
+            <div class = "col-sm-4 offset-1 mb-5" style = "height: 30px">Air pressure: {{info.p}}hPa</div>
+            <div class = "col-sm-4 offset-1 mb-5" style = "height: 30px">Wind-speed: {{info.ws}}metre/sec</div>
+          </div> 
+          <div class="row">
+            <div class = "col-sm-4 offset-1 mb-5" style = "height: 30px">Ultraviolet index: {{info.uvi}}</div>
+            <div class = "col-sm-4 offset-1" style = "height: 30px">Cloudiness: {{info.cloud}}%</div>
+          </div>  
+        </div>
+      </div>
+    </div>
   </div>
-</div>
+  <div class="tab-pane fade" id="pills-24hour" role="tabpanel" aria-labelledby="pills-24hour-tab">2</div> <!-- Include render link to 24hour-->
+  <div class="tab-pane fade" id="pills-7day" role="tabpanel" aria-labelledby="pills-7day-tab">3</div> <!-- Include render link to 7day-->
+  </div>
 {% endblock %}
-
