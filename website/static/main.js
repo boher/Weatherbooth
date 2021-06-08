@@ -1,57 +1,4 @@
-<html>
-<head>
-
-  	<meta charset="utf-8">
-  	<meta name="viewport" content="width=device-width, initial-scale=1">
-  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet">
-	<link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
-	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-	<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
-	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
-	
-	<title>{% block title %}{% endblock %}</title>
-</head>
-<body>
-	<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #8fcbf7;">
-  		<a class="navbar-app-name mr-sm-4" style="text-decoration: none;">
-  			<img src="{{url_for('static', filename='images/logo.png')}}" width="60" height="60" class="d-inline-block" alt="">
-  			Weatherbooth
-  		</a>
-		  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-		    <span class="navbar-toggler-icon"></span>
-		  </button>
-		    <div class="collapse navbar-collapse" id="navbarText">
-				<a class="nav-link disabled mx-auto h1" href="#"><h2>Singapore</h2></a>	
-  			  	<input type="checkbox" id = "change-temp" data-toggle="toggle" data-on="Fahrenheit" data-off="Celsius" data-onstyle="warning" data-offstyle="success">
-		    </div>
-	</nav>
-    &copy; Copyrights. Last system update date
-	<div class="container-fluid">
-		{% block content %}
-		{% endblock %}
-	</div>
-	  <nav class="navbar-expand-sm fixed-bottom navbar-light bg-light">
-		<ul class="nav nav-pills nav-justified" id="pills-tab" role="tablist">
-			<li class="nav-item" role="presentation">
-			<a class="nav-link active" id="pills-current-tab" data-toggle="pill" href="#pills-current" role="tab" aria-controls="pills-current" aria-selected="true">Current</a>
-			</li>
-			<li class="nav-item" role="presentation">
-			<a class="nav-link" id="pills-24hour-tab" data-toggle="pill" href="#pills-24hour" role="tab" aria-controls="pills-24hour" aria-selected="false">24-Hour</a>
-			</li>
-			<li class="nav-item" role="presentation">
-			<a class="nav-link" id="pills-7day-tab" data-toggle="pill" href="#pills-7day" role="tab" aria-controls="pills-7day" aria-selected="false">7-Day</a>
-			</li>
-		</ul> 
-	  </nav>
-</body>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@3.3.2/dist/chart.min.js"></script>
-<script>
-	var elms = document.querySelectorAll("#console-event");
+var elms = document.querySelectorAll("#console-event");
 	var icon = document.querySelectorAll("#icon");
 
     var t = {{weather.t}};
@@ -130,7 +77,7 @@
   var ctx = document.getElementById('humChart').getContext('2d');
   ctx.width = 400;
   ctx.height = 400;
-  var hChart = new Chart(ctx, {
+  var myChart = new Chart(ctx, {
       type: 'line',
       data: {
           labels: hourly,
@@ -253,5 +200,3 @@
           }
       }
   });
-</script>
-</html>

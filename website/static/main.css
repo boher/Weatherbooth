@@ -1,3 +1,8 @@
-body h1.help{
-    color:red;
+canvas{
+    width:1600px !important;
+    height:600px !important;
+}
+
+.charts{
+    overflow-y: scroll !important;
 }
