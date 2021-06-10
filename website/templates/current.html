@@ -100,7 +100,356 @@
   </div>
   <!-- 7 day portion-->
   <div class="tab-pane fade" id="pills-7day" role="tabpanel" aria-labelledby="pills-7day-tab">
-    3
+    <div class="container mt-3">
+   
+      <div class="table-responsive">
+      <table class="table">
+        <tbody>
+          <!--1-->
+          <tr class="accordion-toggle collapsed" id="accordion1" data-toggle="collapse" data-parent="#accordion1" href="#collapseOne">
+            <td class="expand-button"></td>
+            <td>{{res.date[0]}}</td>
+            <td>{{res.day[0]}}</td>
+            <td>{{res.cond[0]}}</td>
+            <td><img src="http://openweathermap.org/img/wn/{{res.icon[0]}}@2x.png"></td>
+            <td id = 'console-event'>{{res.tempMin[0]}}</td>
+            <td id = 'console-event'>{{res.tempMax[0]}}</td>
+          </tr>
+          <tr class="hide-table-padding">
+            <td></td>
+            <td colspan="5">
+            <div id="collapseOne" class="collapse in p-3">
+              <div class="row">
+                <div class="col-2">Min Temp:</div>
+                <div class="col-md-auto padding-0" id = 'console-event'>{{res.tempMin[0]}}</div>
+                <div class="col padding-1" id='icon'></div>
+                <div class="col-2">Max Temp:</div>
+                <div class="col-md-auto padding-0" id = 'console-event'>{{res.tempMax[0]}}</div>
+                <div class="col padding-1" id='icon'></div>
+                <div class="col-2">Min Humidity:</div>
+                <div class="col-1">{{res.humdMin[0]}}%</div>
+                <div class="col-2">Max Humidity:</div>
+                <div class="col-1">{{res.humdMax[0]}}%</div>
+              </div>
+              <div class="row">
+                <div class="col-2">Max Wind speed:</div>
+                <div class="col-1">{{res.avgWSMin[0]}}m/s</div>
+                <div class="col-2">Max Wind speed:</div>
+                <div class="col-1">{{res.avgWSMax[0]}}m/s</div>
+                <div class="col-2">Max Cloudiness:</div>
+                <div class="col-1">{{res.cloudMin[0]}}%</div>
+                <div class="col-2">Max Cloudiness:</div>
+                <div class="col-1">{{res.cloudMax[0]}}%</div>
+              </div>
+              <div class="row">
+                <div class="col-2">Max Pressure:</div>
+                <div class="col-1">{{res.airPreMin[0]}}hPa</div>
+                <div class="col-2">Max Pressure:</div>
+                <div class="col-1">{{res.airPreMax[0]}}hPa</div>
+                <div class="col-2">Max Precipitation Vol.:</div>
+                <div class="col-1">{{res.prcpVolMin[0]}}mm</div>
+                <div class="col-2">Max Precipitation Vol.:</div>
+                <div class="col-1">{{res.prcpVolMax[0]}}mm</div>
+              </div>            
+            </div>
+            </td>
+          </tr>
+          <tr class="accordion-toggle collapsed" id="accordion2" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+            <td class="expand-button"></td>
+            <td>{{res.date[1]}}</td>
+            <td>{{res.day[1]}}</td>
+            <td>{{res.cond[1]}}</td>
+            <td><img src="http://openweathermap.org/img/wn/{{res.icon[1]}}@2x.png"></td>
+            <td id = 'console-event'>{{res.tempMin[1]}}</td>
+            <td id = 'console-event'>{{res.tempMax[1]}}</td>
+          </tr>
+          <tr class="hide-table-padding">
+            <td></td>
+            <td colspan="5">
+            <div id="collapseTwo" class="collapse in p-3">
+              <div class="row">
+                <div class="row">
+                <div class="col-2">Min Temp:</div>
+                <div class="col-md-auto padding-0" id = 'console-event'>{{res.tempMin[1]}}</div>
+                <div class="col padding-1" id='icon'></div>
+                <div class="col-2">Max Temp:</div>
+                <div class="col-md-auto padding-0" id = 'console-event'>{{res.tempMax[1]}}</div>
+                <div class="col padding-1" id='icon'></div>
+                <div class="col-2">Min Humidity:</div>
+                <div class="col-1">{{res.humdMin[1]}}%</div>
+                <div class="col-2">Max Humidity:</div>
+                <div class="col-1">{{res.humdMax[1]}}%</div>
+              </div>
+              <div class="row">
+                <div class="col-2">Max Wind speed:</div>
+                <div class="col-1">{{res.avgWSMin[1]}}m/s</div>
+                <div class="col-2">Max Wind speed:</div>
+                <div class="col-1">{{res.avgWSMax[1]}}m/s</div>
+                <div class="col-2">Max Cloudiness:</div>
+                <div class="col-1">{{res.cloudMin[1]}}%</div>
+                <div class="col-2">Max Cloudiness:</div>
+                <div class="col-1">{{res.cloudMax[1]}}%</div>
+              </div>
+              <div class="row">
+                <div class="col-2">Max Pressure:</div>
+                <div class="col-1">{{res.airPreMin[1]}}hPa</div>
+                <div class="col-2">Max Pressure:</div>
+                <div class="col-1">{{res.airPreMax[1]}}hPa</div>
+                <div class="col-2">Max Precipitation Vol.:</div>
+                <div class="col-1">{{res.prcpVolMin[1]}}mm</div>
+                <div class="col-2">Max Precipitation Vol.:</div>
+                <div class="col-1">{{res.prcpVolMax[1]}}mm</div>
+              </div>
+              </div>
+            </div>
+            </td>
+          </tr>
+          <tr class="accordion-toggle collapsed" id="accordion3" data-toggle="collapse" data-parent="#accordion3" href="#collapseThree">
+            <td class="expand-button"></td>
+            <td>{{res.date[2]}}</td>
+            <td>{{res.day[2]}}</td>
+            <td>{{res.cond[2]}}</td>
+            <td><img src="http://openweathermap.org/img/wn/{{res.icon[2]}}@2x.png"></td>
+            <td id = 'console-event'>{{res.tempMin[2]}}</td>
+            <td id = 'console-event'>{{res.tempMax[2]}}</td>
+          </tr>
+          <tr class="hide-table-padding">
+            <td></td>
+            <td colspan="5">
+            <div id="collapseThree" class="collapse in p-3">
+              <div class="row">
+                <div class="col-2">Min Temp:</div>
+                <div class="col-md-auto padding-0" id = 'console-event'>{{res.tempMin[2]}}</div>
+                <div class="col padding-1" id='icon'></div>
+                <div class="col-2">Max Temp:</div>
+                <div class="col-md-auto padding-0" id = 'console-event'>{{res.tempMax[2]}}</div>
+                <div class="col padding-1" id='icon'></div>
+                <div class="col-2">Min Humidity:</div>
+                <div class="col-1">{{res.humdMin[2]}}%</div>
+                <div class="col-2">Max Humidity:</div>
+                <div class="col-1">{{res.humdMax[2]}}%</div>
+              </div>
+              <div class="row">
+                <div class="col-2">Max Wind speed:</div>
+                <div class="col-1">{{res.avgWSMin[2]}}m/s</div>
+                <div class="col-2">Max Wind speed:</div>
+                <div class="col-1">{{res.avgWSMax[2]}}m/s</div>
+                <div class="col-2">Max Cloudiness:</div>
+                <div class="col-1">{{res.cloudMin[2]}}%</div>
+                <div class="col-2">Max Cloudiness:</div>
+                <div class="col-1">{{res.cloudMax[2]}}%</div>
+              </div>
+              <div class="row">
+                <div class="col-2">Max Pressure:</div>
+                <div class="col-1">{{res.airPreMin[2]}}hPa</div>
+                <div class="col-2">Max Pressure:</div>
+                <div class="col-1">{{res.airPreMax[2]}}hPa</div>
+                <div class="col-2">Max Precipitation Vol.:</div>
+                <div class="col-1">{{res.prcpVolMin[2]}}mm</div>
+                <div class="col-2">Max Precipitation Vol.:</div>
+                <div class="col-1">{{res.prcpVolMax[2]}}mm</div>
+              </div>
+            </div>
+            </td>
+          </tr>
+          <tr class="accordion-toggle collapsed" id="accordion4" data-toggle="collapse" data-parent="#accordion4" href="#collapseFour">
+            <td class="expand-button"></td>
+            <td>{{res.date[3]}}</td>
+            <td>{{res.day[3]}}</td>
+            <td>{{res.cond[3]}}</td>
+            <td><img src="http://openweathermap.org/img/wn/{{res.icon[3]}}@2x.png"></td>
+            <td id = 'console-event'>{{res.tempMin[3]}}</td>
+            <td id = 'console-event'>{{res.tempMax[3]}}</td>
+          </tr>
+          <tr class="hide-table-padding">
+            <td></td>
+            <td colspan="6">
+            <div id="collapseFour" class="collapse in p-3">
+              <div class="row">
+                <div class="col-2">Min Temp:</div>
+                <div class="col-md-auto padding-0" id = 'console-event'>{{res.tempMin[3]}}</div>
+                <div class="col padding-1" id='icon'></div>
+                <div class="col-2">Max Temp:</div>
+                <div class="col-md-auto padding-0" id = 'console-event'>{{res.tempMax[3]}}</div>
+                <div class="col padding-1" id='icon'></div>
+                <div class="col-2">Min Humidity:</div>
+                <div class="col-1">{{res.humdMin[3]}}%</div>
+                <div class="col-2">Max Humidity:</div>
+                <div class="col-1">{{res.humdMax[3]}}%</div>
+              </div>
+              <div class="row">
+                <div class="col-2">Max Wind speed:</div>
+                <div class="col-1">{{res.avgWSMin[3]}}m/s</div>
+                <div class="col-2">Max Wind speed:</div>
+                <div class="col-1">{{res.avgWSMax[3]}}m/s</div>
+                <div class="col-2">Max Cloudiness:</div>
+                <div class="col-1">{{res.cloudMin[3]}}%</div>
+                <div class="col-2">Max Cloudiness:</div>
+                <div class="col-1">{{res.cloudMax[3]}}%</div>
+              </div>
+              <div class="row">
+                <div class="col-2">Max Pressure:</div>
+                <div class="col-1">{{res.airPreMin[3]}}hPa</div>
+                <div class="col-2">Max Pressure:</div>
+                <div class="col-1">{{res.airPreMax[3]}}hPa</div>
+                <div class="col-2">Max Precipitation Vol.:</div>
+                <div class="col-1">{{res.prcpVolMin[3]}}mm</div>
+                <div class="col-2">Max Precipitation Vol.:</div>
+                <div class="col-1">{{res.prcpVolMax[3]}}mm</div>
+              </div>
+            </div>
+            </td>
+          </tr>
+          <tr class="accordion-toggle collapsed" id="accordion5" data-toggle="collapse" data-parent="#accordion5" href="#collapseFive">
+            <td class="expand-button"></td>
+            <td>{{res.date[4]}}</td>
+            <td>{{res.day[4]}}</td>
+            <td>{{res.cond[4]}}</td>
+            <td><img src="http://openweathermap.org/img/wn/{{res.icon[4]}}@2x.png"></td>
+            <td id = 'console-event'>{{res.tempMin[4]}}</td>
+            <td id = 'console-event'>{{res.tempMax[4]}}</td>
+          </tr>
+          <tr class="hide-table-padding">
+            <td></td>
+            <td colspan="7">
+            <div id="collapseFive" class="collapse in p-3">
+              <div class="row">
+                <div class="col-2">Min Temp:</div>
+                <div class="col-md-auto padding-0" id = 'console-event'>{{res.tempMin[4]}}</div>
+                <div class="col padding-1" id='icon'></div>
+                <div class="col-2">Max Temp:</div>
+                <div class="col-md-auto padding-0" id = 'console-event'>{{res.tempMax[4]}}</div>
+                <div class="col padding-1" id='icon'></div>
+                <div class="col-2">Min Humidity:</div>
+                <div class="col-1">{{res.humdMin[4]}}%</div>
+                <div class="col-2">Max Humidity:</div>
+                <div class="col-1">{{res.humdMax[4]}}%</div>
+              </div>
+              <div class="row">
+                <div class="col-2">Max Wind speed:</div>
+                <div class="col-1">{{res.avgWSMin[4]}}m/s</div>
+                <div class="col-2">Max Wind speed:</div>
+                <div class="col-1">{{res.avgWSMax[4]}}m/s</div>
+                <div class="col-2">Max Cloudiness:</div>
+                <div class="col-1">{{res.cloudMin[4]}}%</div>
+                <div class="col-2">Max Cloudiness:</div>
+                <div class="col-1">{{res.cloudMax[4]}}%</div>
+              </div>
+              <div class="row">
+                <div class="col-2">Max Pressure:</div>
+                <div class="col-1">{{res.airPreMin[4]}}hPa</div>
+                <div class="col-2">Max Pressure:</div>
+                <div class="col-1">{{res.airPreMax[4]}}hPa</div>
+                <div class="col-2">Max Precipitation Vol.:</div>
+                <div class="col-1">{{res.prcpVolMin[4]}}mm</div>
+                <div class="col-2">Max Precipitation Vol.:</div>
+                <div class="col-1">{{res.prcpVolMax[4]}}mm</div>
+              </div>
+            </div>
+            </td>
+          </tr>
+          <tr class="accordion-toggle collapsed" id="accordion6" data-toggle="collapse" data-parent="#accordion6" href="#collapseSix">
+            <td class="expand-button"></td>
+            <td>{{res.date[5]}}</td>
+            <td>{{res.day[5]}}</td>
+            <td>{{res.cond[5]}}</td>
+            <td><img src="http://openweathermap.org/img/wn/{{res.icon[5]}}@2x.png"></td>
+            <td id = 'console-event'>{{res.tempMin[5]}}</td>
+            <td id = 'console-event'>{{res.tempMax[5]}}</td>
+          </tr>
+          <tr class="hide-table-padding">
+            <td></td>
+            <td colspan="8">
+            <div id="collapseSix" class="collapse in p-3">
+              <div class="row">
+                <div class="col-2">Min Temp:</div>
+                <div class="col-md-auto padding-0" id = 'console-event'>{{res.tempMin[5]}}</div>
+                <div class="col padding-1" id='icon'></div>
+                <div class="col-2">Max Temp:</div>
+                <div class="col-md-auto padding-0" id = 'console-event'>{{res.tempMax[5]}}</div>
+                <div class="col padding-1" id='icon'></div>
+                <div class="col-2">Min Humidity:</div>
+                <div class="col-1">{{res.humdMin[5]}}%</div>
+                <div class="col-2">Max Humidity:</div>
+                <div class="col-1">{{res.humdMax[5]}}%</div>
+              </div>
+              <div class="row">
+                <div class="col-2">Max Wind speed:</div>
+                <div class="col-1">{{res.avgWSMin[5]}}m/s</div>
+                <div class="col-2">Max Wind speed:</div>
+                <div class="col-1">{{res.avgWSMax[5]}}m/s</div>
+                <div class="col-2">Max Cloudiness:</div>
+                <div class="col-1">{{res.cloudMin[5]}}%</div>
+                <div class="col-2">Max Cloudiness:</div>
+                <div class="col-1">{{res.cloudMax[5]}}%</div>
+              </div>
+              <div class="row">
+                <div class="col-2">Max Pressure:</div>
+                <div class="col-1">{{res.airPreMin[5]}}hPa</div>
+                <div class="col-2">Max Pressure:</div>
+                <div class="col-1">{{res.airPreMax[5]}}hPa</div>
+                <div class="col-2">Max Precipitation Vol.:</div>
+                <div class="col-1">{{res.prcpVolMin[5]}}mm</div>
+                <div class="col-2">Max Precipitation Vol.:</div>
+                <div class="col-1">{{res.prcpVolMax[5]}}mm</div>
+              </div>
+            </div>
+            </td>
+          </tr>
+          <tr class="accordion-toggle collapsed" id="accordion7" data-toggle="collapse" data-parent="#accordion7" href="#collapseSeven">
+            <td class="expand-button"></td>
+            <td>{{res.date[6]}}</td>
+            <td>{{res.day[6]}}</td>
+            <td>{{res.cond[6]}}</td>
+            <td><img src="http://openweathermap.org/img/wn/{{res.icon[6]}}@2x.png"></td>
+            <td id = 'console-event'>{{res.tempMin[6]}}</td>
+            <td id = 'console-event'>{{res.tempMax[6]}}</td>
+          </tr>
+          <tr class="hide-table-padding">
+            <td></td>
+            <td colspan="9">
+            <div id="collapseSeven" class="collapse in p-3">
+              <div class="row">
+                <div class="col-2">Min Temp:</div>
+                <div class="col-md-auto padding-0" id = 'console-event'>{{res.tempMin[6]}}</div>
+                <div class="col padding-1" id='icon'></div>
+                <div class="col-2">Max Temp:</div>
+                <div class="col-md-auto padding-0" id = 'console-event'>{{res.tempMax[6]}}</div>
+                <div class="col padding-1" id='icon'></div>
+                <div class="col-2">Min Humidity:</div>
+                <div class="col-1">{{res.humdMin[6]}}%</div>
+                <div class="col-2">Max Humidity:</div>
+                <div class="col-1">{{res.humdMax[6]}}%</div>
+              </div>
+              <div class="row">
+                <div class="col-2">Max Wind speed:</div>
+                <div class="col-1">{{res.avgWSMin[6]}}m/s</div>
+                <div class="col-2">Max Wind speed:</div>
+                <div class="col-1">{{res.avgWSMax[6]}}m/s</div>
+                <div class="col-2">Max Cloudiness:</div>
+                <div class="col-1">{{res.cloudMin[6]}}%</div>
+                <div class="col-2">Max Cloudiness:</div>
+                <div class="col-1">{{res.cloudMax[6]}}%</div>
+              </div>
+              <div class="row">
+                <div class="col-2">Max Pressure:</div>
+                <div class="col-1">{{res.airPreMin[6]}}hPa</div>
+                <div class="col-2">Max Pressure:</div>
+                <div class="col-1">{{res.airPreMax[6]}}hPa</div>
+                <div class="col-2">Max Precipitation Vol.:</div>
+                <div class="col-1">{{res.prcpVolMin[6]}}mm</div>
+                <div class="col-2">Max Precipitation Vol.:</div>
+                <div class="col-1">{{res.prcpVolMax[6]}}mm</div>
+              </div>
+            </div>
+            </td>
+          </tr>
+          
+        </tbody>
+      </table>
+      </div>
+    </div>
+  </div>
   </div> 
   </div>
 

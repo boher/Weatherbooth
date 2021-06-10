@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 import time
 from website.current import startRun, getCurrent, getImg 
 from website.twentyFourHour import gethourly, startHour
+from website.sevenDay import getSevenDay
 
 weatherDisplay = Blueprint('weatherDisplay', __name__)
 
@@ -35,7 +36,7 @@ def currentPage():
         'tm': int(tm),
         'hm': hm,
         'cm': cm,
-        'wsm': wsm,
+        'wsm': round(wsm, 2),
         'pm': pm,
         'cond': condi,
         'date': date[0],
@@ -48,4 +49,25 @@ def currentPage():
         'img': img,
         'rain': rain
     }
-    return render_template('current.html', info = info, weather = weather)
+
+    day, dateS, condS, icon, tempMin, tempMax, humdMin, humdMax, prcpVolMin, prcpVolMax, airPreMin, airPreMax, avgWSMax, avgWSMin, cloudMin, cloudMax = getSevenDay()
+
+    res ={
+        'day': day,
+        'date': dateS,
+        'cond': condS,
+        'icon': icon,
+        'tempMin': tempMin,
+        'tempMax': tempMax,
+        'humdMin': humdMin,
+        'humdMax': humdMax,
+        'prcpVolMin': prcpVolMin,
+        'prcpVolMax': prcpVolMax,
+        'airPreMin': airPreMin,
+        'airPreMax': airPreMax,
+        'avgWSMax': avgWSMax,
+        'avgWSMin': avgWSMin,
+        'cloudMin': cloudMin,
+        'cloudMax': cloudMax
+    }
+    return render_template('current.html', info = info, weather = weather, res = res)
