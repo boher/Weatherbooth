@@ -41,7 +41,7 @@ def currentPage():
         'cond': condi,
         'date': date[0],
         'time': date[1],
-        'uvi': uvi,
+        'uvi': round(uvi,2),
         'humd': humd,
         'cloud': cloud,
         'ws': ws,

@@ -60,6 +60,45 @@
 <script>
 	var elms = document.querySelectorAll("#console-event");
 	var icon = document.querySelectorAll("#icon");
+    var wbgt = {{info.temp}}
+    var rainVolume = {{info.rain}}
+
+    $(document).ready(function() {
+        if({{info.uvi}} <= 2){
+            document.getElementById('uv').innerHTML = 'UVI: Green';
+        }else if(({{info.uvi}} >= 3) && ({{info.uvi}} <= 5)){
+            document.getElementById('uv').innerHTML = 'UVI: Yellow';
+        }else if(({{info.uvi}} >= 6) && ({{info.uvi}} <= 7)){
+            document.getElementById('uv').innerHTML = 'UVI: Ember';
+        }else{
+            document.getElementById('uv').innerHTML = 'UVI: Red';
+        }
+        
+        if(wbgt < 18){
+            document.getElementById('wbgt').innerHTML = 'Heat Stress: Green';
+        }else if((wbgt >= 18) && (wbgt <23)){
+            document.getElementById('wbgt').innerHTML = 'Heat Stress: Yellow';
+        }else if((wbgt >= 23) && (wbgt <28)){
+            document.getElementById('wbgt').innerHTML = 'Heat Stress: Red';
+        }else{
+            document.getElementById('wbgt').innerHTML = 'Heat Stress: Black';
+        }
+        
+        var x = document.getElementById("rain");
+
+        if(rainVolume > 0){
+            x.style.display = "block";
+            if(rainVolume < 0.5){
+                document.getElementById('rain').innerHTML = 'Slight Rain';
+            }else if((rainVolume >= 0.5) && (rainVolume < 4)){
+                document.getElementById('rain').innerHTML = 'Moderate rain';
+            }else if((rainVolume >= 4) && (rainVolume < 8)){
+                document.getElementById('rain').innerHTML = 'Heavy rain';
+            }
+        }else{
+            x.style.display = "none";
+        }
+    });
 
     var t = {{weather.t}};
     var h = {{weather.h}};
