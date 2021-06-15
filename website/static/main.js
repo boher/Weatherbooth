@@ -21,9 +21,11 @@ var icon = document.querySelectorAll("#icon");
         for(var i = 0; i < icon.length; i++) {
           icon[i].innerHTML = "<span>&#8457;</span>";
         }
-                for(var i = 0; i < t.length; i++){
-                    t[i] = Math.round((t[i] * 9/5) + 32);
-                }
+        for(var i = 0; i < t.length; i++){
+          t[i] = Math.round((t[i] * 9/5) + 32);
+        }
+        tempChart.data.datasets[0].data = t;
+        tempChart.update();
       }else if ($(this).prop('checked') == false){
         for(var i = 0; i < elms.length; i++){
           var f = elms[i].innerHTML;
@@ -33,9 +35,11 @@ var icon = document.querySelectorAll("#icon");
         for(var i = 0; i < icon.length; i++) {
           icon[i].innerHTML = "<span>&#8451;</span>";
         }
-                for(var i = 0; i < t.length; i++){
-                    t[i] = Math.round((t[i] - 32) * 5/9);
-                }
+        for(var i = 0; i < t.length; i++){
+          t[i] = Math.round((t[i] - 32) * 5/9);
+        }
+        tempChart.data.datasets[0].data = t;
+        tempChart.update();
       }
     });
   })

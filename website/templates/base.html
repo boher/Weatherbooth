@@ -16,13 +16,18 @@
         .padding-1{
             padding-left:0;
         }
+        .warning{
+            overflow-y: auto;
+            height: 750px;
+            scrollbar-width: thin;
+        }
         </style>	
 	<title>{% block title %}{% endblock %}</title>
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #8fcbf7;">
   		<a class="navbar-app-name mr-sm-4" style="text-decoration: none;">
-  			<img src="{{url_for('static', filename='images/logo.png')}}" width="60" height="60" class="d-inline-block" alt="">
+  			<img src="{{url_for('static', filename='images/weather.png')}}" width="60" height="60" class="d-inline-block" alt="">
   			Weatherbooth
   		</a>
 		  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
@@ -62,42 +67,57 @@
 	var icon = document.querySelectorAll("#icon");
     var wbgt = {{info.temp}}
     var rainVolume = {{info.rain}}
+    var wbgt = {{info.temp}}
+    var rainVolume = {{info.rain}}
+    var humid = {{info.humd}}
 
     $(document).ready(function() {
         if({{info.uvi}} <= 2){
-            document.getElementById('uv').innerHTML = 'UVI: Green';
+            document.getElementById('uv').innerHTML = 'UVI: '+"&#x1F7E2;"+"</br>"+'Description:'+"</br>"+"Low risk of skin burn and unlikely"+"</br>"+"Minimal danger for the average person"+"</br>"+"Cautionary measures:"+'</br>'+"Apply sunscreen";
         }else if(({{info.uvi}} >= 3) && ({{info.uvi}} <= 5)){
-            document.getElementById('uv').innerHTML = 'UVI: Yellow';
+            document.getElementById('uv').innerHTML = 'UVI: '+"&#128993;"+"</br>"+'Description:'+"</br>"+"Low risk of skin burn but possible"+"</br>"+"Exposure for 20 mins may lead to skin burns"+"</br>"+"Cautionary measures:"+"</br>"+"Apply broad spectrum sunscreen with SPF30"+"</br>"+'Wear hats and sunglasses'+"</br>"+'Wear long sleeved shirts when outdoors';
         }else if(({{info.uvi}} >= 6) && ({{info.uvi}} <= 7)){
-            document.getElementById('uv').innerHTML = 'UVI: Ember';
+            document.getElementById('uv').innerHTML = 'UVI: '+"&#128992;"+"</br>"+'Description:'+"</br>"+"Moderate risk of skin burn"+"</br>"+"Exposure for 20 mins may lead to skin burns"+"</br>"+"Cautionary measures:"+"</br>"+"Apply broad spectrum sunscreen with SPF30"+"</br>"+"Use lip balm or lip cream containing sunscreen"+"</br>"+'Wear hats and sunglasses'+"</br>"+'Wear long sleeved shirts when outdoors';
+        }else if(({{info.uvi}} >= 8) && ({{info.uvi}} <= 10)){
+            document.getElementById('uv').innerHTML = 'UVI: '+"&#128308;"+"</br>"+'Description:'+"</br>"+"High risk of skin burn"+"</br>"+"Exposure for 10 mins may lead to skin burns"+"</br>"+"Cautionary measures:"+"</br>"+"Apply broad spectrum sunscreen with SPF30"+"</br>"+"Use lip balm or lip cream containing sunscreen"+"</br>"+'Wear hats and sunglasses'+"</br>"+'Wear long sleeved shirts when outdoors'+"</br>"+"Seek shade and avoid being in the sun as much as possible";
         }else{
-            document.getElementById('uv').innerHTML = 'UVI: Red';
+            document.getElementById('uv').innerHTML = 'UVI: '+"&#128995;"+"</br>"+'Description:'+"</br>"+"Very high risk of skin burn"+"</br>"+"Exposure for 5 mins may lead to skin burns"+"</br>"+"Occupational outdoor workers are at high risk"+"</br>"+"Cautionary measures:"+"</br>"+"Apply broad spectrum sunscreen with SPF30"+"</br>"+"Use lip balm or lip cream containing sunscreen"+"</br>"+'Wear hats and sunglasses'+"</br>"+'Wear long sleeved shirts when outdoors'+"</br>"+"Seek shade and avoid being in the sun as much as possible";
         }
         
         if(wbgt < 18){
-            document.getElementById('wbgt').innerHTML = 'Heat Stress: Green';
+            document.getElementById('wbgt').innerHTML = 'Heat Stress: '+"&#x1F7E2;"+"</br>"+'Description:'+"</br>"+"Low risk of heat injury but possible "+"</br>"+"Cautionary measures:"+'</br>'+"Hydrate yourself every 45 minutes"+'</br>'+"Seek shade and rest for at least 15 minutes";
         }else if((wbgt >= 18) && (wbgt <23)){
-            document.getElementById('wbgt').innerHTML = 'Heat Stress: Yellow';
+            document.getElementById('wbgt').innerHTML = 'Heat Stress: '+"&#128993;"+"</br>"+'Description:'+"</br>"+"Moderate risk of heat injury"+"</br>"+"Cautionary measures:"+'</br>'+"Hydrate yourself every 30 minutes"+'</br>'+"Seek shade and rest for at least 15 minutes";
         }else if((wbgt >= 23) && (wbgt <28)){
-            document.getElementById('wbgt').innerHTML = 'Heat Stress: Red';
+            document.getElementById('wbgt').innerHTML = 'Heat Stress: '+"&#128308;"+"</br>"+'Description:'+"</br>"+"High risk of heat injury"+"</br>"+"Cautionary measures:"+'</br>'+"Hydrate yourself every 30 minutes"+'</br>'+"Seek shade and rest for at least 30 minutes";
         }else{
-            document.getElementById('wbgt').innerHTML = 'Heat Stress: Black';
+            document.getElementById('wbgt').innerHTML = 'Heat Stress: '+"&#128995;"+"</br>"+'Description:'+"</br>"+"Very high risk of heat injury"+"</br>"+"Cautionary measures:"+'</br>'+"Hydrate yourself every 15 minutes"+'</br>'+"Seek shade and rest for at least 30 minutes";
         }
         
         var x = document.getElementById("rain");
 
-        if(rainVolume > 0){
+        if(rainVolume > 7){
             x.style.display = "block";
-            if(rainVolume < 0.5){
-                document.getElementById('rain').innerHTML = 'Slight Rain';
-            }else if((rainVolume >= 0.5) && (rainVolume < 4)){
-                document.getElementById('rain').innerHTML = 'Moderate rain';
-            }else if((rainVolume >= 4) && (rainVolume < 8)){
-                document.getElementById('rain').innerHTML = 'Heavy rain';
+            if((rainVolume >= 7.5)&& (rainVolume < 15)){
+                document.getElementById('rain').innerHTML = 'Flash flood: '+"&#128993;"+"</br>"+'Description:'+"</br>"+"Low risk of flooding in low lying locations and river channels"+"</br>"+"Cautionary measures:"+'</br>'+"Stay indoors";
+            }else if((rainVolume >= 15)&& (rainVolume < 30)){
+                document.getElementById('rain').innerHTML = 'Flash flood: '+"&#128992;"+"</br>"+'Description:'+"</br>"+"Moderate risk of flooding in low lying locations and river channels"+"</br>"+"Cautionary measures:"+'</br>'+"Stay indoors"+'</br>'+"Avoid commuting"+'</br>'+"Move to higher grounds";
+            }else if(rainVolume >= 30){
+                document.getElementById('rain').innerHTML = 'Flash flood: '+"&#128308;"+"</br>"+'Description:'+"</br>"+"High risk of flooding in low lying locations and river channels"+"</br>"+"Cautionary measures:"+'</br>'+"Stay indoors"+'</br>'+"Avoid commuting"+'</br>'+"Move to higher grounds"+'</br>'+"Be on the alert for evacuation procedures";
             }
         }else{
             x.style.display = "none";
         }
+
+        var y = document.getElementById("mozzy");
+
+        if(((wbgt>10)&&(wbgt<35))&&(humid>=42)){
+            y.style.display = "block";
+            document.getElementById("mozzy").innerHTML = 'Mosquito Activity: '+"&#128993;"+"</br>"+'Description:'+"</br>"+"Mosquitoes are active"+"</br>"+"Cautionary measures:"+'</br>'+"Wear light-colored clothing"+'</br>'+"Equip yourself with mosquito repellents";
+        }else{
+            y.style.display = "none";
+        }
+
     });
 // BELOW CODE BLOCK IS KEPT TO RENDER ALL CHARTS IN THE ORIGINAL IMPLEMENTATION, END GOAL WOULD BE TO LET FLASK HANDLE ALL THESE
     var t = {{weather.t}};
@@ -121,10 +141,10 @@
     };
     */
 
-  var ctx = document.getElementById('tempChart').getContext('2d');
-  ctx.width = 400;
-  ctx.height = 400;
-  var myChart = new Chart(ctx, {
+  var ct = document.getElementById('tempChart').getContext('2d');
+  ct.width = 400;
+  ct.height = 400;
+  var tempChart = new Chart(ct, {
       type: 'line',
       data: {
           labels: hourly,
