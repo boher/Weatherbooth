@@ -99,7 +99,7 @@
             x.style.display = "none";
         }
     });
-
+// BELOW CODE BLOCK IS KEPT TO RENDER ALL CHARTS IN THE ORIGINAL IMPLEMENTATION, END GOAL WOULD BE TO LET FLASK HANDLE ALL THESE
     var t = {{weather.t}};
     var h = {{weather.h}};
     var pe = {{weather.pe}};
@@ -109,44 +109,17 @@
     var hourly = ["12am", "1am", "2am", "3am", "4am", "5am", "6am", "7am", "8am", "9am", "10am", "11am", "12pm", 
                     "1pm", "2pm", "3pm", "4pm", "5pm", "6pm", "7pm", "8pm", "9pm", "10pm", "11pm"]
 
-	for(var i = 0; i < elms.length; i++) {
-		var temp = elms[i].innerHTML;
-		elms[i].innerHTML = temp;
-	}
+/*
+	var ctx = document.getElementById('tempChart');
+	ctx.width = 400;
+	ctx.height = 400;
 
-	for(var i = 0; i < icon.length; i++) {
-		icon[i].innerHTML = "<span>&#8451;</span>";
-	}
-	
-	$(function() {
-		$('#change-temp').change(function() {
-			if ($(this).prop('checked') == true){
-				for(var i = 0; i < elms.length; i++){
-					var temp = elms[i].innerHTML;
-					var f = Math.round((temp * 9/5) + 32);
-					elms[i].innerHTML = f;
-				}
-				for(var i = 0; i < icon.length; i++) {
-					icon[i].innerHTML = "<span>&#8457;</span>";
-				}
-                for(var i = 0; i < t.length; i++){
-                    t[i] = Math.round((t[i] * 9/5) + 32);
-                }
-			}else if ($(this).prop('checked') == false){
-				for(var i = 0; i < elms.length; i++){
-					var f = elms[i].innerHTML;
-					var temp = Math.round((f - 32) * 5/9);
-					elms[i].innerHTML = temp;
-				}
-				for(var i = 0; i < icon.length; i++) {
-					icon[i].innerHTML = "<span>&#8451;</span>";
-				}
-                for(var i = 0; i < t.length; i++){
-                    t[i] = Math.round((t[i] - 32) * 5/9);
-                }
-			}
-		});
-	})
+    tfChart = create_chart(ctx);
+
+    window.onload = function() {
+    	load_data(tfChart, 'query')
+    };
+    */
 
   var ctx = document.getElementById('tempChart').getContext('2d');
   ctx.width = 400;
@@ -299,5 +272,7 @@
           }
       }
   });
-</script>
+</script><script
+  src="{{url_for('static', filename='main.js')}}"
+></script>
 </html>

@@ -1,8 +1,8 @@
-from flask import Blueprint, redirect, url_for, render_template, request, session, flash
+from flask import Blueprint, redirect, url_for, render_template, request, session, jsonify, flash
 from datetime import datetime, timedelta
 import time
 from website.current import startRun, getCurrent, getImg 
-from website.twentyFourHour import gethourly, startHour
+from website.twentyFourHour import getHourly, startHour
 from website.sevenDay import getSevenDay
 
 weatherDisplay = Blueprint('weatherDisplay', __name__)
@@ -21,7 +21,7 @@ def currentPage():
     dt1 = int(time.mktime(dt1.timetuple()))
 
     datahour = startHour(dt1)
-    t, h, pe, a, w, c = gethourly(datahour)
+    t, h, pe, a, w, c = getHourly(datahour)
     weather = {
         't': t,
         'h': h,
@@ -70,4 +70,20 @@ def currentPage():
         'cloudMin': cloudMin,
         'cloudMax': cloudMax
     }
-    return render_template('current.html', info = info, weather = weather, res = res)
+    return render_template('current.html', info = info, weather = weather, res = res) #, CHART_ENDPOINT = url_for('weatherDisplay.get24HourJSON')
+
+@weatherDisplay.route("/get24HourJSON")
+def get24HourJSON():
+    hourly = ["12am", "1am", "2am", "3am", "4am", "5am", "6am", "7am", "8am", "9am", "10am", "11am",
+             "12pm", "1pm", "2pm", "3pm", "4pm", "5pm", "6pm", "7pm", "8pm", "9pm", "10pm", "11pm"]
+    query = request.args.get('query')
+    print(query)
+
+    tfHour = {'datasets': 
+        [
+            {'title': query,
+            'data': [{'x': t, 'y': hourly}, {'x': h, 'y': hourly}, {'x': pe, 'y': hourly}, {'x': a, 'y': hourly}, {'x': w, 'y': hourly}, {'x': c, 'y': hourly}],
+            },
+        ]
+    }
+    return jsonify(tfHour)

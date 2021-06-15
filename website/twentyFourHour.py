@@ -12,7 +12,7 @@ def startHour(dt):
     data = json.loads(response.text)
     return data
 
-def gethourly(data):
+def getHourly(data):
     temp = []
     hum = []
     pre = []
