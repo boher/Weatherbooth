@@ -1,6 +1,5 @@
 <html>
 <head>
-
   	<meta charset="utf-8">
   	<meta name="viewport" content="width=device-width, initial-scale=1">
   	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -9,25 +8,12 @@
 	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 	<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
-	<style>
-        .padding-0{
-            padding-right:0;
-        }
-        .padding-1{
-            padding-left:0;
-        }
-        .warning{
-            overflow-y: auto;
-            height: 750px;
-            scrollbar-width: thin;
-        }
-        </style>	
 	<title>{% block title %}{% endblock %}</title>
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #8fcbf7;">
   		<a class="navbar-app-name mr-sm-4" style="text-decoration: none;">
-  			<img src="{{url_for('static', filename='images/weather.png')}}" width="60" height="60" class="d-inline-block" alt="">
+  			<img src="{{url_for('static', filename='images/weatherbooth.png')}}" width="60" height="60" class="d-inline-block" alt="">
   			Weatherbooth
   		</a>
 		  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
@@ -65,20 +51,20 @@
 <script>
 	var elms = document.querySelectorAll("#console-event");
 	var icon = document.querySelectorAll("#icon");
-    var wbgt = {{info.temp}}
-    var rainVolume = {{info.rain}}
-    var wbgt = {{info.temp}}
-    var rainVolume = {{info.rain}}
-    var humid = {{info.humd}}
+  var wbgt = {{current.temp}}
+  var rainVolume = {{current.rain}}
+  var wbgt = {{current.temp}}
+  var rainVolume = {{current.rain}}
+  var humid = {{current.humd}}
 
     $(document).ready(function() {
-        if({{info.uvi}} <= 2){
+        if({{current.uvi}} <= 2){
             document.getElementById('uv').innerHTML = 'UVI: '+"&#x1F7E2;"+"</br>"+'Description:'+"</br>"+"Low risk of skin burn and unlikely"+"</br>"+"Minimal danger for the average person"+"</br>"+"Cautionary measures:"+'</br>'+"Apply sunscreen";
-        }else if(({{info.uvi}} >= 3) && ({{info.uvi}} <= 5)){
+        }else if(({{current.uvi}} >= 3) && ({{current.uvi}} <= 5)){
             document.getElementById('uv').innerHTML = 'UVI: '+"&#128993;"+"</br>"+'Description:'+"</br>"+"Low risk of skin burn but possible"+"</br>"+"Exposure for 20 mins may lead to skin burns"+"</br>"+"Cautionary measures:"+"</br>"+"Apply broad spectrum sunscreen with SPF30"+"</br>"+'Wear hats and sunglasses'+"</br>"+'Wear long sleeved shirts when outdoors';
-        }else if(({{info.uvi}} >= 6) && ({{info.uvi}} <= 7)){
+        }else if(({{current.uvi}} >= 6) && ({{current.uvi}} <= 7)){
             document.getElementById('uv').innerHTML = 'UVI: '+"&#128992;"+"</br>"+'Description:'+"</br>"+"Moderate risk of skin burn"+"</br>"+"Exposure for 20 mins may lead to skin burns"+"</br>"+"Cautionary measures:"+"</br>"+"Apply broad spectrum sunscreen with SPF30"+"</br>"+"Use lip balm or lip cream containing sunscreen"+"</br>"+'Wear hats and sunglasses'+"</br>"+'Wear long sleeved shirts when outdoors';
-        }else if(({{info.uvi}} >= 8) && ({{info.uvi}} <= 10)){
+        }else if(({{current.uvi}} >= 8) && ({{current.uvi}} <= 10)){
             document.getElementById('uv').innerHTML = 'UVI: '+"&#128308;"+"</br>"+'Description:'+"</br>"+"High risk of skin burn"+"</br>"+"Exposure for 10 mins may lead to skin burns"+"</br>"+"Cautionary measures:"+"</br>"+"Apply broad spectrum sunscreen with SPF30"+"</br>"+"Use lip balm or lip cream containing sunscreen"+"</br>"+'Wear hats and sunglasses'+"</br>"+'Wear long sleeved shirts when outdoors'+"</br>"+"Seek shade and avoid being in the sun as much as possible";
         }else{
             document.getElementById('uv').innerHTML = 'UVI: '+"&#128995;"+"</br>"+'Description:'+"</br>"+"Very high risk of skin burn"+"</br>"+"Exposure for 5 mins may lead to skin burns"+"</br>"+"Occupational outdoor workers are at high risk"+"</br>"+"Cautionary measures:"+"</br>"+"Apply broad spectrum sunscreen with SPF30"+"</br>"+"Use lip balm or lip cream containing sunscreen"+"</br>"+'Wear hats and sunglasses'+"</br>"+'Wear long sleeved shirts when outdoors'+"</br>"+"Seek shade and avoid being in the sun as much as possible";
@@ -120,26 +106,14 @@
 
     });
 // BELOW CODE BLOCK IS KEPT TO RENDER ALL CHARTS IN THE ORIGINAL IMPLEMENTATION, END GOAL WOULD BE TO LET FLASK HANDLE ALL THESE
-    var t = {{weather.t}};
-    var h = {{weather.h}};
-    var pe = {{weather.pe}};
-    var a = {{weather.a}};
-    var w = {{weather.w}};
-    var c = {{weather.c}};
-    var hourly = ["12am", "1am", "2am", "3am", "4am", "5am", "6am", "7am", "8am", "9am", "10am", "11am", "12pm", 
-                    "1pm", "2pm", "3pm", "4pm", "5pm", "6pm", "7pm", "8pm", "9pm", "10pm", "11pm"]
-
-/*
-	var ctx = document.getElementById('tempChart');
-	ctx.width = 400;
-	ctx.height = 400;
-
-    tfChart = create_chart(ctx);
-
-    window.onload = function() {
-    	load_data(tfChart, 'query')
-    };
-    */
+  var t = {{tfHour.t}};
+  var h = {{tfHour.h}};
+  var pe = {{tfHour.pe}};
+  var a = {{tfHour.a}};
+  var w = {{tfHour.w}};
+  var c = {{tfHour.c}};
+  var hourly = ["12am", "1am", "2am", "3am", "4am", "5am", "6am", "7am", "8am", "9am", "10am", "11am", "12pm", 
+                  "1pm", "2pm", "3pm", "4pm", "5pm", "6pm", "7pm", "8pm", "9pm", "10pm", "11pm"]
 
   var ct = document.getElementById('tempChart').getContext('2d');
   ct.width = 400;
@@ -164,19 +138,19 @@
               }
           }
       }
-  });
+  }); 
 
-  var ctx = document.getElementById('humChart').getContext('2d');
+  var ctx = document.getElementById('peChart').getContext('2d');
   ctx.width = 400;
   ctx.height = 400;
-  var hChart = new Chart(ctx, {
+  var myChart = new Chart(ctx, {
       type: 'line',
       data: {
           labels: hourly,
           datasets: [{
-              data: h,
-			  label: "Humidity %",
-			  borderColor: 'rgb(185, 241, 250)',
+              data: pe,
+        label: "Volume mm",
+        borderColor: 'rgb(185, 241, 250)',
               backgroundColor: '#b9f1fa',
               fill: true,
               borderWidth: 1
@@ -189,18 +163,18 @@
               }
           }
       }
-  }); 
+  });
 
-  var ctx = document.getElementById('peChart').getContext('2d');
+  var ctx = document.getElementById('humChart').getContext('2d');
   ctx.width = 400;
   ctx.height = 400;
-  var myChart = new Chart(ctx, {
+  var hChart = new Chart(ctx, {
       type: 'line',
       data: {
           labels: hourly,
           datasets: [{
-              data: pe,
-			  label: "Volume mm",
+              data: h,
+			  label: "Humidity %",
 			  borderColor: 'rgb(185, 241, 250)',
               backgroundColor: '#b9f1fa',
               fill: true,

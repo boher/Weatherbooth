@@ -1,4 +1,4 @@
-from flask import Blueprint, redirect, url_for, render_template, request, session, jsonify, flash
+from flask import Blueprint, redirect, url_for, render_template, request, session, flash
 from datetime import datetime, timedelta
 import time
 from website.current import startRun, getCurrent, getImg 
@@ -17,21 +17,9 @@ def currentPage():
     date = dateTime.split(' ')
     img = getImg(condi)
 
-    dt1 = datetime.now()- timedelta(1)
-    dt1 = int(time.mktime(dt1.timetuple()))
+    tfHour = get24HourJSON()
 
-    datahour = startHour(dt1)
-    t, h, pe, a, w, c = getHourly(datahour)
-    weather = {
-        't': t,
-        'h': h,
-        'pe': pe,
-        'a': a,
-        "w": w,
-        "c": c
-    }
-
-    info ={
+    current ={
         'temp': int(temp),
         'tm': int(tm),
         'hm': hm,
@@ -70,20 +58,34 @@ def currentPage():
         'cloudMin': cloudMin,
         'cloudMax': cloudMax
     }
-    return render_template('current.html', info = info, weather = weather, res = res) #, CHART_ENDPOINT = url_for('weatherDisplay.get24HourJSON')
+    return render_template('index.html', current = current, tfHour = tfHour, res = res, CHART_ENDPOINT = url_for('weatherDisplay.get24HourJSON'))
 
 @weatherDisplay.route("/get24HourJSON")
 def get24HourJSON():
     hourly = ["12am", "1am", "2am", "3am", "4am", "5am", "6am", "7am", "8am", "9am", "10am", "11am",
              "12pm", "1pm", "2pm", "3pm", "4pm", "5pm", "6pm", "7pm", "8pm", "9pm", "10pm", "11pm"]
+    dt1 = datetime.now()- timedelta(1)
+    dt1 = int(time.mktime(dt1.timetuple()))
+
+    datahour = startHour(dt1)
+    t, h, pe, a, w, c = getHourly(datahour)
+    tfHour = {
+        't': t,
+        'h': h,
+        'pe': pe,
+        'a': a,
+        "w": w,
+        "c": c
+    }
+    
     query = request.args.get('query')
     print(query)
 
-    tfHour = {'datasets': 
+    '''tfHour = {'datasets': 
         [
             {'title': query,
             'data': [{'x': t, 'y': hourly}, {'x': h, 'y': hourly}, {'x': pe, 'y': hourly}, {'x': a, 'y': hourly}, {'x': w, 'y': hourly}, {'x': c, 'y': hourly}],
             },
         ]
-    }
-    return jsonify(tfHour)
+    }'''
+    return tfHour
