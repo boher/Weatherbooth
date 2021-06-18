@@ -4,7 +4,7 @@ def createApp():
     app = Flask(__name__, template_folder= 'templates')
 
     # Register Flask Blueprint routes
-    from .current import current
-    app.register_blueprint(current, url_prefix='/')
+    from .weatherDisplay import weatherDisplay
+    app.register_blueprint(weatherDisplay, url_prefix='/')
 
     return app
