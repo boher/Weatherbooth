@@ -2,8 +2,10 @@ from flask import Blueprint, redirect, url_for, render_template, request, sessio
 from datetime import datetime, timedelta
 import time
 from website.current import startRun, getCurrent, getImg 
-from website.twentyFourHour import getHourly, startHour
+from website.twentyFourHour import getHourly, startHour, testdata, dataFrame, getHum
 from website.sevenDay import getSevenDay
+from tensorflow.keras.models import load_model
+
 
 weatherDisplay = Blueprint('weatherDisplay', __name__)
 
@@ -18,6 +20,12 @@ def currentPage():
     img = getImg(condi)
 
     tfHour = get24HourJSON()
+
+    td = testdata()
+    dataframe = dataFrame(td)
+    hum = getHum(dataframe)
+    humModel = load_model('website/model/humidity.h5')
+    humP = humModel.predict(hum)
 
     current ={
         'temp': int(temp),
@@ -35,7 +43,8 @@ def currentPage():
         'ws': ws,
         'p': p,
         'img': img,
-        'rain': rain
+        'rain': rain,
+        'hh': humP
     }
 
     day, dateS, condS, icon, tempMin, tempMax, humdMin, humdMax, prcpVolMin, prcpVolMax, airPreMin, airPreMax, avgWSMax, avgWSMin, cloudMin, cloudMax = getSevenDay()

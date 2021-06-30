@@ -1,6 +1,12 @@
 import requests
 import json
-from datetime import datetime
+from datetime import datetime, timedelta
+import time
+import pandas as pd
+from numpy import array
+from sklearn.preprocessing import MinMaxScaler
+import datetime
+import numpy as np
 
 def startHour(dt):
     api_key = "5fbf6df2ae8f85211572ef4cb10989e5"
@@ -41,3 +47,96 @@ def getHourly(data):
         x = x+1
 
     return temp, hum, pre, air, wind, cloud
+
+def testdata():
+    dt1 = datetime.datetime.now()- timedelta(3)
+    dt1 = dt1.strftime('%m/%d/%Y 00:00:00')
+    dt1 = datetime.datetime.strptime(dt1, '%m/%d/%Y %H:%M:%S')
+    dt1 = int(time.mktime(dt1.timetuple()))
+
+    dt2 = datetime.datetime.now()- timedelta(1)
+    dt2 = dt2.strftime('%m/%d/%Y 23:59:00')
+    dt2 = datetime.datetime.strptime(dt2, '%m/%d/%Y %H:%M:%S')
+    dt2 = int(time.mktime(dt2.timetuple()))
+
+    api_key = "94c05f2e1e1a930f1a8e3ddba65af770"
+    lat = "1.3521"
+    lon = "103.8198"
+    url = "http://history.openweathermap.org/data/2.5/history/city?lat=%s&lon=%s&type=hour&start=%s&end=%s&appid=%s" % (lat, lon, dt1, dt2, api_key)
+
+    response = requests.get(url)
+    data = json.loads(response.text)
+
+    return data
+
+def ifRain(data):
+    if 'rain' in data:
+        r = data['rain']
+        return r.get('1h')
+    else:
+        return 0
+
+def dataFrame(data):
+    hourly = data["list"]
+
+    dt = []
+    feel_like = []
+    cloud = []
+    hum = []
+    pressure = []
+    temp = []
+    weather = []
+    windspeed = []
+    rain = []
+
+    for i in hourly:
+        date = i['dt']
+        date = datetime.datetime.fromtimestamp(date).strftime('%Y-%m-%d %H:%M:%S')
+        dt.append(date)
+        feel_like.append(i['main']['feels_like'])
+        cloud.append(i['clouds']['all'])
+        hum.append(i['main']['humidity'])
+        pressure.append(i['main']['pressure'])
+        temp.append(i['main']['temp'])
+        windspeed.append(i['wind']['speed'])
+        for x in i["weather"]:
+            weather.append(x["main"])
+        rain.append(ifRain(i))
+
+    df = pd.DataFrame(list(zip(dt, feel_like, cloud, hum, pressure, temp, weather, windspeed, rain)),
+               columns =['datetime', 'feel_like', 'cloud', 'hum', 'p', 't', 'condition', 'ws', 'rain'])
+
+    df['t'] = [x-273.15 for x in df['t']]
+    df['feel_like'] = [x-273.15 for x in df['feel_like']]
+
+    new = df["datetime"].str.split(" ", n = 1, expand = True)
+    time = new[1].str.split(":", n = 1, expand = True)
+    date = new[0].str.split("-", n = 2, expand = True)
+
+    df['hour'] = time[0]
+    df['year'] = date[0]
+    df['month'] = date[1]
+    df['day'] = date[2]
+
+    df['month'] = df['month'].astype(int)
+    df['day'] = df['day'].astype(int)
+    df['hour'] = df['hour'].astype(int)
+
+    df['hour_cos'] = [np.cos(x * (2 * np.pi/24)) for x in df['hour']]
+    df['hour_sin'] = [np.sin(x * (2 * np.pi/24)) for x in df['hour']]
+
+    df['month_cos'] = [np.cos(x * (2 * np.pi/12)) for x in df['month']]
+    df['month_sin'] = [np.sin(x * (2 * np.pi/12)) for x in df['month']]
+
+    scaler = MinMaxScaler()
+    df[['feel_like', 'cloud', 'hum', 'p', 't', 'ws', 'rain']] = scaler.fit_transform(df[['feel_like', 'cloud', 'hum', 'p', 't', 'ws', 'rain']])
+
+    return  df
+
+def getHum(df):
+    df = df[['hour_cos', 'hour_sin', 'month_cos', 'month_sin','cloud','p','rain']]
+    X = array(df[:72])
+    X = X.reshape((1, 72, 7))
+    
+    return X
+    

@@ -1,7 +1,6 @@
 import requests
 import json
 from datetime import datetime
-import matplotlib.pyplot as plt
 
 def startRun(dt):
     api_key = "5fbf6df2ae8f85211572ef4cb10989e5"
