@@ -1,3 +1,4 @@
+from re import I
 import requests
 import json
 from datetime import datetime, timedelta
@@ -7,6 +8,7 @@ from numpy import array
 from sklearn.preprocessing import MinMaxScaler
 import datetime
 import numpy as np
+from tensorflow.keras.models import load_model
 
 def startHour(dt):
     api_key = "5fbf6df2ae8f85211572ef4cb10989e5"
@@ -46,7 +48,23 @@ def getHourly(data):
                 pre.append(0)
         x = x+1
 
-    return temp, hum, pre, air, wind, cloud
+    td = testdata()
+    dataframe = dataFrame(td)
+    humm = getHum(dataframe)
+    humModel = load_model('website/model/humidity.h5')
+    humP = humModel.predict(humm)
+    humP = getList(humP)
+
+    return temp, hum, pre, air, wind, cloud, humP
+
+def getList(data):
+    x = []
+    for i in data[0]:
+        a = i
+        if(i < 1):
+            a = int(i * 100)
+        x.append(a)
+    return x
 
 def testdata():
     dt1 = datetime.datetime.now()- timedelta(3)
