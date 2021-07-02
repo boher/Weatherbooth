@@ -34,11 +34,11 @@ def getHourly(data):
 
     for i in hourly:
         if x <= 24:
-            temp.append(int(i["temp"]))
+            # temp.append(int(i["temp"]))
             hum.append(i["humidity"])
             air.append(i["pressure"])
             wind.append(i["wind_speed"])
-            cloud.append(i["clouds"])
+            # cloud.append(i["clouds"])
 
             rain = "rain" in i
             if rain == True:
@@ -55,7 +55,17 @@ def getHourly(data):
     humP = humModel.predict(humm)
     humP = getList(humP)
 
-    return temp, hum, pre, air, wind, cloud, humP
+    cloudm = getCloud(dataframe)
+    cloudModel = load_model('website/model/cloud.h5')
+    cloudP = cloudModel.predict(cloudm)
+    cloudP = getList(cloudP)
+
+    tempm = getTemp(dataframe)
+    tempModel = load_model('website/model/temp.h5')
+    tempP = tempModel.predict(tempm)
+    tempP = getList(tempP)
+
+    return tempP, hum, pre, air, wind, cloudP, humP
 
 def getList(data):
     x = []
@@ -103,7 +113,9 @@ def dataFrame(data):
     hum = []
     pressure = []
     temp = []
-    weather = []
+    cond_is_clear = []
+    cond_is_cloud = []
+    cond_is_rain = []
     windspeed = []
     rain = []
 
@@ -118,11 +130,22 @@ def dataFrame(data):
         temp.append(i['main']['temp'])
         windspeed.append(i['wind']['speed'])
         for x in i["weather"]:
-            weather.append(x["main"])
+            if(x['main'] == 'Rain'):
+                cond_is_rain.append(1.0)
+                cond_is_clear.append(0.0)
+                cond_is_cloud.append(0.0)
+            if(x['main'] == 'Clouds'):
+                cond_is_rain.append(0.0)
+                cond_is_clear.append(0.0)
+                cond_is_cloud.append(1.0)
+            if(x['main'] == 'Clear'):
+                cond_is_rain.append(0.0)
+                cond_is_clear.append(1.0)
+                cond_is_cloud.append(0.0)
         rain.append(ifRain(i))
 
-    df = pd.DataFrame(list(zip(dt, feel_like, cloud, hum, pressure, temp, weather, windspeed, rain)),
-               columns =['datetime', 'feel_like', 'cloud', 'hum', 'p', 't', 'condition', 'ws', 'rain'])
+    df = pd.DataFrame(list(zip(dt, feel_like, cloud, hum, pressure, temp, cond_is_cloud, cond_is_clear, cond_is_rain, windspeed, rain)),
+               columns =['datetime', 'feel_like', 'cloud', 'hum', 'p', 't', 'cond_is_cloud','cond_is_clear', 'cond_is_rain', 'ws', 'rain'])
 
     df['t'] = [x-273.15 for x in df['t']]
     df['feel_like'] = [x-273.15 for x in df['feel_like']]
@@ -147,14 +170,31 @@ def dataFrame(data):
     df['month_sin'] = [np.sin(x * (2 * np.pi/12)) for x in df['month']]
 
     scaler = MinMaxScaler()
-    df[['feel_like', 'cloud', 'hum', 'p', 't', 'ws', 'rain']] = scaler.fit_transform(df[['feel_like', 'cloud', 'hum', 'p', 't', 'ws', 'rain']])
+    df[['feel_like', 'cloud', 'hum', 'p', 't','cond_is_cloud','cond_is_clear', 'cond_is_rain', 'ws', 'rain']] = scaler.fit_transform(df[['feel_like', 'cloud', 'hum', 'p', 't', 'cond_is_cloud','cond_is_clear', 'cond_is_rain', 'ws', 'rain']])
 
     return  df
 
 def getHum(df):
-    df = df[['hour_cos', 'hour_sin', 'month_cos', 'month_sin','cloud','p','rain']]
+    df = df[['p', 'cloud', 'rain', 't', 'hum','hour_cos', 'hour_sin', 'month_cos', 'month_sin']]
     X = array(df[:72])
-    X = X.reshape((1, 72, 7))
+    X = X.reshape((1, 72, 9))
     
     return X
+
+def getTemp(df):
+    df = df[['feel_like','hum','rain','hour_cos','hour_sin','month_cos','month_sin']]
+    print(df)
+    X = array(df[:72])
+    X = X.reshape((1, 72, 7))
+
+    return X
+
+def getCloud(df):
+    df = df[['t', 'feel_like','hum','cond_is_clear','hour_cos','hour_sin','month_sin','month_cos']]
+    
+    X = array(df[:72])
+    X = X.reshape((1, 72, 8))
+
+    return X
+
     
