@@ -50,30 +50,43 @@ def getHourly(data):
 
     td = testdata()
     dataframe = dataFrame(td)
+
     humm = getHum(dataframe)
     humModel = load_model('website/model/humidity.h5')
     humP = humModel.predict(humm)
-    humP = getList(humP)
+    humP = getListPercentage(humP)
 
     cloudm = getCloud(dataframe)
     cloudModel = load_model('website/model/cloud.h5')
     cloudP = cloudModel.predict(cloudm)
-    cloudP = getList(cloudP)
+    cloudP = getListPercentage(cloudP)
 
     tempm = getTemp(dataframe)
     tempModel = load_model('website/model/temp.h5')
     tempP = tempModel.predict(tempm)
     tempP = getList(tempP)
 
-    return tempP, hum, pre, air, wind, cloudP, humP
+    windspeed = getwindSpeed(dataframe)
+    windModel = load_model('website/model/windspeed.h5')
+    windP = windModel.predict(windspeed)
+    windP = getList(windP)
 
-def getList(data):
+
+    return tempP, humP, pre, air, windP, cloudP
+
+def getListPercentage(data):
     x = []
     for i in data[0]:
         a = i
         if(i < 1):
             a = int(i * 100)
         x.append(a)
+    return x
+
+def getList(data):
+    x = []
+    for i in data[0]:
+        x.append(i)
     return x
 
 def testdata():
@@ -175,15 +188,14 @@ def dataFrame(data):
     return  df
 
 def getHum(df):
-    df = df[['p', 'cloud', 'rain', 't', 'hum','hour_cos', 'hour_sin', 'month_cos', 'month_sin']]
+    df = df[['p', 'cloud', 'rain', 'hour_cos', 'hour_sin', 'month_cos', 'month_sin']]
     X = array(df[:72])
-    X = X.reshape((1, 72, 9))
-    
+    X = X.reshape((1, 72, 7))
+
     return X
 
 def getTemp(df):
     df = df[['feel_like','hum','rain','hour_cos','hour_sin','month_cos','month_sin']]
-    print(df)
     X = array(df[:72])
     X = X.reshape((1, 72, 7))
 
@@ -197,4 +209,10 @@ def getCloud(df):
 
     return X
 
+def getwindSpeed(df):
+    df = df[['p', 'cloud', 'rain', 't', 'hum','hour_cos', 'hour_sin', 'month_cos', 'month_sin']]
+    X = array(df[:72])
+    X = X.reshape((1, 72, 9))
+
+    return X
     

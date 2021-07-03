@@ -70,10 +70,10 @@ def get24HourJSON():
 
     datahour = startHour(dt1)
 
-    t, h, pe, a, w, c, hp = getHourly(datahour)
+    t, h, pe, a, w, c = getHourly(datahour)
     tfHour = {
         't': t,
-        'h': hp,
+        'h': h,
         'pe': pe,
         'a': a,
         "w": w,
