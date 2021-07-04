@@ -49,7 +49,7 @@ def getHourly(data):
         x = x+1
 
     td = testdata()
-    dataframe = dataFrame(td)
+    dataframe, min_pressure, max_pressure = dataFrame(td)
 
     humm = getHum(dataframe)
     humModel = load_model('website/model/humidity.h5')
@@ -71,8 +71,22 @@ def getHourly(data):
     windP = windModel.predict(windspeed)
     windP = getList(windP)
 
+    ap = getAir(dataframe)
+    apModel = load_model('website/model/airpressure.h5')
+    apP = apModel.predict(ap)
+    apP = getList(apP)
+    apP = scalarBack(apP, min_pressure, max_pressure)
 
-    return tempP, humP, pre, air, windP, cloudP
+    return tempP, humP, pre, apP, windP, cloudP
+
+def scalarBack(airpressure, min_pressure, max_pressure):
+    x = []
+
+    for i in airpressure:
+        new = (i * (max_pressure - min_pressure)) + min_pressure
+        x.append(new)
+    
+    return x
 
 def getListPercentage(data):
     x = []
@@ -182,10 +196,13 @@ def dataFrame(data):
     df['month_cos'] = [np.cos(x * (2 * np.pi/12)) for x in df['month']]
     df['month_sin'] = [np.sin(x * (2 * np.pi/12)) for x in df['month']]
 
+    min_pressure = df['p'].min()
+    max_pressure = df['p'].max()
+
     scaler = MinMaxScaler()
     df[['feel_like', 'cloud', 'hum', 'p', 't','cond_is_cloud','cond_is_clear', 'cond_is_rain', 'ws', 'rain']] = scaler.fit_transform(df[['feel_like', 'cloud', 'hum', 'p', 't', 'cond_is_cloud','cond_is_clear', 'cond_is_rain', 'ws', 'rain']])
 
-    return  df
+    return  df, min_pressure, max_pressure
 
 def getHum(df):
     df = df[['p', 'cloud', 'rain', 'hour_cos', 'hour_sin', 'month_cos', 'month_sin']]
@@ -215,4 +232,10 @@ def getwindSpeed(df):
     X = X.reshape((1, 72, 9))
 
     return X
-    
+
+def getAir(df):
+    df = df[['t', 'hum', 'hour_cos', 'hour_sin', 'month_cos', 'month_sin']]
+    X = array(df[:72])
+    X = X.reshape((1, 72, 6))
+
+    return X
