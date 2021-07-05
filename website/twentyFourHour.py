@@ -10,17 +10,7 @@ import datetime
 import numpy as np
 from tensorflow.keras.models import load_model
 
-def startHour(dt):
-    api_key = "5fbf6df2ae8f85211572ef4cb10989e5"
-    lat = "1.3521"
-    lon = "103.8198"
-    url = "https://api.openweathermap.org/data/2.5/onecall/timemachine?lat=%s&lon=%s&appid=%s&units=metric&dt=%s" % (lat, lon, api_key, dt)
-
-    response = requests.get(url)
-    data = json.loads(response.text)
-    return data
-
-def getHourly(data):
+def getHourly():
     temp = []
     hum = []
     pre = []
@@ -28,28 +18,8 @@ def getHourly(data):
     wind = []
     cloud = []
 
-    hourly = data["hourly"]
-
-    x = 1
-
-    for i in hourly:
-        if x <= 24:
-            # temp.append(int(i["temp"]))
-            hum.append(i["humidity"])
-            air.append(i["pressure"])
-            wind.append(i["wind_speed"])
-            # cloud.append(i["clouds"])
-
-            rain = "rain" in i
-            if rain == True:
-                r = i["rain"]
-                pre.append(r.get('1h'))
-            else:
-                pre.append(0)
-        x = x+1
-
     td = testdata()
-    dataframe, min_pressure, max_pressure = dataFrame(td)
+    dataframe, min_pressure, max_pressure, min_ws, max_ws = dataFrame(td)
 
     humm = getHum(dataframe)
     humModel = load_model('website/model/humidity.h5')
@@ -70,6 +40,7 @@ def getHourly(data):
     windModel = load_model('website/model/windspeed.h5')
     windP = windModel.predict(windspeed)
     windP = getList(windP)
+    windP = scalarBack(windP, min_ws, max_ws)
 
     ap = getAir(dataframe)
     apModel = load_model('website/model/airpressure.h5')
@@ -77,13 +48,18 @@ def getHourly(data):
     apP = getList(apP)
     apP = scalarBack(apP, min_pressure, max_pressure)
 
-    return tempP, humP, pre, apP, windP, cloudP
+    rain = getRain(dataframe)
+    rainModel = load_model('website/model/precipitation.h5')
+    rainP = rainModel.predict(rain)
+    rainP = getList(rainP)
 
-def scalarBack(airpressure, min_pressure, max_pressure):
+    return tempP, humP, rainP, apP, windP, cloudP
+
+def scalarBack(data, min_value, max_value):
     x = []
 
-    for i in airpressure:
-        new = (i * (max_pressure - min_pressure)) + min_pressure
+    for i in data:
+        new = (i * (max_value - min_value)) + min_value
         x.append(new)
     
     return x
@@ -199,10 +175,13 @@ def dataFrame(data):
     min_pressure = df['p'].min()
     max_pressure = df['p'].max()
 
+    min_ws = df['ws'].min()
+    max_ws = df['ws'].max()
+
     scaler = MinMaxScaler()
     df[['feel_like', 'cloud', 'hum', 'p', 't','cond_is_cloud','cond_is_clear', 'cond_is_rain', 'ws', 'rain']] = scaler.fit_transform(df[['feel_like', 'cloud', 'hum', 'p', 't', 'cond_is_cloud','cond_is_clear', 'cond_is_rain', 'ws', 'rain']])
 
-    return  df, min_pressure, max_pressure
+    return  df, min_pressure, max_pressure, min_ws, max_ws
 
 def getHum(df):
     df = df[['p', 'cloud', 'rain', 'hour_cos', 'hour_sin', 'month_cos', 'month_sin']]
@@ -237,5 +216,12 @@ def getAir(df):
     df = df[['t', 'hum', 'hour_cos', 'hour_sin', 'month_cos', 'month_sin']]
     X = array(df[:72])
     X = X.reshape((1, 72, 6))
+
+    return X
+
+def getRain(df):
+    df = df[['hum', 'cloud', 'p', 'hour_cos', 'hour_sin', 'month_cos', 'month_sin']]
+    X = array(df[:72])
+    X = X.reshape((1, 72, 7))
 
     return X

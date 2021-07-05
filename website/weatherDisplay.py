@@ -2,7 +2,7 @@ from flask import Blueprint, redirect, url_for, render_template, request, sessio
 from datetime import datetime, timedelta
 import time
 from website.current import startRun, getCurrent, getImg 
-from website.twentyFourHour import getHourly, startHour
+from website.twentyFourHour import getHourly
 from website.sevenDay import getSevenDay
 
 
@@ -65,12 +65,7 @@ def currentPage():
 def get24HourJSON():
     hourly = ["12am", "1am", "2am", "3am", "4am", "5am", "6am", "7am", "8am", "9am", "10am", "11am",
              "12pm", "1pm", "2pm", "3pm", "4pm", "5pm", "6pm", "7pm", "8pm", "9pm", "10pm", "11pm"]
-    dt1 = datetime.now()- timedelta(1)
-    dt1 = int(time.mktime(dt1.timetuple()))
-
-    datahour = startHour(dt1)
-
-    t, h, pe, a, w, c = getHourly(datahour)
+    t, h, pe, a, w, c = getHourly()
     tfHour = {
         't': t,
         'h': h,
