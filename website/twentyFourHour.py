@@ -11,13 +11,6 @@ import numpy as np
 from tensorflow.keras.models import load_model
 
 def getHourly():
-    temp = []
-    hum = []
-    pre = []
-    air = []
-    wind = []
-    cloud = []
-
     td = testdata()
     dataframe, min_pressure, max_pressure, min_ws, max_ws = dataFrame(td)
 
