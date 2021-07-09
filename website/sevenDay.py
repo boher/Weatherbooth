@@ -1,3 +1,4 @@
+from re import A
 from flask import Blueprint, redirect, url_for, render_template, request, session, flash
 from datetime import datetime, timedelta
 import time
@@ -35,14 +36,6 @@ firstMidTemp = ''
 firstMidHum = ''
 firstMidRain =''
 
-firstDay =[]
-secondDay =[]
-thirdDay =[]
-fourthDay =[]
-fifthDay =[]
-sixthDay =[]
-seventhDay =[]
-
 def getSevenDay():
     day = ['Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat', 'Sun']
     date = ['2021-06-06', '2021-06-07', '2021-06-08', '2021-06-09', '2021-06-10', '2021-06-11', '2021-06-12'] 
@@ -71,35 +64,87 @@ def testing(dataframe, tfhour):
     ws = tfhour['w']
     cloud = tfhour['c']
 
-    df_new = dataframe[['year', 'month', 'day', 'hour', 'cloud', 'hum', 'p', 't','cond_is_cloud','cond_is_clear', 'cond_is_rain', 'ws', 'rain']]
+    df_new = dataframe[['year', 'month', 'day', 'hour', 'cloud', 'hum', 'cond_is_cloud','cond_is_clear', 'cond_is_rain', 'p', 't', 'ws', 'rain']]
     print(df_new)
 
-    for i in range(1, 7):
-        years = []
-        months = []
-        days = []
-        hour = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
-        c = [1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        clear = [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0]
-        rn = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1]
+    firstDay, temp, humd, rain, pressure, ws, cloud, df_new = getPerDay(df_new, temp, humd, rain, pressure, ws, cloud)
+    secondDay, temp, humd, rain, pressure, ws, cloud, df_new = getPerDay(df_new, temp, humd, rain, pressure, ws, cloud)
+    thirdDay, temp, humd, rain, pressure, ws, cloud, df_new = getPerDay(df_new, temp, humd, rain, pressure, ws, cloud)
+    fourthDay, temp, humd, rain, pressure, ws, cloud, df_new = getPerDay(df_new, temp, humd, rain, pressure, ws, cloud)
+    fifthDay, temp, humd, rain, pressure, ws, cloud, df_new = getPerDay(df_new, temp, humd, rain, pressure, ws, cloud)
+    sixthDay, temp, humd, rain, pressure, ws, cloud, df_new = getPerDay(df_new, temp, humd, rain, pressure, ws, cloud)
+    seventhDay, temp, humd, rain, pressure, ws, cloud, df_new = getPerDay(df_new, temp, humd, rain, pressure, ws, cloud)
 
-        years, months, days, weekdays, dates = getDate(df_new, years, months, days)
-        df_new = concatDF(df_new, years, months, days, hour, cloud, humd, c, clear, rn, pressure, temp, ws, rain)
-        min_pressure = df_new['p'].min()
-        max_pressure = df_new['p'].max()
+    return firstDay, secondDay, thirdDay, fourthDay, fifthDay, sixthDay, seventhDay
 
-        min_ws = df_new['ws'].min()
-        max_ws = df_new['ws'].max()
-        df_new = getScalar(df_new)
+def getPerDay(df_new, temp, humd, rain, pressure, ws, cloud):
+    a = 1
+    years = []
+    months = []
+    days = []
+    hour = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
+    c = [1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+    clear = [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0]
+    rn = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1]
 
-        #temp = getTemp(df)
-        humd = getHum(df_new)
-        ##rain = getRain(df)
-        #pressure = getAir(df, min_pressure, max_pressure)
-        ws = getwindSpeed(df_new, min_ws, max_ws)
-        #cloud = getCloud(df)
+    years, months, days, daydate, dates = getDate(df_new, years, months, days)
+    df_new = concatDF(df_new, years, months, days, hour, cloud, humd, c, clear, rn, pressure, temp, ws, rain)
+    min_pressure = df_new['p'].min()
+    max_pressure = df_new['p'].max()
 
-        return max_pressure
+    df = df_new.copy()
+
+    min_ws = df_new['ws'].min()
+    max_ws = df_new['ws'].max()
+    df_new = getScalar(df_new)
+
+    #temp = getTemp(df)
+    humd = getHum(df_new)
+    rain = getRain(df_new)
+    pressure = getAir(df_new, min_pressure, max_pressure)
+    ws = getwindSpeed(df_new, min_ws, max_ws)
+    #cloud = getCloud(df)
+    mornR, afterR, nightR, midR = daySection(rain)
+    mornH, afterH, nightH, midH = daySection(humd)
+
+    day = [daydate, dates, 'condition_overall', 'condition_img', 'min_temp', 'max_temp', 'morn_img', 'morn_temp', 'morn_cloud',mornR,int(mornH),
+                                                                                            'after_img', 'after_temp', 'after_cloud',afterR,int(afterH),
+                                                                                            'night_img', 'night_temp', 'night_cloud',nightR,int(nightH),
+                                                                                            'mid_img', 'mid_temp', 'mid_cloud',midR,int(midH)]
+
+    return day, a, humd, rain, pressure, ws, a, df
+
+def daySection(data):
+    morn = []
+    after = []
+    night = []
+    mid = []
+
+    x = 0
+    for i in data:
+        if x <=5:
+            mid.append(i)
+        elif x <=11:
+            morn.append(i)
+        elif x <=17:
+            after.append(i)
+        elif x<=23:
+            night.append(i)
+        x = x+1
+    
+    morning = Average(morn)
+    afternoon = Average(after)
+    nightt = Average(night)
+    midnight = Average(mid)
+
+    return round(morning,2), round(afternoon,2), round(nightt,2), round(midnight,2)
+
+def Average(data):
+    x = 0
+    for i in data:
+        x = x+i
+    x = x/6
+    return x
 
 def getHum(df):
     df = df[['p', 'cloud', 'rain', 'hour_cos', 'hour_sin', 'month_cos', 'month_sin']]
@@ -141,7 +186,7 @@ def getRain(df):
     rainModel = load_model('website/model/precipitation.h5')
     rainP = rainModel.predict(X)
     rainP = getList(rainP)
-    return X
+    return rainP
 
 def scalarBack(data, min_value, max_value):
     x = []
@@ -154,9 +199,9 @@ def scalarBack(data, min_value, max_value):
 def getListPercentage(data):
     x = []
     for i in data[0]:
-        a = i
-        if(i < 1):
-            a = int(i * 100)
+        if i > 1:
+            i = 1
+        a = int(i * 100)
         x.append(a)
     return x
 
@@ -178,8 +223,7 @@ def getScalar(df):
     df['month_sin'] = [np.sin(x * (2 * np.pi/12)) for x in df['month']]
 
     scaler = MinMaxScaler()
-    df[['cloud', 'hum', 'p', 't','cond_is_cloud','cond_is_clear', 'cond_is_rain', 'ws', 'rain']] = scaler.fit_transform(df[['cloud', 'hum', 'p', 't',
-                                                                                                                                'cond_is_cloud','cond_is_clear', 'cond_is_rain', 'ws', 'rain']])
+    df[['cloud', 'hum', 'p', 't','cond_is_cloud','cond_is_clear', 'cond_is_rain', 'ws', 'rain']] = scaler.fit_transform(df[['cloud', 'hum', 'p', 't', 'cond_is_cloud','cond_is_clear', 'cond_is_rain', 'ws', 'rain']])
 
     return df
 
@@ -192,8 +236,9 @@ def getDate(df, years, months, days):
 
     new = datetime.strptime(date, '%Y/%m/%d')
     tmr = new + timedelta(1)
-    dayy = tmr.strftime('%A')
-
+    dayy = tmr + timedelta(1)
+    dayys = dayy.strftime('%A')
+    
     for i in range(0, 24):
         y = tmr.strftime('%Y')
         m = tmr.strftime('%m')
@@ -203,15 +248,26 @@ def getDate(df, years, months, days):
         months.append(m)
         days.append(d)
     
-    return years, months, days, dayy, tmr
+    tmr = dayy.strftime('%Y') + '/' + dayy.strftime('%m') + '/' + dayy.strftime('%d')
+
+    return years, months, days, dayys, tmr
 
 def concatDF(df, years, months, days, hour, cloud, humd, c, clear, rn, pressure, temp, ws, rain):
-    df_new = pd.DataFrame(list(zip(years, months, days, hour, cloud, humd, c, clear, rn, pressure, temp, ws, rain)),
-               columns =['year', 'month', 'day', 'hour', 'cloud', 'hum', 'p', 't','cond_is_cloud','cond_is_clear', 'cond_is_rain', 'ws', 'rain'])
-
-    df = df.iloc[24: , :]
-
-    frames = [df, df_new]
-    df = pd.concat(frames)
+    add = {'year':years, 
+           'month':months, 
+           'day':days, 
+           'hour':hour, 
+           'cloud':cloud, 
+           'hum':humd,
+           'cond_is_cloud':c,
+           'cond_is_clear':clear, 
+           'cond_is_rain':rn,
+           'p':pressure, 
+           't':temp, 
+           'ws':ws, 
+           'rain':rain}
+    
+    df = df.append(pd.DataFrame(add),ignore_index = True)
+    df = df.iloc[24: , :]   
 
     return df
