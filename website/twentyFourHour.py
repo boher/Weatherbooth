@@ -10,9 +10,20 @@ import datetime
 import numpy as np
 from tensorflow.keras.models import load_model
 
+df_new = ''
+
+def getDataFrame():
+    return df_new
+
 def getHourly():
+    global df_new
+    global min_pressure
+    global max_pressure
+    global min_ws
+    global max_ws
+
     td = testdata()
-    dataframe, min_pressure, max_pressure, min_ws, max_ws = dataFrame(td)
+    dataframe, min_pressure, max_pressure, min_ws, max_ws, df_new = dataFrame(td)
 
     humm = getHum(dataframe)
     humModel = load_model('website/model/humidity.h5')
@@ -165,6 +176,8 @@ def dataFrame(data):
     df['month_cos'] = [np.cos(x * (2 * np.pi/12)) for x in df['month']]
     df['month_sin'] = [np.sin(x * (2 * np.pi/12)) for x in df['month']]
 
+    df_new = df.copy()
+
     min_pressure = df['p'].min()
     max_pressure = df['p'].max()
 
@@ -174,7 +187,7 @@ def dataFrame(data):
     scaler = MinMaxScaler()
     df[['feel_like', 'cloud', 'hum', 'p', 't','cond_is_cloud','cond_is_clear', 'cond_is_rain', 'ws', 'rain']] = scaler.fit_transform(df[['feel_like', 'cloud', 'hum', 'p', 't', 'cond_is_cloud','cond_is_clear', 'cond_is_rain', 'ws', 'rain']])
 
-    return  df, min_pressure, max_pressure, min_ws, max_ws
+    return  df, min_pressure, max_pressure, min_ws, max_ws, df_new
 
 def getHum(df):
     df = df[['p', 'cloud', 'rain', 'hour_cos', 'hour_sin', 'month_cos', 'month_sin']]

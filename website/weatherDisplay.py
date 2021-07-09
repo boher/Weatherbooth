@@ -2,8 +2,8 @@ from flask import Blueprint, redirect, url_for, render_template, request, sessio
 from datetime import datetime, timedelta
 import time
 from website.current import startRun, getCurrent, getImg 
-from website.twentyFourHour import getHourly
-from website.sevenDay import getSevenDay
+from website.twentyFourHour import getHourly, getDataFrame
+from website.sevenDay import getSevenDay, testing
 
 
 weatherDisplay = Blueprint('weatherDisplay', __name__)
@@ -39,7 +39,9 @@ def currentPage():
         'rain': rain,
     }
 
+    dataframe = getDataFrame()
     day, dateS, condS, icon, tempMin, tempMax, humdMin, humdMax, prcpVolMin, prcpVolMax, airPreMin, airPreMax, avgWSMax, avgWSMin, cloudMin, cloudMax = getSevenDay()
+    test = testing(dataframe, tfHour)
 
     res ={
         'day': day,
@@ -57,7 +59,8 @@ def currentPage():
         'avgWSMax': avgWSMax,
         'avgWSMin': avgWSMin,
         'cloudMin': cloudMin,
-        'cloudMax': cloudMax
+        'cloudMax': cloudMax,
+        'test':test
     }
     return render_template('index.html', current = current, tfHour = tfHour, res = res, CHART_ENDPOINT = url_for('weatherDisplay.get24HourJSON'))
 
