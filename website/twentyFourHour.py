@@ -197,15 +197,14 @@ def getHum(df):
     return X
 
 def getTemp(df):
-    df = df[['feel_like','hum','rain','hour_cos','hour_sin','month_cos','month_sin']]
+    df = df[['cloud','hum','rain','hour_cos','hour_sin','month_cos','month_sin']]
     X = array(df[:72])
     X = X.reshape((1, 72, 7))
 
     return X
 
 def getCloud(df):
-    df = df[['t', 'feel_like','hum','cond_is_clear','hour_cos','hour_sin','month_sin','month_cos']]
-    
+    df = df[['t','hum','cond_is_clear','rain','hour_cos','hour_sin','month_sin','month_cos']]
     X = array(df[:72])
     X = X.reshape((1, 72, 8))
 
