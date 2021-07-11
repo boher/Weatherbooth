@@ -41,7 +41,7 @@ def currentPage():
 
     dataframe = getDataFrame()
     day, dateS, condS, icon, tempMin, tempMax, humdMin, humdMax, prcpVolMin, prcpVolMax, airPreMin, airPreMax, avgWSMax, avgWSMin, cloudMin, cloudMax = getSevenDay()
-    test1, test2, test3, test4, test5, test6, test7= testing(dataframe, tfHour)
+    firstDay, secondDay, thirdDay, fourthDay, fifthDay, sixthDay, seventhDay= testing(dataframe, tfHour)
 
     res ={
         'day': day,
@@ -60,13 +60,13 @@ def currentPage():
         'avgWSMin': avgWSMin,
         'cloudMin': cloudMin,
         'cloudMax': cloudMax,
-        'test1':test1,
-        'test2':test2,
-        'test3':test3,
-        'test4':test4,
-        'test5':test5,
-        'test6':test6,
-        'test7':test7
+        'test1':firstDay,
+        'test2':secondDay,
+        'test3':thirdDay,
+        'test4':fourthDay,
+        'test5':fifthDay,
+        'test6':sixthDay,
+        'test7':seventhDay
     }
     return render_template('index.html', current = current, tfHour = tfHour, res = res, CHART_ENDPOINT = url_for('weatherDisplay.get24HourJSON'))
 

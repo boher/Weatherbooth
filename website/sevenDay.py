@@ -8,33 +8,7 @@ from sklearn.preprocessing import MinMaxScaler
 import numpy as np
 from tensorflow.keras.models import load_model
 from numpy import array
-
-firstDate = ''
-firstDay =''
-firstCond = ''
-firstImg =''
-firstMin =''
-firstMax =''
-
-firstMornImg = ''
-firstMornTemp = ''
-firstMornHum = ''
-firstMornRain = ''
-
-firstAfterImg = ''
-firstAfterTemp = ''
-firstAfterHum = ''
-firstAfterRain =''
-
-firstNightImg = ''
-firstNightTemp = ''
-firstNightHum = ''
-firstNightRain =''
-
-firstMidImg = ''
-firstMidTemp = ''
-firstMidHum = ''
-firstMidRain =''
+from joblib import load
 
 def getSevenDay():
     day = ['Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat', 'Sun']
@@ -63,29 +37,30 @@ def testing(dataframe, tfhour):
     pressure = tfhour['a']
     ws = tfhour['w']
     cloud = tfhour['c']
+    c = []
+    clear = []
+    rn = []
+
+    c, clear, rn = getCondFirst(cloud, rain, temp)
 
     df_new = dataframe[['year', 'month', 'day', 'hour', 'cloud', 'hum', 'cond_is_cloud','cond_is_clear', 'cond_is_rain', 'p', 't', 'ws', 'rain']]
-    print(df_new)
-
-    firstDay, temp, humd, rain, pressure, ws, cloud, df_new = getPerDay(df_new, temp, humd, rain, pressure, ws, cloud)
-    secondDay, temp, humd, rain, pressure, ws, cloud, df_new = getPerDay(df_new, temp, humd, rain, pressure, ws, cloud)
-    thirdDay, temp, humd, rain, pressure, ws, cloud, df_new = getPerDay(df_new, temp, humd, rain, pressure, ws, cloud)
-    fourthDay, temp, humd, rain, pressure, ws, cloud, df_new = getPerDay(df_new, temp, humd, rain, pressure, ws, cloud)
-    fifthDay, temp, humd, rain, pressure, ws, cloud, df_new = getPerDay(df_new, temp, humd, rain, pressure, ws, cloud)
-    sixthDay, temp, humd, rain, pressure, ws, cloud, df_new = getPerDay(df_new, temp, humd, rain, pressure, ws, cloud)
-    seventhDay, temp, humd, rain, pressure, ws, cloud, df_new = getPerDay(df_new, temp, humd, rain, pressure, ws, cloud)
-
+    
+    firstDay, temp, humd, rain, pressure, ws, cloud, df_new, c, clear, rn = getPerDay(df_new, temp, humd, rain, pressure, ws, cloud, c, clear, rn)
+    secondDay, temp, humd, rain, pressure, ws, cloud, df_new, c, clear, rn = getPerDay(df_new, temp, humd, rain, pressure, ws, cloud, c, clear, rn)
+    thirdDay, temp, humd, rain, pressure, ws, cloud, df_new, c, clear, rn = getPerDay(df_new, temp, humd, rain, pressure, ws, cloud, c, clear, rn)
+    fourthDay, temp, humd, rain, pressure, ws, cloud, df_new, c, clear, rn = getPerDay(df_new, temp, humd, rain, pressure, ws, cloud, c, clear, rn)
+    fifthDay, temp, humd, rain, pressure, ws, cloud, df_new, c, clear, rn = getPerDay(df_new, temp, humd, rain, pressure, ws, cloud, c, clear, rn)
+    sixthDay, temp, humd, rain, pressure, ws, cloud, df_new, c, clear, rn = getPerDay(df_new, temp, humd, rain, pressure, ws, cloud, c, clear, rn)
+    seventhDay, temp, humd, rain, pressure, ws, cloud, df_new, c, clear, rn = getPerDay(df_new, temp, humd, rain, pressure, ws, cloud, c, clear, rn)
+    
     return firstDay, secondDay, thirdDay, fourthDay, fifthDay, sixthDay, seventhDay
 
-def getPerDay(df_new, temp, humd, rain, pressure, ws, cloud):
+def getPerDay(df_new, temp, humd, rain, pressure, ws, cloud, c, clear, rn):
     a = 1
     years = []
     months = []
     days = []
     hour = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
-    c = [1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-    clear = [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0]
-    rn = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1]
 
     years, months, days, daydate, dates = getDate(df_new, years, months, days)
     df_new = concatDF(df_new, years, months, days, hour, cloud, humd, c, clear, rn, pressure, temp, ws, rain)
@@ -98,23 +73,52 @@ def getPerDay(df_new, temp, humd, rain, pressure, ws, cloud):
     max_ws = df_new['ws'].max()
     df_new = getScalar(df_new)
 
-    #temp = getTemp(df)
+    temp = getTemp(df_new)
     humd = getHum(df_new)
     rain = getRain(df_new)
     pressure = getAir(df_new, min_pressure, max_pressure)
     ws = getwindSpeed(df_new, min_ws, max_ws)
-    #cloud = getCloud(df)
-    mornR, afterR, nightR, midR = daySection(rain)
-    mornH, afterH, nightH, midH = daySection(humd)
+    cloud = getCloud(df_new)
+    conditionList, c, clear, rn = getCond(df_new.loc[df.index[48:],['cloud', 'rain', 't']])
 
-    day = [daydate, dates, 'condition_overall', 'condition_img', 'min_temp', 'max_temp', 'morn_img', 'morn_temp', 'morn_cloud',mornR,int(mornH),
-                                                                                            'after_img', 'after_temp', 'after_cloud',afterR,int(afterH),
-                                                                                            'night_img', 'night_temp', 'night_cloud',nightR,int(nightH),
-                                                                                            'mid_img', 'mid_temp', 'mid_cloud',midR,int(midH)]
+    condition_overall = most_frequent(conditionList)
+    condition_img = getImg(condition_overall)
+    min_temp, max_temp = getMinMaxTemp(temp)
+    mornR, afterR, nightR, midR = daySection(rain, 1)
+    mornH, afterH, nightH, midH = daySection(humd, 1)
+    mornT, afterT, nightT, midT = daySection(temp, 1)
+    morn_cloud, after_cloud, night_cloud, mid_cloud = daySection(cloud, 1)
+    morn_img, after_img, night_img, mid_img = daySection(conditionList, 0)
 
-    return day, a, humd, rain, pressure, ws, a, df
+    day = [daydate, dates, condition_overall, condition_img, min_temp, max_temp, morn_img, int(mornT), int(morn_cloud),mornR,int(mornH),
+                                                                                            after_img, int(afterT), int(after_cloud),afterR,int(afterH),
+                                                                                            night_img, int(nightT), int(night_cloud),nightR,int(nightH),
+                                                                                            mid_img, int(midT), int(mid_cloud),midR,int(midH)]
 
-def daySection(data):
+    return day, temp, humd, rain, pressure, ws, a, df, c, clear, rn
+
+def most_frequent(List):
+    return max(set(List), key = List.count)
+
+def getCondFirst(cloud, rain, temp):
+    c = []
+    clear = []
+    rn = []
+    
+    add = {
+        'cloud':cloud,
+        'rain':rain,
+        'temp':temp
+    }
+
+    df = pd.DataFrame(data = add)
+    sc = MinMaxScaler()
+    df[['cloud', 'rain', 'temp']] = sc.fit_transform(df[['cloud', 'rain', 'temp']])
+    conditionList, c, clear, rn = getCond(df)
+
+    return c, clear, rn
+
+def daySection(data, a):
     morn = []
     after = []
     night = []
@@ -132,12 +136,22 @@ def daySection(data):
             night.append(i)
         x = x+1
     
-    morning = Average(morn)
-    afternoon = Average(after)
-    nightt = Average(night)
-    midnight = Average(mid)
+    if a == 1:
+        morning = round(Average(morn),2)
+        afternoon = round(Average(after),2)
+        nightt = round(Average(night),2)
+        midnight = round(Average(mid),2)
+    else:
+        morning = getImg(most_frequent(morn))
+        afternoon = getImg(most_frequent(after))
+        nightt = getImg(most_frequent(night))
+        midnight = getImg(most_frequent(mid))
 
-    return round(morning,2), round(afternoon,2), round(nightt,2), round(midnight,2)
+    return morning, afternoon, nightt, midnight
+
+def getImg(data):
+    str = "images/"+data+".png"
+    return str
 
 def Average(data):
     x = 0
@@ -145,6 +159,56 @@ def Average(data):
         x = x+i
     x = x/6
     return x
+
+def getMinMaxTemp(temp):
+    return int(min(temp)), int(max(temp))
+
+def getCond(df):
+    c = []
+    clear = []
+    rn = []
+
+    condModel = load('website/model/condition.joblib')
+    prediction = condModel.predict(df)
+    conditionList = prediction.tolist()
+
+    for x in conditionList:
+        if(x == 'rain'):
+            rn.append(1.0)
+            clear.append(0.0)
+            c.append(0.0)
+        if(x == 'clouds'):
+            rn.append(0.0)
+            clear.append(0.0)
+            c.append(1.0)
+        if(x == 'clear'):
+            rn.append(0.0)
+            clear.append(1.0)
+            c.append(0.0)
+
+    return conditionList, c, clear, rn
+
+def getCloud(df):
+    df = df[['t','hum','cond_is_clear','rain','hour_cos','hour_sin','month_cos','month_sin']]
+    X = array(df[:72])
+    X = X.reshape((1, 72, 8))
+
+    cloudModel = load_model('website/model/cloud.h5')
+    cloudP = cloudModel.predict(X)
+    cloudP = getListPercentage(cloudP)
+
+    return cloudP
+
+def getTemp(df):
+    df = df[['cloud','hum','rain','hour_cos','hour_sin','month_cos','month_sin']]
+    X = array(df[:72])
+    X = X.reshape((1, 72, 7))
+
+    tempModel = load_model('website/model/temp.h5')
+    tempP = tempModel.predict(X)
+    tempP = getList(tempP)
+
+    return tempP
 
 def getHum(df):
     df = df[['p', 'cloud', 'rain', 'hour_cos', 'hour_sin', 'month_cos', 'month_sin']]
