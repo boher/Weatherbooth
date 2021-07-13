@@ -28,12 +28,21 @@ def get7Day(dataframe, tfhour):
     df_new = dataframe[['year', 'month', 'day', 'hour', 'cloud', 'hum', 'cond_is_cloud','cond_is_clear', 'cond_is_rain', 'p', 't', 'ws', 'rain']]
     
     firstDay, temp, humd, rain, pressure, ws, cloud, df_new, c, clear, rn = getPerDay(df_new, temp, humd, rain, pressure, ws, cloud, c, clear, rn)
+    print(df_new.describe())
     secondDay, temp, humd, rain, pressure, ws, cloud, df_new, c, clear, rn = getPerDay(df_new, temp, humd, rain, pressure, ws, cloud, c, clear, rn)
+    print(df_new.describe())
     thirdDay, temp, humd, rain, pressure, ws, cloud, df_new, c, clear, rn = getPerDay(df_new, temp, humd, rain, pressure, ws, cloud, c, clear, rn)
+    print(df_new.describe())
     fourthDay, temp, humd, rain, pressure, ws, cloud, df_new, c, clear, rn = getPerDay(df_new, temp, humd, rain, pressure, ws, cloud, c, clear, rn)
+    print(df_new.describe())
     fifthDay, temp, humd, rain, pressure, ws, cloud, df_new, c, clear, rn = getPerDay(df_new, temp, humd, rain, pressure, ws, cloud, c, clear, rn)
+    print(df_new.describe())
     sixthDay, temp, humd, rain, pressure, ws, cloud, df_new, c, clear, rn = getPerDay(df_new, temp, humd, rain, pressure, ws, cloud, c, clear, rn)
+    print(df_new.describe())
+
     seventhDay, temp, humd, rain, pressure, ws, cloud, df_new, c, clear, rn = getPerDay(df_new, temp, humd, rain, pressure, ws, cloud, c, clear, rn)
+
+    print(df_new.describe())
     
     return firstDay, secondDay, thirdDay, fourthDay, fifthDay, sixthDay, seventhDay
 
@@ -72,10 +81,10 @@ def getPerDay(df_new, temp, humd, rain, pressure, ws, cloud, c, clear, rn):
     morn_cloud, after_cloud, night_cloud, mid_cloud = daySection(cloud, 1)
     morn_img, after_img, night_img, mid_img = daySection(conditionList, 0)
 
-    day = [daydate, dates, condition_overall, condition_img, min_temp, max_temp, morn_img, int(mornT), int(morn_cloud),mornR,int(mornH),
+    day = [daydate, dates, condition_overall, condition_img, min_temp, max_temp, mid_img, int(midT), int(mid_cloud),midR,int(midH),
+                                                                                            morn_img, int(mornT), int(morn_cloud),mornR,int(mornH),
                                                                                             after_img, int(afterT), int(after_cloud),afterR,int(afterH),
-                                                                                            night_img, int(nightT), int(night_cloud),nightR,int(nightH),
-                                                                                            mid_img, int(midT), int(mid_cloud),midR,int(midH)]
+                                                                                            night_img, int(nightT), int(night_cloud),nightR,int(nightH)]
 
     return day, temp, humd, rain, pressure, ws, a, df, c, clear, rn
 
@@ -178,12 +187,18 @@ def getCond(df):
     return conditionList, c, clear, rn
 
 def getCloud(df):
-    df = df[['t','hum','cond_is_clear','rain','hour_cos','hour_sin','month_cos','month_sin']]
+    df = df[['t','hum','cond_is_clear','rain','hour_cos','hour_sin','month_sin','month_cos']]
     X = array(df[:72])
     X = X.reshape((1, 72, 8))
 
     cloudModel = load_model('website/model/cloud.h5')
     cloudP = cloudModel.predict(X)
+    for i in range(0,24):
+        if cloudP[0][i] < 0:
+            cloudP[0][i] = 0
+        elif cloudP[0][i] > 1:
+            cloudP[0][i] = 1;
+    print(cloudP)
     cloudP = getListPercentage(cloudP)
 
     return cloudP
@@ -342,7 +357,6 @@ def getMonthNHour(df):
     for i in range(0,24):
         m = tmr.strftime('%m')
         m = int(m)
-        print(m)
         month_cos.append(np.cos(m * (2 * np.pi/12)))
         month_sin.append(np.sin(m * (2 * np.pi/12)))
         hour_sin.append(np.cos(i * (2 * np.pi/24)))
