@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 import time
 from website.current import startRun, getCurrent, getImg 
 from website.twentyFourHour import getHourly, getDataFrame
-from website.sevenDay import getSevenDay, testing
+from website.sevenDay import get7Day
 
 
 weatherDisplay = Blueprint('weatherDisplay', __name__)
@@ -40,26 +40,9 @@ def currentPage():
     }
 
     dataframe = getDataFrame()
-    day, dateS, condS, icon, tempMin, tempMax, humdMin, humdMax, prcpVolMin, prcpVolMax, airPreMin, airPreMax, avgWSMax, avgWSMin, cloudMin, cloudMax = getSevenDay()
-    firstDay, secondDay, thirdDay, fourthDay, fifthDay, sixthDay, seventhDay= testing(dataframe, tfHour)
+    firstDay, secondDay, thirdDay, fourthDay, fifthDay, sixthDay, seventhDay= get7Day(dataframe, tfHour)
 
     res ={
-        'day': day,
-        'date': dateS,
-        'cond': condS,
-        'icon': icon,
-        'tempMin': tempMin,
-        'tempMax': tempMax,
-        'humdMin': humdMin,
-        'humdMax': humdMax,
-        'prcpVolMin': prcpVolMin,
-        'prcpVolMax': prcpVolMax,
-        'airPreMin': airPreMin,
-        'airPreMax': airPreMax,
-        'avgWSMax': avgWSMax,
-        'avgWSMin': avgWSMin,
-        'cloudMin': cloudMin,
-        'cloudMax': cloudMax,
         'test1':firstDay,
         'test2':secondDay,
         'test3':thirdDay,

@@ -10,27 +10,7 @@ from tensorflow.keras.models import load_model
 from numpy import array
 from joblib import load
 
-def getSevenDay():
-    day = ['Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat', 'Sun']
-    date = ['2021-06-06', '2021-06-07', '2021-06-08', '2021-06-09', '2021-06-10', '2021-06-11', '2021-06-12'] 
-    cond = ['Rain', 'Drizzle', 'Clear', 'Rain', 'Clouds', 'Drizzle', 'Clouds']
-    icon = ['10d','09d','01d','10d','02d','09d','02d']
-    tempMin = [27, 27, 26, 27, 26, 27, 27]
-    tempMax = [30, 30, 30, 30, 30,29, 29]
-    humdMin = [65, 71, 59, 60, 63, 62, 70]
-    humdMax = [68, 75, 65, 62, 66, 70, 77]
-    prcpVolMin =  [0.62, 0.55, 0.10, 0.78, 0.99, 0.44, 0.75]
-    prcpVolMax = [0.75, 0.70, 0.50, 0.90, 1, 0.70, 0.85]
-    airPreMin = [1009, 1010, 1010, 1010, 1010, 1008, 1008]
-    airPreMax = [1011, 1015, 1015, 1015, 1016, 1010, 1011]
-    avgWSMin = [4.69, 5.25, 4.74, 4.15, 5.32, 4.35, 3.77]
-    avgWSMax = [5, 6, 5, 5.5, 6.5, 5.75, 4.25]
-    cloudMin = [77, 94, 99, 92, 82, 84, 80]
-    cloudMax = [80, 95, 100, 100, 99, 94, 100]
-
-    return day, date, cond, icon, tempMin, tempMax, humdMin, humdMax, prcpVolMin, prcpVolMax, airPreMin, airPreMax, avgWSMax, avgWSMin, cloudMin, cloudMax
-
-def testing(dataframe, tfhour):
+def get7Day(dataframe, tfhour):
     temp = tfhour['t']
     humd = tfhour['h']
     rain = tfhour['pe']
@@ -41,7 +21,9 @@ def testing(dataframe, tfhour):
     clear = []
     rn = []
 
-    c, clear, rn = getCondFirst(cloud, rain, temp)
+    month_sin, month_cos, hour_sin, hour_cos = getMonthNHour(dataframe)
+
+    c, clear, rn = getCondFirst(cloud, rain, temp, humd, pressure, ws, hour_sin, hour_cos, month_sin, month_cos)
 
     df_new = dataframe[['year', 'month', 'day', 'hour', 'cloud', 'hum', 'cond_is_cloud','cond_is_clear', 'cond_is_rain', 'p', 't', 'ws', 'rain']]
     
@@ -79,7 +61,7 @@ def getPerDay(df_new, temp, humd, rain, pressure, ws, cloud, c, clear, rn):
     pressure = getAir(df_new, min_pressure, max_pressure)
     ws = getwindSpeed(df_new, min_ws, max_ws)
     cloud = getCloud(df_new)
-    conditionList, c, clear, rn = getCond(df_new.loc[df.index[48:],['cloud', 'rain', 't']])
+    conditionList, c, clear, rn = getCond(df_new.loc[df.index[48:],['t','ws','hum','p','cloud','rain','hour_cos','hour_sin','month_sin','month_cos']])
 
     condition_overall = most_frequent(conditionList)
     condition_img = getImg(condition_overall)
@@ -100,7 +82,7 @@ def getPerDay(df_new, temp, humd, rain, pressure, ws, cloud, c, clear, rn):
 def most_frequent(List):
     return max(set(List), key = List.count)
 
-def getCondFirst(cloud, rain, temp):
+def getCondFirst(cloud, rain, temp, humd, pressure, ws, hour_sin, hour_cos, month_sin, month_cos):
     c = []
     clear = []
     rn = []
@@ -108,12 +90,18 @@ def getCondFirst(cloud, rain, temp):
     add = {
         'cloud':cloud,
         'rain':rain,
-        'temp':temp
+        't':temp,
+        'hum':humd,
+        'p':pressure,
+        'ws':ws,
+        'hour_cos':hour_cos,
+        'hour_sin':hour_sin,
+        'month_sin':month_sin,
+        'month_cos':month_cos
     }
-
     df = pd.DataFrame(data = add)
     sc = MinMaxScaler()
-    df[['cloud', 'rain', 'temp']] = sc.fit_transform(df[['cloud', 'rain', 'temp']])
+    df[['t','ws','hum','p','cloud','rain']] = sc.fit_transform(df[['t','ws','hum','p','cloud','rain']])
     conditionList, c, clear, rn = getCond(df)
 
     return c, clear, rn
@@ -168,7 +156,8 @@ def getCond(df):
     clear = []
     rn = []
 
-    condModel = load('website/model/condition.joblib')
+    condModel = load('website/model/cond.h5')
+    df = df[['t','ws','hum','p','cloud','rain','hour_cos','hour_sin','month_sin','month_cos']]
     prediction = condModel.predict(df)
     conditionList = prediction.tolist()
 
@@ -335,3 +324,28 @@ def concatDF(df, years, months, days, hour, cloud, humd, c, clear, rn, pressure,
     df = df.iloc[24: , :]   
 
     return df
+
+def getMonthNHour(df):
+    month_sin = []
+    month_cos = []
+    hour_sin = []
+    hour_cos = []
+
+    year = df['year'].iloc[-1]
+    month = df['month'].iloc[-1]
+    day = df['day'].iloc[-1]
+    date = str(year) + '/' + str(month) + '/' + str(day)
+
+    new = datetime.strptime(date, '%Y/%m/%d')
+    tmr = new + timedelta(1)
+
+    for i in range(0,24):
+        m = tmr.strftime('%m')
+        m = int(m)
+        print(m)
+        month_cos.append(np.cos(m * (2 * np.pi/12)))
+        month_sin.append(np.sin(m * (2 * np.pi/12)))
+        hour_sin.append(np.cos(i * (2 * np.pi/24)))
+        hour_cos.append(np.sin(i * (2 * np.pi/24)))
+    
+    return month_sin, month_cos, hour_sin, hour_cos
