@@ -26,28 +26,17 @@ def get7Day(dataframe, tfhour):
     c, clear, rn = getCondFirst(cloud, rain, temp, humd, pressure, ws, hour_sin, hour_cos, month_sin, month_cos)
 
     df_new = dataframe[['year', 'month', 'day', 'hour', 'cloud', 'hum', 'cond_is_cloud','cond_is_clear', 'cond_is_rain', 'p', 't', 'ws', 'rain']]
-    
     firstDay, temp, humd, rain, pressure, ws, cloud, df_new, c, clear, rn = getPerDay(df_new, temp, humd, rain, pressure, ws, cloud, c, clear, rn)
-    print(df_new.describe())
     secondDay, temp, humd, rain, pressure, ws, cloud, df_new, c, clear, rn = getPerDay(df_new, temp, humd, rain, pressure, ws, cloud, c, clear, rn)
-    print(df_new.describe())
     thirdDay, temp, humd, rain, pressure, ws, cloud, df_new, c, clear, rn = getPerDay(df_new, temp, humd, rain, pressure, ws, cloud, c, clear, rn)
-    print(df_new.describe())
     fourthDay, temp, humd, rain, pressure, ws, cloud, df_new, c, clear, rn = getPerDay(df_new, temp, humd, rain, pressure, ws, cloud, c, clear, rn)
-    print(df_new.describe())
     fifthDay, temp, humd, rain, pressure, ws, cloud, df_new, c, clear, rn = getPerDay(df_new, temp, humd, rain, pressure, ws, cloud, c, clear, rn)
-    print(df_new.describe())
     sixthDay, temp, humd, rain, pressure, ws, cloud, df_new, c, clear, rn = getPerDay(df_new, temp, humd, rain, pressure, ws, cloud, c, clear, rn)
-    print(df_new.describe())
-
     seventhDay, temp, humd, rain, pressure, ws, cloud, df_new, c, clear, rn = getPerDay(df_new, temp, humd, rain, pressure, ws, cloud, c, clear, rn)
-
-    print(df_new.describe())
     
     return firstDay, secondDay, thirdDay, fourthDay, fifthDay, sixthDay, seventhDay
 
 def getPerDay(df_new, temp, humd, rain, pressure, ws, cloud, c, clear, rn):
-    a = 1
     years = []
     months = []
     days = []
@@ -86,7 +75,7 @@ def getPerDay(df_new, temp, humd, rain, pressure, ws, cloud, c, clear, rn):
                                                                                             after_img, int(afterT), int(after_cloud),afterR,int(afterH),
                                                                                             night_img, int(nightT), int(night_cloud),nightR,int(nightH)]
 
-    return day, temp, humd, rain, pressure, ws, a, df, c, clear, rn
+    return day, temp, humd, rain, pressure, ws, cloud, df, c, clear, rn
 
 def most_frequent(List):
     return max(set(List), key = List.count)
@@ -197,8 +186,7 @@ def getCloud(df):
         if cloudP[0][i] < 0:
             cloudP[0][i] = 0
         elif cloudP[0][i] > 1:
-            cloudP[0][i] = 1;
-    print(cloudP)
+            cloudP[0][i] = 1
     cloudP = getListPercentage(cloudP)
 
     return cloudP
@@ -211,7 +199,7 @@ def getTemp(df):
     tempModel = load_model('website/model/temp.h5')
     tempP = tempModel.predict(X)
     tempP = getList(tempP)
-
+    
     return tempP
 
 def getHum(df):
@@ -222,17 +210,22 @@ def getHum(df):
     humModel = load_model('website/model/humidity.h5')
     humP = humModel.predict(X)
     humP = getListPercentage(humP)
+    
     return humP
 
 def getwindSpeed(df, min_ws, max_ws):
     df = df[['p', 'cloud', 'rain', 't', 'hum','hour_cos', 'hour_sin', 'month_cos', 'month_sin']]
     X = array(df[:72])
     X = X.reshape((1, 72, 9))
-
+    
     windModel = load_model('website/model/windspeed.h5')
     windP = windModel.predict(X)
+    for i in range(0,24):
+        if windP[0][i] < 0:
+            windP[0][i] = 0
     windP = getList(windP)
     windP = scalarBack(windP, min_ws, max_ws)
+    
     return windP
 
 def getAir(df, min_pressure, max_pressure):
@@ -244,6 +237,7 @@ def getAir(df, min_pressure, max_pressure):
     apP = apModel.predict(X)
     apP = getList(apP)
     apP = scalarBack(apP, min_pressure, max_pressure)
+    
     return apP
 
 def getRain(df):
@@ -254,6 +248,7 @@ def getRain(df):
     rainModel = load_model('website/model/precipitation.h5')
     rainP = rainModel.predict(X)
     rainP = getList(rainP)
+    
     return rainP
 
 def scalarBack(data, min_value, max_value):
@@ -291,7 +286,7 @@ def getScalar(df):
     df['month_sin'] = [np.sin(x * (2 * np.pi/12)) for x in df['month']]
 
     scaler = MinMaxScaler()
-    df[['cloud', 'hum', 'p', 't','cond_is_cloud','cond_is_clear', 'cond_is_rain', 'ws', 'rain']] = scaler.fit_transform(df[['cloud', 'hum', 'p', 't', 'cond_is_cloud','cond_is_clear', 'cond_is_rain', 'ws', 'rain']])
+    df[['cloud', 'hum', 'p', 't', 'ws', 'rain']] = scaler.fit_transform(df[['cloud', 'hum', 'p', 't', 'ws', 'rain']])
 
     return df
 
