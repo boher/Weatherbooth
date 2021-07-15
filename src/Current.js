@@ -1,20 +1,39 @@
 import React from 'react';
 import './main.css';
 
-const Current = props => {
-  return (
+class Current extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+        dateTime: ''
+    }
+  }
+
+  async testBackend() {
+    let response = await fetch('http://localhost:5000/getDisplay/', { dateTime: 'include' });
+    let data = await response.text(); // for string
+    return data;
+  }
+
+  componentDidMount() {
+      this.testBackend().then((data) => {
+          this.setState({ dateTime: data })
+        })
+        .catch(error=>{
+          console.log(error)
+        })
+    }
+
+  render() {
+  return(
   <div className="tab-content" id="pills-tabContent">
   <div className="tab-pane fade show active" id="pills-current" role="tabpanel" aria-labelledby="pills-current-tab">
     <div className = "container mt-3">
       <div className="row">
         <div className="col-sm warning" style = {{backgroundColor: "rgb(214, 214, 209)", height: "750px;"}}>
-          <ul className="list-group">
-            <li className="list-group-item" style = {{marginTop: "20px", height: "50px"}}>Warning and Advisories</li>
-            <li className="list-group-item mt-3" id = 'uv'></li>
-            <li className="list-group-item mt-3" id = 'wbgt'></li>
-            <li className="list-group-item mt-3" id = 'mozzy'></li>
-            <li className="list-group-item mt-3" id = 'rain'></li>
-          </ul>
+          <div className = "col-sm-4 offset-1 mb-5" style = {{height: "30px"}}>
+            {this.state.dateTime}
+          </div>
         </div>
         <div className="col-sm" style = {{backgroundColor: "rgb(194, 194, 189)", height: "750px", backgroundImage: ""}}>
           <ul className="list-group">
@@ -56,8 +75,9 @@ const Current = props => {
       </div>
     </div>
   </div>
-  </div> 
-  );
+  </div>
+  )
+  }
 }
 
 export default Current;

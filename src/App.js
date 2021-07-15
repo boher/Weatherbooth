@@ -14,7 +14,7 @@ import './main.css';
 function App() {
 
   useEffect(() => {
-    axios.get('https://weatherbooth.herokuapp.com/').then(response => {
+    axios.get('/getDisplay/').then(response => {
       console.log("SUCCESS", response);
       this.setState(response);
     }).catch(error => {

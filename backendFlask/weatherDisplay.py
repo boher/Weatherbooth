@@ -1,4 +1,5 @@
-from flask import Blueprint, redirect, url_for, render_template, request, session, flash
+from flask import Blueprint, jsonify, url_for, send_from_directory, request, session, flash
+from flask_restful import Api, Resource, reqparse
 from datetime import datetime, timedelta
 import time
 from backendFlask.current import startRun, getCurrent, getImg 
@@ -7,8 +8,16 @@ from backendFlask.sevenDay import getSevenDay
 
 weatherDisplay = Blueprint('weatherDisplay', __name__)
 
-@weatherDisplay.route("/getDisplay")
-def currentPage(path):
+@weatherDisplay.route("/", defaults={'path':''})
+@weatherDisplay.route('/<path:path>')
+def frontendReact(path):
+    if path != "" and os.path.exists("weatherDisplay.static_folder" + path):
+        return send_from_directory('weatherDisplay.static_folder', path)
+    else:
+        return send_from_directory(weatherDisplay.static_folder, 'index.html')
+
+@weatherDisplay.route("/getDisplay/")
+def currentPage():
     dt = datetime.now()
     dt = int(time.mktime(dt.timetuple()))
 
@@ -38,9 +47,9 @@ def currentPage(path):
         'rain': rain,
     }
 
-    dataframe = getDataFrame()
+    #dataframe = getDataFrame()
     day, dateS, condS, icon, tempMin, tempMax, humdMin, humdMax, prcpVolMin, prcpVolMax, airPreMin, airPreMax, avgWSMax, avgWSMin, cloudMin, cloudMax = getSevenDay()
-    test = testing(dataframe, tfHour)
+    #test = testing(dataframe, tfHour)
 
     res ={
         'day': day,
@@ -59,14 +68,14 @@ def currentPage(path):
         'avgWSMin': avgWSMin,
         'cloudMin': cloudMin,
         'cloudMax': cloudMax,
-        'test':test
+        #'test':test
     }
 
     CHART_ENDPOINT = url_for('weatherDisplay.get24HourJSON')
 
     weatherDisplay = {"current" : current, "tfHour" : tfHour, "sevenDay" : res}
 
-    return weatherDisplay, CHART_ENDPOINT
+    return jsonify({"dateTime" : dateTime})
 
 @weatherDisplay.route("/get24HourJSON")
 def get24HourJSON():
