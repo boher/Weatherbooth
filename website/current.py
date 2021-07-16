@@ -30,7 +30,7 @@ class CurrentHourWeather:
         ts = int(current)
         dateTime = datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
 
-        return dateTime, temp, temp-2, condi, uvi, humd, humd-2, cloud, cloud-2, ws, ws-0.2, p, p-100, rain
+        return dateTime, temp, condi, uvi, humd, cloud, ws, p, rain
 
     def getImg(self, condi):
         str = "images/"+condi+".jpeg"
@@ -51,22 +51,17 @@ class CurrentHourWeather:
         dt = int(time.mktime(dt.timetuple()))
         data = self.startRun(dt)
 
-        dateTime, temp, tm, condi, uvi, humd, hm, cloud, cm, ws, wsm, p, pm, rain = self.getCurrent(data)
+        dateTime, temp, condi, uvi, humd, cloud, ws, p, rain = self.getCurrent(data)
         img = self.getImg(condi)
         date = dateTime.split(' ')
 
         self.temp = int(temp)
-        self.tm = int(tm)
         self.cond = condi
         self.uvi = round(uvi,2)
         self.humd = humd
-        self.hm = hm
         self.cloud = cloud
-        self.cm = cm
         self.ws = ws
-        self.wsm = wsm
         self.p = p
-        self.pm = pm
         self.rain = rain
         self.img = img
         self.date = date[0]

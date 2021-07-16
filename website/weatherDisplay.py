@@ -12,11 +12,6 @@ def currentPage():
     c = CurrentHourWeather()
     current ={
         'temp': c.temp,
-        'tm': c.tm,
-        'hm': c.hm,
-        'cm': c.cm,
-        'wsm': c.wsm,
-        'pm': c.pm,
         'cond': c.cond,
         'date': c.date,
         'time': c.time,
