@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, request, redirect
 from website.current import CurrentHourWeather
 from website.twentyFourHour import TwentyFourHourWeather
 from website.sevenDay import SevenDayWeather
@@ -6,7 +6,7 @@ from website.sevenDay import SevenDayWeather
 
 weatherDisplay = Blueprint('weatherDisplay', __name__)
 
-@weatherDisplay.route("/")
+@weatherDisplay.route("/", methods=['GET', 'POST'])
 def currentPage():
 
     c = CurrentHourWeather()
@@ -45,5 +45,10 @@ def currentPage():
         'test6':s.test6,
         'test7':s.test7
     }
+
+    if request.method == 'POST':
+        action = request.form['action']
+        if action =='no':
+            print('database implementation here')
 
     return render_template('index.html', current = current, tfHour = tfHour, res = res)

@@ -126,3 +126,15 @@ function load_data(chart, query = false) {
 
     });
 };
+function openForm() {
+  document.getElementById("myForm").style.display = "block";
+};
+
+function closeForm() {
+  document.getElementById("myForm").style.display = "none";
+};
+
+function displayMsg() { 
+  document.getElementById('displayMsg').innerHTML = "Thank you for your feedback! Have a good day!!";
+  document.getElementById('displayMsg').style.fontWeight = 'bold';
+}
