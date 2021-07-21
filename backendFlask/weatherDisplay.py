@@ -1,10 +1,9 @@
-from flask import Blueprint, jsonify, url_for, send_from_directory, request, session, flash
-from flask_restful import Api, Resource, reqparse
-from datetime import datetime, timedelta
+from flask import Blueprint, jsonify, url_for, send_from_directory, request, flash
+from datetime import datetime
 import time
-from backendFlask.current import startRun, getCurrent, getImg 
-from backendFlask.twentyFourHour import getHourly
-from backendFlask.sevenDay import getSevenDay
+from backendFlask.current import CurrentHourWeather
+from backendFlask.twentyFourHour import TwentyFourHourWeather
+from backendFlask.sevenDay import SevenDayWeather
 
 weatherDisplay = Blueprint('weatherDisplay', __name__)
 
@@ -18,87 +17,50 @@ def frontendReact(path):
 
 @weatherDisplay.route("/getDisplay/")
 def currentPage():
-    dt = datetime.now()
-    dt = int(time.mktime(dt.timetuple()))
-
-    data = startRun(dt)
-    dateTime, temp, tm, condi, uvi, humd, hm, cloud, cm, ws, wsm, p, pm, rain = getCurrent(data)
-    date = dateTime.split(' ')
-    img = getImg(condi)
-
-    tfHour = get24HourJSON()
-
-    current ={
-        'temp': int(temp),
-        'tm': int(tm),
-        'hm': hm,
-        'cm': cm,
-        'wsm': round(wsm, 2),
-        'pm': pm,
-        'cond': condi,
-        'date': date[0],
-        'time': date[1],
-        'uvi': round(uvi,2),
-        'humd': humd,
-        'cloud': cloud,
-        'ws': ws,
-        'p': p,
-        'img': img,
-        'rain': rain,
-    }
-
-    #dataframe = getDataFrame()
-    day, dateS, condS, icon, tempMin, tempMax, humdMin, humdMax, prcpVolMin, prcpVolMax, airPreMin, airPreMax, avgWSMax, avgWSMin, cloudMin, cloudMax = getSevenDay()
-    #test = testing(dataframe, tfHour)
-
-    res ={
-        'day': day,
-        'date': dateS,
-        'cond': condS,
-        'icon': icon,
-        'tempMin': tempMin,
-        'tempMax': tempMax,
-        'humdMin': humdMin,
-        'humdMax': humdMax,
-        'prcpVolMin': prcpVolMin,
-        'prcpVolMax': prcpVolMax,
-        'airPreMin': airPreMin,
-        'airPreMax': airPreMax,
-        'avgWSMax': avgWSMax,
-        'avgWSMin': avgWSMin,
-        'cloudMin': cloudMin,
-        'cloudMax': cloudMax,
-        #'test':test
-    }
-
-    CHART_ENDPOINT = url_for('weatherDisplay.get24HourJSON')
-
-    weatherDisplay = {"current" : current, "tfHour" : tfHour, "sevenDay" : res}
-
-    return jsonify({"dateTime" : dateTime})
-
-@weatherDisplay.route("/get24HourJSON")
-def get24HourJSON():
-    hourly = ["12am", "1am", "2am", "3am", "4am", "5am", "6am", "7am", "8am", "9am", "10am", "11am",
-             "12pm", "1pm", "2pm", "3pm", "4pm", "5pm", "6pm", "7pm", "8pm", "9pm", "10pm", "11pm"]
-    t, h, pe, a, w, c = getHourly()
-    tfHour = {
-        't': t,
-        'h': h,
-        'pe': pe,
-        'a': a,
-        "w": w,
-        "c": c
-    }
     
-    query = request.args.get('query')
-    print(query)
+    c = CurrentHourWeather()
+    current  = [{
+        
+        "temp": int(c.temp),
+        "cond": c.cond,
+        "date": c.date[0],
+        "time": c.date[1],
+        "uvi": round(c.uvi,2),
+        "humd": c.humd,
+        "cloud": c.cloud,
+        "ws": c.ws,
+        "p": c.p,
+        "img": c.img,
+        "rain": c.rain,
+    }]
 
-    '''tfHour = {'datasets': 
-        [
-            {'title': query,
-            'data': [{'x': t, 'y': hourly}, {'x': h, 'y': hourly}, {'x': pe, 'y': hourly}, {'x': a, 'y': hourly}, {'x': w, 'y': hourly}, {'x': c, 'y': hourly}],
-            },
-        ]
-    }'''
-    return tfHour
+    tf = TwentyFourHourWeather()
+    tfHour = {
+        't': tf.t,
+        'h': tf.h,
+        'pe': tf.pe,
+        'a': tf.a,
+        "w": tf.w,
+        "c": tf.c
+    }
+
+    dataframe = tf.getDataFrame()
+    sdObj = SevenDayWeather(dataframe, tf)
+
+    # ** Changed here **
+    # Changed into a list of dictionaries
+    sevenDay = [
+        sdObj.day1, 
+        sdObj.day2, 
+        sdObj.day3, 
+        sdObj.day4, 
+        sdObj.day5, 
+        sdObj.day6, 
+        sdObj.day7
+    ]
+
+    # CHART_ENDPOINT = url_for('weatherDisplay.get24HourJSON')
+
+    # weatherDisplay = {"current" : current, "tfHour" : tfHour, "sevenDay" : sevenDay}
+
+    return jsonify({"current" : current, "sevenDay" : sevenDay})

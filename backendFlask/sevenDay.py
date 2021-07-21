@@ -1,217 +1,405 @@
-from flask import Blueprint, redirect, url_for, render_template, request, session, flash
 from datetime import datetime, timedelta
-import time
-from backendFlask.current import startRun, getCurrent, getImg
+from re import A
+from datetime import datetime, timedelta
 import pandas as pd
 from sklearn.preprocessing import MinMaxScaler
 import numpy as np
 from tensorflow.keras.models import load_model
 from numpy import array
+from joblib import load
 
-firstDate = ''
-firstDay =''
-firstCond = ''
-firstImg =''
-firstMin =''
-firstMax =''
+class SevenDayWeather:
 
-firstMornImg = ''
-firstMornTemp = ''
-firstMornHum = ''
-firstMornRain = ''
+    def __init__(self, df, dict) -> None:
+        
+        firstDay, secondDay, thirdDay, fourthDay, fifthDay, sixthDay, seventhDay= self.get7Day(df, dict)
 
-firstAfterImg = ''
-firstAfterTemp = ''
-firstAfterHum = ''
-firstAfterRain =''
+        # ** Changed here ** 
+        self.day1 = firstDay
+        self.day2 = secondDay
+        self.day3 = thirdDay
+        self.day4 = fourthDay
+        self.day5 = fifthDay
+        self.day6 = sixthDay
+        self.day7 = seventhDay
+        
+    def get7Day(self, dataframe, tfhour):
 
-firstNightImg = ''
-firstNightTemp = ''
-firstNightHum = ''
-firstNightRain =''
+        temp = tfhour.t
+        humd = tfhour.h
+        rain = tfhour.pe
+        pressure = tfhour.a
+        ws = tfhour.w
+        cloud = tfhour.c
+        c = []
+        clear = []
+        rn = []
 
-firstMidImg = ''
-firstMidTemp = ''
-firstMidHum = ''
-firstMidRain =''
+        month_sin, month_cos, hour_sin, hour_cos = self.getMonthNHour(dataframe)
 
-firstDay =[]
-secondDay =[]
-thirdDay =[]
-fourthDay =[]
-fifthDay =[]
-sixthDay =[]
-seventhDay =[]
+        c, clear, rn = self.getCondFirst(cloud, rain, temp, humd, pressure, ws, hour_sin, hour_cos, month_sin, month_cos)
 
-def getSevenDay():
-    day = ['Mon', 'Tues', 'Wed', 'Thurs', 'Fri', 'Sat', 'Sun']
-    date = ['2021-06-06', '2021-06-07', '2021-06-08', '2021-06-09', '2021-06-10', '2021-06-11', '2021-06-12'] 
-    cond = ['Rain', 'Drizzle', 'Clear', 'Rain', 'Clouds', 'Drizzle', 'Clouds']
-    icon = ['10d','09d','01d','10d','02d','09d','02d']
-    tempMin = [27, 27, 26, 27, 26, 27, 27]
-    tempMax = [30, 30, 30, 30, 30,29, 29]
-    humdMin = [65, 71, 59, 60, 63, 62, 70]
-    humdMax = [68, 75, 65, 62, 66, 70, 77]
-    prcpVolMin =  [0.62, 0.55, 0.10, 0.78, 0.99, 0.44, 0.75]
-    prcpVolMax = [0.75, 0.70, 0.50, 0.90, 1, 0.70, 0.85]
-    airPreMin = [1009, 1010, 1010, 1010, 1010, 1008, 1008]
-    airPreMax = [1011, 1015, 1015, 1015, 1016, 1010, 1011]
-    avgWSMin = [4.69, 5.25, 4.74, 4.15, 5.32, 4.35, 3.77]
-    avgWSMax = [5, 6, 5, 5.5, 6.5, 5.75, 4.25]
-    cloudMin = [77, 94, 99, 92, 82, 84, 80]
-    cloudMax = [80, 95, 100, 100, 99, 94, 100]
+        df_new = dataframe[['year', 'month', 'day', 'hour', 'cloud', 'hum', 'cond_is_cloud','cond_is_clear', 'cond_is_rain', 'p', 't', 'ws', 'rain']]
+        firstDay, temp, humd, rain, pressure, ws, cloud, df_new, c, clear, rn = self.getPerDay(df_new, temp, humd, rain, pressure, ws, cloud, c, clear, rn)
+        secondDay, temp, humd, rain, pressure, ws, cloud, df_new, c, clear, rn = self.getPerDay(df_new, temp, humd, rain, pressure, ws, cloud, c, clear, rn)
+        thirdDay, temp, humd, rain, pressure, ws, cloud, df_new, c, clear, rn = self.getPerDay(df_new, temp, humd, rain, pressure, ws, cloud, c, clear, rn)
+        fourthDay, temp, humd, rain, pressure, ws, cloud, df_new, c, clear, rn = self.getPerDay(df_new, temp, humd, rain, pressure, ws, cloud, c, clear, rn)
+        fifthDay, temp, humd, rain, pressure, ws, cloud, df_new, c, clear, rn = self.getPerDay(df_new, temp, humd, rain, pressure, ws, cloud, c, clear, rn)
+        sixthDay, temp, humd, rain, pressure, ws, cloud, df_new, c, clear, rn = self.getPerDay(df_new, temp, humd, rain, pressure, ws, cloud, c, clear, rn)
+        seventhDay, temp, humd, rain, pressure, ws, cloud, df_new, c, clear, rn = self.getPerDay(df_new, temp, humd, rain, pressure, ws, cloud, c, clear, rn)
+        
+        return firstDay, secondDay, thirdDay, fourthDay, fifthDay, sixthDay, seventhDay
 
-    return day, date, cond, icon, tempMin, tempMax, humdMin, humdMax, prcpVolMin, prcpVolMax, airPreMin, airPreMax, avgWSMax, avgWSMin, cloudMin, cloudMax
-
-def testing(dataframe, tfhour):
-    temp = tfhour['t']
-    humd = tfhour['h']
-    rain = tfhour['pe']
-    pressure = tfhour['a']
-    ws = tfhour['w']
-    cloud = tfhour['c']
-
-    df_new = dataframe[['year', 'month', 'day', 'hour', 'cloud', 'hum', 'p', 't','cond_is_cloud','cond_is_clear', 'cond_is_rain', 'ws', 'rain']]
-    print(df_new)
-
-    for i in range(1, 7):
+    def getPerDay(self, df_new, temp, humd, rain, pressure, ws, cloud, c, clear, rn):
         years = []
         months = []
         days = []
         hour = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23]
-        c = [1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-        clear = [0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0]
-        rn = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1]
 
-        years, months, days, weekdays, dates = getDate(df_new, years, months, days)
-        df_new = concatDF(df_new, years, months, days, hour, cloud, humd, c, clear, rn, pressure, temp, ws, rain)
+        years, months, days, daydate, dates = self.getDate(df_new, years, months, days)
+        df_new = self.concatDF(df_new, years, months, days, hour, cloud, humd, c, clear, rn, pressure, temp, ws, rain)
         min_pressure = df_new['p'].min()
         max_pressure = df_new['p'].max()
 
+        df = df_new.copy()
+
         min_ws = df_new['ws'].min()
         max_ws = df_new['ws'].max()
-        df_new = getScalar(df_new)
+        df_new = self.getScalar(df_new)
 
-        #temp = getTemp(df)
-        humd = getHum(df_new)
-        ##rain = getRain(df)
-        #pressure = getAir(df, min_pressure, max_pressure)
-        ws = getwindSpeed(df_new, min_ws, max_ws)
-        #cloud = getCloud(df)
+        temp = self.getTemp(df_new)
+        humd = self.getHum(df_new)
+        rain = self.getRain(df_new)
+        pressure = self.getAir(df_new, min_pressure, max_pressure)
+        ws = self.getwindSpeed(df_new, min_ws, max_ws)
+        cloud = self.getCloud(df_new)
+        conditionList, c, clear, rn = self.getCond(df_new.loc[df.index[48:],['t','ws','hum','p','cloud','rain','hour_cos','hour_sin','month_sin','month_cos']])
 
-        return max_pressure
+        condition_overall = self.most_frequent(conditionList)
+        condition_img = self.getImg(condition_overall)
+        min_temp, max_temp = self.getMinMaxTemp(temp)
+        mornR, afterR, nightR, midR = self.daySection(rain, 1)
+        mornH, afterH, nightH, midH = self.daySection(humd, 1)
+        mornT, afterT, nightT, midT = self.daySection(temp, 1)
+        morn_cloud, after_cloud, night_cloud, mid_cloud = self.daySection(cloud, 1)
+        morn_img, after_img, night_img, mid_img = self.daySection(conditionList, 0)
+        
+        # day = [daydate, dates, condition_overall, condition_img, min_temp, max_temp, 
+        #        mid_img, int(midT), int(mid_cloud),midR,int(midH),
+        #        morn_img, int(mornT), int(morn_cloud),mornR,int(mornH),
+        #        after_img, int(afterT), int(after_cloud),afterR,int(afterH),
+        #        night_img, int(nightT), int(night_cloud),nightR,int(nightH)]
+        
+        # ** Changed here ** 
+        day = {
+            "day": daydate, 
+            "date": dates, 
+            "cond_overall": condition_overall, 
+            "cond_img": condition_img,
+            "min_temp": min_temp, 
+            "max_temp": max_temp,
+            "morn_img": morn_img, 
+            "morn_temp": int(mornT), 
+            "morn_humd": int(mornH), 
+            "morn_cloud": int(morn_cloud), 
+            "morn_prcp": mornR, 
+            "noon_img": after_img, 
+            "noon_temp": int(afterT), 
+            "noon_humd": int(afterH), 
+            "noon_cloud": int(after_cloud), 
+            "noon_prcp": afterR, 
+            "eve_img": night_img, 
+            "eve_temp": int(nightT), 
+            "eve_humd": int(nightH), 
+            "eve_cloud": int(night_cloud), 
+            "eve_prcp": nightR,
+            "mid_img": mid_img, 
+            "mid_temp": int(midT),
+            "mid_humd": int(midH), 
+            "mid_cloud": int(mid_cloud), 
+            "mid_prcp": midR
+        }
 
-def getHum(df):
-    df = df[['p', 'cloud', 'rain', 'hour_cos', 'hour_sin', 'month_cos', 'month_sin']]
-    X = array(df[:72])
-    X = X.reshape((1, 72, 7))
+        return day, temp, humd, rain, pressure, ws, cloud, df, c, clear, rn
 
-    humModel = load_model('backendFlask/model/humidity.h5')
-    humP = humModel.predict(X)
-    humP = getListPercentage(humP)
-    return humP
+    def most_frequent(self, List):
+        return max(set(List), key = List.count)
 
-def getwindSpeed(df, min_ws, max_ws):
-    df = df[['p', 'cloud', 'rain', 't', 'hum','hour_cos', 'hour_sin', 'month_cos', 'month_sin']]
-    X = array(df[:72])
-    X = X.reshape((1, 72, 9))
+    def getCondFirst(self, cloud, rain, temp, humd, pressure, ws, hour_sin, hour_cos, month_sin, month_cos):
+        c = []
+        clear = []
+        rn = []
+        
+        add = {
+            'cloud':cloud,
+            'rain':rain,
+            't':temp,
+            'hum':humd,
+            'p':pressure,
+            'ws':ws,
+            'hour_cos':hour_cos,
+            'hour_sin':hour_sin,
+            'month_sin':month_sin,
+            'month_cos':month_cos
+        }
+        df = pd.DataFrame(data = add)
+        sc = MinMaxScaler()
+        df[['t','ws','hum','p','cloud','rain']] = sc.fit_transform(df[['t','ws','hum','p','cloud','rain']])
+        conditionList, c, clear, rn = self.getCond(df)
 
-    windModel = load_model('backendFlask/model/windspeed.h5')
-    windP = windModel.predict(X)
-    windP = getList(windP)
-    windP = scalarBack(windP, min_ws, max_ws)
-    return windP
+        return c, clear, rn
 
-def getAir(df, min_pressure, max_pressure):
-    df = df[['t', 'hum', 'hour_cos', 'hour_sin', 'month_cos', 'month_sin']]
-    X = array(df[:72])
-    X = X.reshape((1, 72, 6))
+    def daySection(self, data, a):
+        morn = []
+        after = []
+        night = []
+        mid = []
 
-    apModel = load_model('backendFlask/model/airpressure.h5')
-    apP = apModel.predict(X)
-    apP = getList(apP)
-    apP = scalarBack(apP, min_pressure, max_pressure)
-    return apP
+        x = 0
+        for i in data:
+            if x <=5:
+                mid.append(i)
+            elif x <=11:
+                morn.append(i)
+            elif x <=17:
+                after.append(i)
+            elif x<=23:
+                night.append(i)
+            x = x+1
+        
+        if a == 1:
+            morning = round(self.Average(morn),2)
+            afternoon = round(self.Average(after),2)
+            nightt = round(self.Average(night),2)
+            midnight = round(self.Average(mid),2)
+        else:
+            morning = self.getImg(self.most_frequent(morn))
+            afternoon = self.getImg(self.most_frequent(after))
+            nightt = self.getImg(self.most_frequent(night))
+            midnight = self.getImg(self.most_frequent(mid))
 
-def getRain(df):
-    df = df[['hum', 'cloud', 'p', 'hour_cos', 'hour_sin', 'month_cos', 'month_sin']]
-    X = array(df[:72])
-    X = X.reshape((1, 72, 7))
+        return morning, afternoon, nightt, midnight
 
-    rainModel = load_model('backendFlask/model/precipitation.h5')
-    rainP = rainModel.predict(X)
-    rainP = getList(rainP)
-    return X
+    def getImg(self, data):
+        str = "images/"+data+".png"
+        return str
 
-def scalarBack(data, min_value, max_value):
-    x = []
-    for i in data:
-        new = (i * (max_value - min_value)) + min_value
-        x.append(new)
-    
-    return x
+    def Average(self, data):
+        x = 0
+        for i in data:
+            x = x+i
+        x = x/6
+        return x
 
-def getListPercentage(data):
-    x = []
-    for i in data[0]:
-        a = i
-        if(i < 1):
+    def getMinMaxTemp(self, temp):
+        return int(min(temp)), int(max(temp))
+
+    def getCond(self, df):
+        c = []
+        clear = []
+        rn = []
+
+        condModel = load('backendFlask/model/cond.h5')
+        df = df[['t','ws','hum','p','cloud','rain','hour_cos','hour_sin','month_sin','month_cos']]
+        prediction = condModel.predict(df)
+        conditionList = prediction.tolist()
+
+        for x in conditionList:
+            if(x == 'rain'):
+                rn.append(1.0)
+                clear.append(0.0)
+                c.append(0.0)
+            if(x == 'clouds'):
+                rn.append(0.0)
+                clear.append(0.0)
+                c.append(1.0)
+            if(x == 'clear'):
+                rn.append(0.0)
+                clear.append(1.0)
+                c.append(0.0)
+
+        return conditionList, c, clear, rn
+
+    def getCloud(self, df):
+        df = df[['t','hum','cond_is_clear','rain','hour_cos','hour_sin','month_sin','month_cos']]
+        X = array(df[:72])
+        X = X.reshape((1, 72, 8))
+
+        cloudModel = load_model('backendFlask/model/cloud.h5')
+        cloudP = cloudModel.predict(X)
+        for i in range(0,24):
+            if cloudP[0][i] < 0:
+                cloudP[0][i] = 0
+            elif cloudP[0][i] > 1:
+                cloudP[0][i] = 1
+        cloudP = self.getListPercentage(cloudP)
+
+        return cloudP
+
+    def getTemp(self, df):
+        df = df[['cloud','hum','rain','hour_cos','hour_sin','month_cos','month_sin']]
+        X = array(df[:72])
+        X = X.reshape((1, 72, 7))
+
+        tempModel = load_model('backendFlask/model/temp.h5')
+        tempP = tempModel.predict(X)
+        tempP = self.getList(tempP)
+        
+        return tempP
+
+    def getHum(self, df):
+        df = df[['p', 'cloud', 'rain', 'hour_cos', 'hour_sin', 'month_cos', 'month_sin']]
+        X = array(df[:72])
+        X = X.reshape((1, 72, 7))
+
+        humModel = load_model('backendFlask/model/humidity.h5')
+        humP = humModel.predict(X)
+        humP = self.getListPercentage(humP)
+        
+        return humP
+
+    def getwindSpeed(self, df, min_ws, max_ws):
+        df = df[['p', 'cloud', 'rain', 't', 'hum','hour_cos', 'hour_sin', 'month_cos', 'month_sin']]
+        X = array(df[:72])
+        X = X.reshape((1, 72, 9))
+        
+        windModel = load_model('backendFlask/model/windspeed.h5')
+        windP = windModel.predict(X)
+        for i in range(0,24):
+            if windP[0][i] < 0:
+                windP[0][i] = 0
+        windP = self.getList(windP)
+        windP = self.scalarBack(windP, min_ws, max_ws)
+        
+        return windP
+
+    def getAir(self, df, min_pressure, max_pressure):
+        df = df[['t', 'hum', 'hour_cos', 'hour_sin', 'month_cos', 'month_sin']]
+        X = array(df[:72])
+        X = X.reshape((1, 72, 6))
+
+        apModel = load_model('backendFlask/model/airpressure.h5')
+        apP = apModel.predict(X)
+        apP = self.getList(apP)
+        apP = self.scalarBack(apP, min_pressure, max_pressure)
+        
+        return apP
+
+    def getRain(self, df):
+        df = df[['hum', 'cloud', 'p', 'hour_cos', 'hour_sin', 'month_cos', 'month_sin']]
+        X = array(df[:72])
+        X = X.reshape((1, 72, 7))
+
+        rainModel = load_model('backendFlask/model/precipitation.h5')
+        rainP = rainModel.predict(X)
+        rainP = self.getList(rainP)
+        
+        return rainP
+
+    def scalarBack(self, data, min_value, max_value):
+        x = []
+        for i in data:
+            new = (i * (max_value - min_value)) + min_value
+            x.append(new)
+        
+        return x
+
+    def getListPercentage(self, data):
+        x = []
+        for i in data[0]:
+            if i > 1:
+                i = 1
             a = int(i * 100)
-        x.append(a)
-    return x
+            x.append(a)
+        return x
 
-def getList(data):
-    x = []
-    for i in data[0]:
-        x.append(i)
-    return x
+    def getList(self, data):
+        x = []
+        for i in data[0]:
+            x.append(i)
+        return x
 
-def getScalar(df):
-    df['month'] = df['month'].astype(int)
-    df['day'] = df['day'].astype(int)
-    df['hour'] = df['hour'].astype(int)
+    def getScalar(self, df):
+        df['month'] = df['month'].astype(int)
+        df['day'] = df['day'].astype(int)
+        df['hour'] = df['hour'].astype(int)
 
-    df['hour_cos'] = [np.cos(x * (2 * np.pi/24)) for x in df['hour']]
-    df['hour_sin'] = [np.sin(x * (2 * np.pi/24)) for x in df['hour']]
+        df['hour_cos'] = [np.cos(x * (2 * np.pi/24)) for x in df['hour']]
+        df['hour_sin'] = [np.sin(x * (2 * np.pi/24)) for x in df['hour']]
 
-    df['month_cos'] = [np.cos(x * (2 * np.pi/12)) for x in df['month']]
-    df['month_sin'] = [np.sin(x * (2 * np.pi/12)) for x in df['month']]
+        df['month_cos'] = [np.cos(x * (2 * np.pi/12)) for x in df['month']]
+        df['month_sin'] = [np.sin(x * (2 * np.pi/12)) for x in df['month']]
 
-    scaler = MinMaxScaler()
-    df[['cloud', 'hum', 'p', 't','cond_is_cloud','cond_is_clear', 'cond_is_rain', 'ws', 'rain']] = scaler.fit_transform(df[['cloud', 'hum', 'p', 't',
-                                                                                                                                'cond_is_cloud','cond_is_clear', 'cond_is_rain', 'ws', 'rain']])
+        scaler = MinMaxScaler()
+        df[['cloud', 'hum', 'p', 't', 'ws', 'rain']] = scaler.fit_transform(df[['cloud', 'hum', 'p', 't', 'ws', 'rain']])
 
-    return df
+        return df
 
-def getDate(df, years, months, days):
-    year = df['year'].iloc[-1]
-    month = df['month'].iloc[-1]
-    day = df['day'].iloc[-1]
+    def getDate(self, df, years, months, days):
+        year = df['year'].iloc[-1]
+        month = df['month'].iloc[-1]
+        day = df['day'].iloc[-1]
 
-    date = str(year) + '/' + str(month) + '/' + str(day)
+        date = str(year) + '/' + str(month) + '/' + str(day)
 
-    new = datetime.strptime(date, '%Y/%m/%d')
-    tmr = new + timedelta(1)
-    dayy = tmr.strftime('%A')
+        new = datetime.strptime(date, '%Y/%m/%d')
+        tmr = new + timedelta(1)
+        dayy = tmr + timedelta(1)
+        dayys = dayy.strftime('%A')
+        
+        for i in range(0, 24):
+            y = tmr.strftime('%Y')
+            m = tmr.strftime('%m')
+            d = tmr.strftime('%d')
 
-    for i in range(0, 24):
-        y = tmr.strftime('%Y')
-        m = tmr.strftime('%m')
-        d = tmr.strftime('%d')
+            years.append(y)
+            months.append(m)
+            days.append(d)
+        
+        tmr = dayy.strftime('%Y') + '/' + dayy.strftime('%m') + '/' + dayy.strftime('%d')
 
-        years.append(y)
-        months.append(m)
-        days.append(d)
-    
-    return years, months, days, dayy, tmr
+        return years, months, days, dayys, tmr
 
-def concatDF(df, years, months, days, hour, cloud, humd, c, clear, rn, pressure, temp, ws, rain):
-    df_new = pd.DataFrame(list(zip(years, months, days, hour, cloud, humd, c, clear, rn, pressure, temp, ws, rain)),
-               columns =['year', 'month', 'day', 'hour', 'cloud', 'hum', 'p', 't','cond_is_cloud','cond_is_clear', 'cond_is_rain', 'ws', 'rain'])
+    def concatDF(self, df, years, months, days, hour, cloud, humd, c, clear, rn, pressure, temp, ws, rain):
+        add = {'year':years, 
+            'month':months, 
+            'day':days, 
+            'hour':hour, 
+            'cloud':cloud, 
+            'hum':humd,
+            'cond_is_cloud':c,
+            'cond_is_clear':clear, 
+            'cond_is_rain':rn,
+            'p':pressure, 
+            't':temp, 
+            'ws':ws, 
+            'rain':rain}
+        
+        df = df.append(pd.DataFrame(add),ignore_index = True)
+        df = df.iloc[24: , :]   
 
-    df = df.iloc[24: , :]
+        return df
 
-    frames = [df, df_new]
-    df = pd.concat(frames)
+    def getMonthNHour(self, df):
+        month_sin = []
+        month_cos = []
+        hour_sin = []
+        hour_cos = []
 
-    return df
+        year = df['year'].iloc[-1]
+        month = df['month'].iloc[-1]
+        day = df['day'].iloc[-1]
+        date = str(year) + '/' + str(month) + '/' + str(day)
+
+        new = datetime.strptime(date, '%Y/%m/%d')
+        tmr = new + timedelta(1)
+
+        for i in range(0,24):
+            m = tmr.strftime('%m')
+            m = int(m)
+            month_cos.append(np.cos(m * (2 * np.pi/12)))
+            month_sin.append(np.sin(m * (2 * np.pi/12)))
+            hour_sin.append(np.cos(i * (2 * np.pi/24)))
+            hour_cos.append(np.sin(i * (2 * np.pi/24)))
+        
+        return month_sin, month_cos, hour_sin, hour_cos
