@@ -1,6 +1,5 @@
 from flask import Blueprint, jsonify, url_for, send_from_directory, request, flash
 from datetime import datetime
-import time
 from backendFlask.current import CurrentHourWeather
 from backendFlask.twentyFourHour import TwentyFourHourWeather
 from backendFlask.sevenDay import SevenDayWeather
@@ -10,7 +9,10 @@ weatherDisplay = Blueprint('weatherDisplay', __name__)
 @weatherDisplay.route("/", defaults={'path':''})
 @weatherDisplay.route('/<path:path>')
 def frontendReact(path):
-    send_from_directory(weatherDisplay.static_folder, 'index.html')
+    if path != "" and os.path.exists("weatherDisplay.static_folder" + path):
+        return send_from_directory('weatherDisplay.static_folder', path)
+    else:
+        return send_from_directory(weatherDisplay.static_folder, 'index.html')
 
 @weatherDisplay.route("/getDisplay/")
 def currentPage():
