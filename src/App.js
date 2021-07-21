@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect} from 'react';
 import { MemoryRouter, Route, Switch, Link, withRouter } from 'react-router-dom';
-import { createBrowserHistory, createMemoryHistory } from 'history'
+import { createMemoryHistory } from 'history'
 import Current from './Current.js'
 import TwentyFourHour from './TwentyFourHour.js'
 import SevenDays from './SevenDays.js'
@@ -10,7 +10,7 @@ import Nav from 'react-bootstrap/Nav'
 import axios from 'axios';
 import logo from './images/weatherbooth.png'
 import './main.css';
-{/* If using OOP Class, however beware can't use Effect nor State Hooks -> class App extends React.Component */}
+// If using OOP Class, however beware can't use Effect nor State Hooks -> class App extends React.Component
 function App() {
 
   useEffect(() => {
@@ -27,7 +27,7 @@ function App() {
       <MemoryRouter history={createMemoryHistory()}>
         <div className="App">
           <Navbar expand="lg" style={{backgroundColor: "#8fcbf7"}}>
-            <a className="navbar-app-name mr-sm-4" style={{textDecoration: "none"}}>
+            <a className="navbar-app-name mr-sm-4" style={{textDecoration: "none"}} href="#/">
               <img className="d-inline-block" src={logo} width="60" height="60" alt="" />
               Weatherbooth
             </a>

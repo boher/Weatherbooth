@@ -3,6 +3,7 @@ from datetime import datetime
 from backendFlask.current import CurrentHourWeather
 from backendFlask.twentyFourHour import TwentyFourHourWeather
 from backendFlask.sevenDay import SevenDayWeather
+import os
 
 weatherDisplay = Blueprint('weatherDisplay', __name__)
 

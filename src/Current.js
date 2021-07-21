@@ -1,20 +1,51 @@
 import React from 'react';
+import { Spinner} from "react-bootstrap";
 import './main.css';
 
 
 class Current extends React.Component {
-  state = {
-    loading:true,
-    weather: [],
-  };
+
+  constructor() {
+    super();
+    this.state = {
+      
+      weather: '',
+      loading: true
+    };
+  }
 
   async componentDidMount() {
-    const response = await fetch('http://localhost:5000/getDisplay/');
-    const data = await response.json();
-    this.setState({weather:data.current, loading:false});
+
+    try {
+
+      let response = await fetch('https://weatherbooth.herokuapp.com/getDisplay/');
+      // let response = await fetch('http://localhost:5000/getDisplay/');
+      let data = await response.json();
+
+      if (!response.ok) {
+        throw Error(response.statusText);
+      }
+
+      this.setState({loading: false, weather: data.current});
+
+    } catch(error) {
+      console.log(error);
+    }
   }
 
   render() {  
+
+    if (this.state.loading) {
+      
+      return (
+        <div class="container mt-3 text-center">
+          <Spinner animation="border" role="status">
+            <span className="visually-hidden"></span>
+          </Spinner>
+        </div>
+      )
+    }
+
     return(
       <div className="tab-content" id="pills-tabContent">
       <div className="tab-pane fade show active" id="pills-current" role="tabpanel" aria-labelledby="pills-current-tab">
