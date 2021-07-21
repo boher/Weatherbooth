@@ -10,6 +10,7 @@ weatherDisplay = Blueprint('weatherDisplay', __name__)
 @weatherDisplay.route("/", defaults={'path':''})
 @weatherDisplay.route('/<path:path>')
 def frontendReact(path):
+    return send_from_directory('weatherDisplay.static_folder', path)
     if path != "" and os.path.exists("weatherDisplay.static_folder" + path):
         return send_from_directory('weatherDisplay.static_folder', path)
     else:
