@@ -16,8 +16,9 @@ class TwentyFourHourWeather:
 
     def __init__(self) -> None:
     
-        t, h, pe, a, w, c = self.getHourly()
+        tfHourDict, t, h, pe, a, w, c = self.getHourly()
 
+        self.tfHourDict = tfHourDict
         self.t = t
         self.h = h
         self.pe = pe
@@ -34,6 +35,8 @@ class TwentyFourHourWeather:
         global max_pressure
         global min_ws
         global max_ws
+        hourly_details = ["12am", "1am", "2am", "3am", "4am", "5am", "6am", "7am", "8am", "9am", "10am", "11am", "12pm", 
+                  "1pm", "2pm", "3pm", "4pm", "5pm", "6pm", "7pm", "8pm", "9pm", "10pm", "11pm"]
 
         td = self.testdata()
         dataframe, min_pressure, max_pressure, min_ws, max_ws, df_new = self.dataFrame(td)
@@ -42,35 +45,49 @@ class TwentyFourHourWeather:
         humModel = load_model('backendFlask/model/humidity.h5')
         humP = humModel.predict(humm)
         humP = self.getListPercentage(humP)
+        hum = list(map(lambda x: float(str(x).replace(",", "")), humP)) # Cast numpy.float32 to String, then map to primitive float
 
         cloudm = self.getCloud(dataframe)
         cloudModel = load_model('backendFlask/model/cloud.h5')
         cloudP = cloudModel.predict(cloudm)
         cloudP = self.getListPercentage(cloudP)
+        cloud = list(map(lambda x: float(str(x).replace(",", "")), cloudP)) # Cast numpy.float32 to String, then map to primitive float
 
         tempm = self.getTemp(dataframe)
         tempModel = load_model('backendFlask/model/temp.h5')
         tempP = tempModel.predict(tempm)
         tempP = self.getList(tempP)
+        temp = list(map(lambda x: float(str(x).replace(",", "")), tempP)) # Cast numpy.float32 to String, then map to primitive float
 
         windspeed = self.getwindSpeed(dataframe)
         windModel = load_model('backendFlask/model/windspeed.h5')
         windP = windModel.predict(windspeed)
         windP = self.getList(windP)
         windP = self.scalarBack(windP, min_ws, max_ws)
+        wind = list(map(lambda x: float(str(x).replace(",", "")), windP)) # Cast numpy.float32 to String, then map to primitive float
 
         ap = self.getAir(dataframe)
         apModel = load_model('backendFlask/model/airpressure.h5')
         apP = apModel.predict(ap)
         apP = self.getList(apP)
         apP = self.scalarBack(apP, min_pressure, max_pressure)
+        ap = list(map(lambda x: float(str(x).replace(",", "")), apP)) # Cast numpy.float32 to String, then map to primitive float
 
         rain = self.getRain(dataframe)
         rainModel = load_model('backendFlask/model/precipitation.h5')
         rainP = rainModel.predict(rain)
         rainP = self.getList(rainP)
+        rain = list(map(lambda x: float(str(x).replace(",", "")), rainP)) # Cast numpy.float32 to String, then map to primitive float
 
-        return tempP, humP, rainP, apP, windP, cloudP
+        attributes = [temp, hum, rain, ap, wind, cloud]
+        attribute_list = ['t', 'h', 'pe', 'a', 'w', 'c']
+        tfHourDict = dict()
+        for i in range(len(attribute_list)):
+            tfHourDict[attribute_list[i]] = {}
+            for hr, attr in zip(hourly_details, attributes[i]):
+                tfHourDict[attribute_list[i]][hr] = attr
+
+        return tfHourDict, temp, hum, rain, ap, wind, cloud
 
     def scalarBack(self, data, min_value, max_value):
         x = []
