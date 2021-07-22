@@ -2,7 +2,6 @@ import React from 'react';
 import { Accordion, Card, Spinner} from "react-bootstrap";
 import './main.css';
 
-
 class SevenDays extends React.Component {
 
   constructor() {
@@ -18,12 +17,8 @@ class SevenDays extends React.Component {
   async componentDidMount() {
 
     try {
-<<<<<<< Updated upstream
       
       // let response = await fetch('https://weatherbooth.herokuapp.com/getDisplay/');
-=======
-
->>>>>>> Stashed changes
       let response = await fetch('http://localhost:5000/getDisplay/');
       let data = await response.json(); 
 
@@ -87,11 +82,7 @@ class SevenDays extends React.Component {
                   <Card>
                     <Card.Header>
                       <Accordion.Toggle as={Card.Header} eventKey={day.day}>
-<<<<<<< Updated upstream
                         <table cellSpacing='10px'>
-=======
-                        <table cellSpacing='10px' >
->>>>>>> Stashed changes
                           <tr>
                             <td align="left">{day.day}</td>
                             <td align="left">{day.date}</td>
@@ -108,7 +99,6 @@ class SevenDays extends React.Component {
                     <Accordion.Collapse eventKey={day.day}>
                       <Card.Body>
                         <table>
-<<<<<<< Updated upstream
                           <tr>
                             {/* Start of column 1 */}            
                             <td>
@@ -136,33 +126,6 @@ class SevenDays extends React.Component {
                               </table>
                             </td>
                             {/* Start of column 2 */}  
-=======
-                          <tr>            
-                            <td>
-                               <table >
-                                  <p align="center">Morning</p>
-                                  <div align="center">
-                                    <img src={'/'+ day.morn_img} alt={day.morn_img}/>
-                                  </div>
-                                  <tr>
-                                    <td>Temperature</td>
-                                    <td>{day.morn_temp}</td>
-                                  </tr>
-                                  <tr>
-                                    <td>Cloudiness</td>
-                                    <td>{day.morn_cloud}</td>
-                                  </tr>
-                                  <tr>
-                                    <td>Precipitation</td>
-                                    <td>{day.morn_prcp}</td>
-                                  </tr>
-                                  <tr>
-                                    <td>Humidity</td>
-                                    <td>{day.morn_humd}</td>
-                                  </tr>
-                                </table>
-                             </td>
->>>>>>> Stashed changes
                             <td>
                               <table >
                                 <p align="center">Afternoon</p>
@@ -187,10 +150,7 @@ class SevenDays extends React.Component {
                                 </tr>
                               </table>
                             </td>
-<<<<<<< Updated upstream
                             {/* Start of column 3 */}  
-=======
->>>>>>> Stashed changes
                             <td>
                               <table >
                                 <p align="center">Evening</p>
@@ -200,7 +160,6 @@ class SevenDays extends React.Component {
                                 <tr>
                                   <td>Temperature</td>
                                   <td>{day.eve_temp}</td>
-<<<<<<< Updated upstream
                                 </tr>
                                 <tr>
                                   <td>Cloudiness</td>
@@ -217,23 +176,6 @@ class SevenDays extends React.Component {
                               </table>
                             </td>
                             {/* Start of column 4 */}  
-=======
-                                  </tr>
-                                  <tr>
-                                    <td>Cloudiness</td>
-                                    <td>{day.eve_cloud}</td>
-                                  </tr>
-                                  <tr>
-                                    <td>Precipitation</td>
-                                    <td>{day.eve_prcp}</td>
-                                  </tr>
-                                  <tr>
-                                    <td>Humidity</td>
-                                    <td>{day.eve_humd}</td>
-                                </tr>
-                              </table>
-                            </td>
->>>>>>> Stashed changes
                             <td>
                               <table>
                                 <p align="center" >Midnight</p>

@@ -181,11 +181,7 @@ class SevenDayWeather:
         return morning, afternoon, nightt, midnight
 
     def getImg(self, data):
-<<<<<<< Updated upstream
         str = "images/"+data+".png"
-=======
-        str = data+".png"
->>>>>>> Stashed changes
         return str
 
     def Average(self, data):

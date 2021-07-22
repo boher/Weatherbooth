@@ -5,7 +5,6 @@ import time
 
 class CurrentHourWeather:
     
-<<<<<<< Updated upstream
     def __init__(self) -> None:
 
         dt = datetime.now()
@@ -28,8 +27,6 @@ class CurrentHourWeather:
         self.date = date[0]
         self.time = date[1]
 
-=======
->>>>>>> Stashed changes
     def startRun(self, dt):
         api_key = "5fbf6df2ae8f85211572ef4cb10989e5"
         lat = "1.3521"
@@ -58,11 +55,7 @@ class CurrentHourWeather:
         return dateTime, temp, condi, uvi, humd, cloud, ws, p, rain
 
     def getImg(self, condi):
-<<<<<<< Updated upstream
         str = "images/"+condi+".jpeg"
-=======
-        str = condi+".jpeg"
->>>>>>> Stashed changes
         return str
 
     def ifRain(self, data):
@@ -72,30 +65,4 @@ class CurrentHourWeather:
             r = data["current"]["rain"]
             return r.get('1h')
         else:
-<<<<<<< Updated upstream
             return 0
-=======
-            return 0
-
-    def __init__(self) -> None:
-
-        dt = datetime.now()
-        dt = int(time.mktime(dt.timetuple()))
-        data = self.startRun(dt)
-
-        dateTime, temp, condi, uvi, humd, cloud, ws, p, rain = self.getCurrent(data)
-        img = self.getImg(condi)
-        date = dateTime.split(' ')
-
-        self.temp = int(temp)
-        self.cond = condi
-        self.uvi = round(uvi,2)
-        self.humd = humd
-        self.cloud = cloud
-        self.ws = ws
-        self.p = p
-        self.rain = rain
-        self.img = img
-        self.date = date[0]
-        self.time = date[1]
->>>>>>> Stashed changes

@@ -20,7 +20,3 @@ canvas{
     height: 750px;
     scrollbar-width: thin;
 }
-
-th, td {
-    padding: 15px;
-}
