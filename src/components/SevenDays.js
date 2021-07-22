@@ -17,7 +17,8 @@ class SevenDays extends React.Component {
   async componentDidMount() {
 
     try {
-
+      
+      // let response = await fetch('https://weatherbooth.herokuapp.com/getDisplay/');
       let response = await fetch('http://localhost:5000/getDisplay/');
       let data = await response.json(); 
 

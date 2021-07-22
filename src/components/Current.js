@@ -1,8 +1,17 @@
 import React from 'react';
+<<<<<<< HEAD:src/components/Current.js
 import { Spinner } from "react-bootstrap";
 import '../main.css';
 
 class Current extends React.Component {
+=======
+import { Spinner} from "react-bootstrap";
+import './main.css';
+
+
+class Current extends React.Component {
+
+>>>>>>> 59547a65de2030f19e01346a5d82e66102146f03:src/Current.js
   constructor() {
     super();
     this.state = {
@@ -16,8 +25,13 @@ class Current extends React.Component {
 
     try {
 
+<<<<<<< HEAD:src/components/Current.js
       let response = await fetch('/getDisplay/');
       // let response = await fetch('http://localhost:5000/getDisplay/');
+=======
+      // let response = await fetch('https://weatherbooth.herokuapp.com/getDisplay/');
+      let response = await fetch('http://localhost:5000/getDisplay/');
+>>>>>>> 59547a65de2030f19e01346a5d82e66102146f03:src/Current.js
       let data = await response.json();
 
       if (!response.ok) {

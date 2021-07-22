@@ -5,8 +5,14 @@ from backendFlask.twentyFourHour import TwentyFourHourWeather
 from backendFlask.sevenDay import SevenDayWeather
 
 class weatherDisplay(Resource):
+<<<<<<< HEAD
     def get(self):
         
+=======
+
+    def get(self):
+    
+>>>>>>> 59547a65de2030f19e01346a5d82e66102146f03
         c = CurrentHourWeather()
         current  = [{
             
@@ -24,7 +30,18 @@ class weatherDisplay(Resource):
         }]
 
         tf = TwentyFourHourWeather()
+<<<<<<< HEAD
         tfHour = [tf.tfHourDict]
+=======
+        tfHour = {
+            't': tf.t,
+            'h': tf.h,
+            'pe': tf.pe,
+            'a': tf.a,
+            "w": tf.w,
+            "c": tf.c
+        }
+>>>>>>> 59547a65de2030f19e01346a5d82e66102146f03
 
         dataframe = tf.getDataFrame()
         sdObj = SevenDayWeather(dataframe, tf)
@@ -41,6 +58,11 @@ class weatherDisplay(Resource):
             sdObj.day7
         ]
 
+<<<<<<< HEAD
+=======
+        # CHART_ENDPOINT = url_for('weatherDisplay.get24HourJSON')
+
+>>>>>>> 59547a65de2030f19e01346a5d82e66102146f03
         # weatherDisplay = {"current" : current, "tfHour" : tfHour, "sevenDay" : sevenDay}
 
         return jsonify({"current" : current, "sevenDay" : sevenDay})
