@@ -180,8 +180,8 @@ class SevenDayWeather:
 
         return morning, afternoon, nightt, midnight
 
-    def getImg(self, data):
-        str = "images/"+data+".png"
+    def getImg(self, condi):
+        str = "images/"+condi+".png"
         return str
 
     def Average(self, data):
