@@ -12,9 +12,13 @@ class TwentyFourHour extends React.Component {
   }
 
   async testBackend() {
+<<<<<<< Updated upstream
 
     // let response = await fetch('https://weatherbooth.herokuapp.com/getDisplay/');
     let response = await fetch('http://localhost:5000/getDisplay/', { dateTime: 'include' });
+=======
+    let response = await fetch('http://localhost:5000/getDisplays/', { dateTime: 'include' });
+>>>>>>> Stashed changes
     let data = await response.text(); // for string
     return data;
   }
