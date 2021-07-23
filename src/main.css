@@ -1,22 +1,26 @@
-canvas{
+canvas {
     width:1600px !important;
     height:600px !important;
 }
 
-.charts{
+.charts {
     overflow-y: scroll !important;
 }
 
-.padding-0{
+.padding-0 {
     padding-right:0;
 }
 
-.padding-1{
+.padding-1 {
     padding-left:0;
 }
 
-.warning{
+.warning {
     overflow-y: auto;
     height: 750px;
     scrollbar-width: thin;
+}
+
+.card:hover {
+    background-color: #efefef;
 }

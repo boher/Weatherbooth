@@ -1,5 +1,5 @@
 import React from 'react';
-import { Spinner } from "react-bootstrap";
+import Spinner from 'react-bootstrap/Spinner';
 import '../main.css';
 
 function Current(props) {
@@ -37,45 +37,43 @@ function Current(props) {
               <ul className="list-group">
                 <li className="list-group-item border-0" style = {{marginTop: "350px", height: "50px", backgroundColor: "transparent"}}>
                   <div className = "row">
-                    <div className= "col-3 no-gutters display-6" id = 'console-event' style = {{height:"48px", width: "50px"}}>
-                    <p>Temp: {current.temp}</p>
+                    <div className= "col-3" id = 'console-event' style = {{height:"48px", width: "50px"}}>
+                      Temp: {current.temp}
                     </div>
-                    <div className= "col no-gutters display-6" id = 'icon'></div>
+                    <div className= "col" id = 'icon'></div>
                   </div>
                 </li>
                 <li className="list-group-item border-0" style = {{marginTop: "20px", height: "20px", backgroundColor: "transparent"}}>
-                    <p>Condition: {current.cond}</p>
+                  Condition: {current.cond}
                 </li>
                 <li className="list-group-item border-0" style = {{marginTop: "20px", height: "20px", backgroundColor: "transparent"}}>
-                    <p>Date: {current.date}</p>
+                  Date: {current.date}
                 </li>
                 <li className="list-group-item border-0" style = {{marginTop: "20px", height: "20px", backgroundColor: "transparent"}}>
-                    <p>Time: {current.time}</p>
+                  Time: {current.time}
                 </li>
               </ul>
             </div>
             ))}
-            <div className="col-sm" style = {{backgroundColor: "rgb(201, 201, 195)", height: "750px"}}>
             {current && current.map(current => (
-              <table style={{width:'100%', marginTop: '250px'}}>
-                <tr>
-                  <td>Cloudy: {current.cloud}%</td>
-                  <td>UVI: {current.uvi}</td> 
-                </tr>
-                <tr>
-                  <td>Humidity: {current.humd}%</td>
-                  <td>Precipitation: {current.rain}mm</td>
-                </tr>
-                <tr style = {{marginBottom : '100px'}}>
-                  <td>Air pressure: {current.p}hPA</td>
-                  <td>Wind-speed: {current.ws}m/s</td>
-                </tr>
-              </table>
-              ))}
+            <div className="col-sm" style = {{backgroundColor: "rgb(201, 201, 195)", height: "750px"}}>
+              <div className="row"  style = {{marginTop: "250px"}}>
+                <div className = "col-sm-4 offset-1 mb-5" style = {{height: "30px"}}>Cloudiness: {current.cloud}%</div>
+                <div className = "col-sm-4 offset-1 mb-5" style = {{height: "30px"}}>UVI: {current.uvi}</div> 
+              </div>  
+              <div className="row">
+                <div className = "col-sm-4 offset-1 mb-5" style = {{height: "30px"}}>Humidity: {current.humd}%</div>
+                <div className = "col-sm-4 offset-1 mb-5" style = {{height: "30px"}}>Precipitation: {current.rain}mm</div>
+              </div>  
+              <div className="row">
+                <div className = "col-sm-4 offset-1 mb-5" style = {{height: "30px"}}>Air pressure: {current.p}hPA</div>
+                <div className = "col-sm-4 offset-1 mb-5" style = {{height: "30px"}}>Wind-speed: {current.ws}m/s</div>
+              </div>
+            </div>
+            ))}
             </div>
           </div>
         </div>
-      </div>
       </div>
       )
   };

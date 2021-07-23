@@ -1,12 +1,11 @@
 import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTemperatureLow, faCloudRain, faLongArrowAltDown, faWind, faCloud } from '@fortawesome/free-solid-svg-icons'
-import { faSafari } from "@fortawesome/free-brands-svg-icons"
-import { Line } from 'react-chartjs-2'
-import Button from 'react-bootstrap/Button'
-import { Spinner } from "react-bootstrap";
-import Nav from 'react-bootstrap/Nav'
-import axios from 'axios';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTemperatureLow, faCloudRain, faLongArrowAltDown, faWind, faCloud } from '@fortawesome/free-solid-svg-icons';
+import { faSafari } from "@fortawesome/free-brands-svg-icons";
+import { Line } from 'react-chartjs-2';
+import Button from 'react-bootstrap/Button';
+import Spinner from 'react-bootstrap/Spinner';
+import Nav from 'react-bootstrap/Nav';
 import '../main.css';
 
 function TwentyFourHour(props) {
