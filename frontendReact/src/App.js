@@ -10,6 +10,7 @@ import SevenDays from './Component/SevenDays';
 
 import './main.css';
 
+import Button from 'react-bootstrap/Button';
 import Nav from 'react-bootstrap/Nav';
 import Spinner from 'react-bootstrap/Spinner';
 import BootstrapSwitchButton from 'bootstrap-switch-button-react';
@@ -18,6 +19,7 @@ import Navbar from 'react-bootstrap/Navbar';
 function App() {
 
   const [getDisplay, setDisplay] = useState({weather: []});
+  const [smShow, setSmShow] = React.useState(false);
 
   const fetchWeather = async () => {
     try {
@@ -60,8 +62,6 @@ function App() {
               <BootstrapSwitchButton id="change-temp" onlabel="Fahrenheit" offlabel="Celsius" onstyle="warning" offstyle="success" width={150} />
             </Navbar.Collapse>
           </Navbar>
-          {/* Form */}
-          <Form data="Hello World"/>
           {/* Content */}
           <Switch>
             <Route exact path='/' render={props => <Current data={data} {...props} /> } />
@@ -84,6 +84,14 @@ function App() {
               <Nav.Link as={Link} exact to="/SevenDays" eventKey="pills-7days">7-Day</Nav.Link>
             </Nav.Item>
           </Nav>
+          <Button 
+            style={{ zIndex: '1', position: 'fixed', marginright: '50px!', bottom: 40 }}
+            variant="primary" 
+            onClick={() => setSmShow(true)}>
+            Feedback
+          </Button>
+          {/* Form */}
+          <Form show={smShow} onHide={() => setSmShow(false)} />
         </div>
       </MemoryRouter>
     </React.Fragment>
