@@ -24,7 +24,7 @@ class weatherDisplay(Resource):
         }]
 
         tf = TwentyFourHourWeather()
-        tfHour = [tf.tfHourDict]
+        tfHour = tf.tfHour
 
         dataframe = tf.getDataFrame()
         sdObj = SevenDayWeather(dataframe, tf)
@@ -41,6 +41,6 @@ class weatherDisplay(Resource):
             sdObj.day7
         ]
 
-        # weatherDisplay = {"current" : current, "tfHour" : tfHour, "sevenDay" : sevenDay}
+        weatherDisplay = {"current" : current, "tfHour" : tfHour, "sevenDay" : sevenDay}
 
-        return jsonify({"current" : current, "sevenDay" : sevenDay})
+        return jsonify(weatherDisplay)

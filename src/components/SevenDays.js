@@ -1,8 +1,6 @@
 import React from 'react';
 import Table from 'react-bootstrap/Table'
-import Accordion from 'react-bootstrap/Accordion';
-import Card from 'react-bootstrap/Card';
-import Spinner from 'react-bootstrap/Spinner';
+import { Accordion,  Card, Spinner } from 'react-bootstrap';
 import '../main.css';
 
 function SevenDays(props) {

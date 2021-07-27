@@ -1,4 +1,5 @@
 import React from 'react';
+import WrngAdvy from './WrngAdvy.js'
 import Spinner from 'react-bootstrap/Spinner';
 import '../main.css';
 
@@ -29,7 +30,7 @@ function Current(props) {
             <div className="col-sm warning" style = {{backgroundColor: "rgb(214, 214, 209)", height: "750px;"}}>
               <div style = {{marginTop: '20px', height:'50px', marginLeft: '20px'}}>
                 <h3>Warning and Advisory</h3>
-                  {/*TOIMPORT:import WrngAdvy from './WrngAdvy.js'<WrngAdvy />*/}
+                  <WrngAdvy />
               </div>
             </div>
             {current && current.map(current => (
