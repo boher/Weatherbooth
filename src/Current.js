@@ -5,6 +5,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
+import BootstrapSwitchButton from 'bootstrap-switch-button-react'
 
 
 
@@ -30,7 +31,11 @@ class Current extends React.Component {
                    uvi: data.current[0].uvi,
                    temp: data.current[0].temp,
                    humidity: data.current[0].humd,
-                   loading:false
+                   loading:false,
+                   metrics:false,
+                   tempMetric:<div>&#8451;</div>,
+                   wsMetric:'m/s',
+                   rainMetric:'mm'
                   }
                  );
   }
@@ -124,6 +129,31 @@ class Current extends React.Component {
       return <div dangerouslySetInnerHTML ={{__html: 'Description:'+"</br>"+"Very high risk of heat injury"+"</br>"+"Cautionary measures:"+'</br>'+"Hydrate yourself every 15 minutes"+'</br>'+"Seek shade and rest for at least 30 minutes"}} />
   }
 
+  changelo = () => {
+    if(this.state.metrics == false){
+      this.setState({metrics: this.state.metrics = true});
+      this.setState({tempMetric: this.state.tempMetric = <div>&#8457;</div>});
+      this.setState({wsMetric: this.state.wsMetric = 'km/h'});
+      this.setState({rainMetric: this.state.rainMetric = 'inch'});
+      let itemList = this.state.weather.slice();
+      itemList[0]['temp'] = Math.round((itemList[0]['temp'] * 9/5) + 32)
+      itemList[0]['ws'] = Math.round(itemList[0]['ws'] * 3.6)
+      itemList[0]['rain'] = Math.round(itemList[0]['rain'] / 25.4)
+      this.setState({weather: itemList});
+    }
+    else{
+      this.setState({metrics: this.state.metrics = false});
+      this.setState({tempMetric: this.state.tempMetric = <div>&#8451;</div>});
+      this.setState({wsMetric: this.state.wsMetric = 'm/s'});
+      this.setState({rainMetric: this.state.rainMetric = 'mm'});
+      let itemList = this.state.weather.slice();
+      itemList[0]['temp'] = Math.round((itemList[0]['temp'] -32) * 5/9)
+      itemList[0]['ws'] = Math.round(itemList[0]['ws'] / 3.6)
+      itemList[0]['rain'] = Math.round(itemList[0]['rain'] * 25.4)
+      this.setState({weather: itemList});
+    }
+  };
+
   render() {
     
     return(
@@ -134,6 +164,7 @@ class Current extends React.Component {
             <div className="col-sm warning" style = {{backgroundColor: "rgb(214, 214, 209)", height: "750px;"}}>
               <div style = {{marginTop: '20px', height:'50px', marginLeft: '20px'}}>
                 <h3>Warning and Advisory</h3>
+                <BootstrapSwitchButton id="change-temp" onlabel="Fahrenheit" offlabel="Celsius" onstyle="warning" offstyle="success" width={150} onChange={this.changelo}/>
                 <Accordion defaultActiveKey="0">
                   <Card>
                     <Card.Header>
@@ -192,7 +223,7 @@ class Current extends React.Component {
                 <li className="list-group-item border-0" style = {{marginTop: "350px", height: "50px", backgroundColor: "transparent"}}>
                   <div className = "row">
                     <div className= "col-3 no-gutters display-6" id = 'console-event' style = {{height:"48px", width: "50px"}}>
-                    <p>Temp: {person.temp}</p>
+                    <div style = {{display:'flex', fontSize:'41px'}}>{person.temp}{this.state.tempMetric}</div>
                     </div>
                     <div className= "col no-gutters display-6" id = 'icon'></div>
                   </div>
@@ -218,11 +249,11 @@ class Current extends React.Component {
                 </tr>
                 <tr>
                   <td>Humidity: {person.humd}%</td>
-                  <td>Precipitation: {person.rain}mm</td>
+                  <td>Precipitation: {person.rain}{this.state.rainMetric}</td>
                 </tr>
                 <tr style = {{marginBottom : '100px'}}>
                   <td>Air pressure: {person.p}hPA</td>
-                  <td>Wind-speed: {person.ws}</td>
+                  <td>Wind-speed: {person.ws}{this.state.wsMetric}</td>
                 </tr>
               </table>
               ))}

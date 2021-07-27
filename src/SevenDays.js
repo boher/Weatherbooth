@@ -1,6 +1,7 @@
 import React from 'react';
 import { Accordion, Card, Spinner} from "react-bootstrap";
 import './main.css';
+import BootstrapSwitchButton from 'bootstrap-switch-button-react'
 
 
 class SevenDays extends React.Component {
@@ -11,7 +12,10 @@ class SevenDays extends React.Component {
 
       // sevenDay consist of a list of dictionaries
       sevenDay: '',
-      loading: true
+      loading: true,
+      rainMetric:'mm',
+      tempMetric:<div>&#8451;</div>,
+      metrics:false,
     };
   }
 
@@ -27,7 +31,10 @@ class SevenDays extends React.Component {
       }
 
       // data.sevenDay will result in a list of dictionaries
-      this.setState({ loading: false, sevenDay: data.sevenDay })
+      this.setState({
+         loading: false, 
+         sevenDay: data.sevenDay
+        })
       /*
       this.setState({ loading:false, 
         sevenDay: [
@@ -58,6 +65,49 @@ class SevenDays extends React.Component {
       console.log(error);
     }
   }
+
+  changelo = () => {
+    if(this.state.metrics == false){
+      this.setState({metrics: this.state.metrics = true});
+      this.setState({tempMetric: this.state.tempMetric = <div>&#8457;</div>});
+      this.setState({rainMetric: this.state.rainMetric = 'inch'});
+      let itemList = this.state.sevenDay.slice();
+      let i = 0;
+      for(i = 0;i <= 6; i++){
+        itemList[i]['max_temp'] = Math.round((itemList[i]['max_temp'] * 9/5) + 32)
+        itemList[i]['min_temp'] = Math.round((itemList[i]['min_temp'] * 9/5) + 32)
+        itemList[i]['mid_temp'] = Math.round((itemList[i]['mid_temp'] * 9/5) + 32)
+        itemList[i]['morn_temp'] = Math.round((itemList[i]['morn_temp'] * 9/5) + 32)
+        itemList[i]['noon_temp'] = Math.round((itemList[i]['noon_temp'] * 9/5) + 32)
+        itemList[i]['eve_temp'] = Math.round((itemList[i]['eve_temp'] * 9/5) + 32)
+        itemList[i]['mid_prcp'] = Math.round(itemList[i]['mid_prcp'] / 25.4)
+        itemList[i]['morn_prcp'] = Math.round(itemList[i]['morn_prcp'] / 25.4)
+        itemList[i]['noon_prcp'] = Math.round(itemList[i]['noon_prcp'] / 25.4)
+        itemList[i]['eve_prcp'] = Math.round(itemList[i]['eve_prcp'] / 25.4)
+      }
+      this.setState({sevenDay: itemList});
+    }
+    else{
+      this.setState({metrics: this.state.metrics = false});
+      this.setState({tempMetric: this.state.tempMetric = <div>&#8451;</div>});
+      this.setState({rainMetric: this.state.rainMetric = 'mm'});
+      let itemList = this.state.sevenDay.slice();
+      let i = 0;
+      for(i = 0; i <= 6; i++){
+        itemList[i]['max_temp'] = Math.round((itemList[i]['max_temp'] -32) * 5/9)
+        itemList[i]['min_temp'] = Math.round((itemList[i]['min_temp'] -32) * 5/9)
+        itemList[i]['mid_temp'] = Math.round((itemList[i]['mid_temp'] -32) * 5/9)
+        itemList[i]['morn_temp'] = Math.round((itemList[i]['morn_temp'] -32) * 5/9)
+        itemList[i]['noon_temp'] = Math.round((itemList[i]['noon_temp'] -32) * 5/9)
+        itemList[i]['eve_temp'] = Math.round((itemList[i]['eve_temp'] -32) * 5/9)
+        itemList[i]['mid_prcp'] = Math.round(itemList[i]['mid_prcp'] * 25.4)
+        itemList[i]['morn_prcp'] = Math.round(itemList[i]['morn_prcp'] * 25.4)
+        itemList[i]['noon_prcp'] = Math.round(itemList[i]['noon_prcp'] * 25.4)
+        itemList[i]['eve_prcp'] = Math.round(itemList[i]['eve_prcp'] * 25.4)
+      }
+      this.setState({sevenDay: itemList});
+    }
+  };
     
   render() {
 
@@ -74,6 +124,7 @@ class SevenDays extends React.Component {
 
     return(
       <div class="container mt-3">
+        <BootstrapSwitchButton id="change-temp" onlabel="Fahrenheit" offlabel="Celsius" onstyle="warning" offstyle="success" width={150} onChange={this.changelo}/>
         <div class="table-responsive">
           <table class="table">
             <tbody>
@@ -90,8 +141,8 @@ class SevenDays extends React.Component {
                             <td align="left">
                               <img src={'/'+ day.cond_img} alt={day.cond_img}/>
                             </td>
-                            <td align="left">{day.min_temp}</td>
-                            <td align="left">{day.max_temp}</td>
+                            <td align="left">{day.min_temp}{this.state.tempMetric}</td>
+                            <td align="left">{day.max_temp}{this.state.tempMetric}</td>
                           </tr>
                         </table>
                       </Accordion.Toggle>
@@ -108,7 +159,7 @@ class SevenDays extends React.Component {
                                   </div>
                                   <tr>
                                     <td>Temperature</td>
-                                    <td>{day.morn_temp}</td>
+                                    <td>{day.morn_temp}{this.state.tempMetric}</td>
                                   </tr>
                                   <tr>
                                     <td>Cloudiness</td>
@@ -116,7 +167,7 @@ class SevenDays extends React.Component {
                                   </tr>
                                   <tr>
                                     <td>Precipitation</td>
-                                    <td>{day.morn_prcp}</td>
+                                    <td>{day.morn_prcp}{this.state.rainMetric}</td>
                                   </tr>
                                   <tr>
                                     <td>Humidity</td>
@@ -132,7 +183,7 @@ class SevenDays extends React.Component {
                                 </div>
                                 <tr>
                                   <td>Temperature</td>
-                                  <td>{day.noon_temp}</td>
+                                  <td>{day.noon_temp}{this.state.tempMetric}</td>
                                 </tr>
                                 <tr>
                                   <td>Cloudiness</td>
@@ -140,7 +191,7 @@ class SevenDays extends React.Component {
                                 </tr>
                                 <tr>
                                   <td>Precipitation</td>
-                                  <td>{day.noon_prcp}</td>
+                                  <td>{day.noon_prcp}{this.state.rainMetric}</td>
                                 </tr>
                                 <tr>
                                   <td>Humidity</td>
@@ -156,7 +207,7 @@ class SevenDays extends React.Component {
                                 </div>
                                 <tr>
                                   <td>Temperature</td>
-                                  <td>{day.eve_temp}</td>
+                                  <td>{day.eve_temp}{this.state.tempMetric}</td>
                                   </tr>
                                   <tr>
                                     <td>Cloudiness</td>
@@ -164,7 +215,7 @@ class SevenDays extends React.Component {
                                   </tr>
                                   <tr>
                                     <td>Precipitation</td>
-                                    <td>{day.eve_prcp}</td>
+                                    <td>{day.eve_prcp}{this.state.rainMetric}</td>
                                   </tr>
                                   <tr>
                                     <td>Humidity</td>
@@ -180,7 +231,7 @@ class SevenDays extends React.Component {
                                 </div>
                                 <tr>
                                   <td>Temperature</td>
-                                  <td>{day.mid_temp}</td>
+                                  <td>{day.mid_temp}{this.state.tempMetric}</td>
                                 </tr>
                                 <tr>
                                   <td>Cloudiness</td>
@@ -188,7 +239,7 @@ class SevenDays extends React.Component {
                                 </tr>
                                 <tr>
                                   <td>Precipitation</td>
-                                  <td>{day.mid_prcp}</td>
+                                  <td>{day.mid_prcp}{this.state.rainMetric}</td>
                                 </tr>
                                 <tr>
                                   <td>Humidity</td>

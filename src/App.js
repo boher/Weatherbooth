@@ -34,7 +34,7 @@ function App() {
               <Navbar.Toggle aria-controls="navbarCollapse" />
               <Navbar.Collapse id="navbarCollapse">
               <Nav.Link className="mx-auto h1" disabled href="#"><h2>Singapore</h2></Nav.Link>  
-                  <BootstrapSwitchButton id="change-temp" onlabel="Fahrenheit" offlabel="Celsius" onstyle="warning" offstyle="success" width={150} />
+                  <BootstrapSwitchButton id="change-temp" onlabel="Fahrenheit" offlabel="Celsius" onstyle="warning" offstyle="success" width={150}/>
               </Navbar.Collapse>
         </Navbar>
         <Switch>
