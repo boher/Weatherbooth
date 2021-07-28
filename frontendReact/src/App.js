@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { MemoryRouter, Route, Switch, Link } from 'react-router-dom';
-import { createBrowserHistory, createMemoryHistory } from 'history';
+import { createMemoryHistory } from 'history';
 import axios from 'axios';
 
-import Form from './Component/Form';
-import Current from './Component/Current';
-import TwentyFourHour from './Component/TwentyFourHour';
-import SevenDays from './Component/SevenDays';
+import Form from './components/Form';
+import Current from './components/Current.js'
+import TwentyFourHour from './components/TwentyFourHour.js'
+import SevenDays from './components/SevenDays.js'
 
 import './main.css';
 

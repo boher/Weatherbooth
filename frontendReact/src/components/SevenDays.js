@@ -1,7 +1,6 @@
 import React from 'react';
 import Table from 'react-bootstrap/Table'
-import Accordion from 'react-bootstrap/Accordion';
-import Card from 'react-bootstrap/Card';
+import { Accordion,  Card, Spinner } from 'react-bootstrap';
 import '../main.css';
 
 function SevenDays(props) {
@@ -15,14 +14,11 @@ function SevenDays(props) {
   if (sevenDay == null) {
     
     return (
-      <div>Not Implemented yet</div>
-      /*
       <div className="container mt-3 text-center">
         <Spinner animation="border" role="status">
           <span className="visually-hidden"></span>
         </Spinner>
       </div>
-      */
     )
   };
 

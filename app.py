@@ -3,6 +3,8 @@ from flask_cors import CORS, cross_origin
 import json
 
 from backendFlask.current import CurrentHourWeather
+from backendFlask.twentyFourHour import TwentyFourHourWeather
+from backendFlask.sevenDay import SevenDayWeather
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from sqlalchemy.dialects.postgresql import JSON
@@ -27,16 +29,16 @@ class Feedback(db.Model):
 
 @app.route('/api', methods=['GET', 'POST'])
 @cross_origin()
-def index():
+def getDisplay():
 
+    # current.py
     c = CurrentHourWeather()
     current  = [{
-        
-        "id": "Current",
+    
         "temp": int(c.temp),
         "cond": c.cond,
-        "date": c.date[0],
-        "time": c.date[1],
+        "date": c.date,
+        "time": c.time,
         "uvi": round(c.uvi,2),
         "humd": c.humd,
         "cloud": c.cloud,
@@ -46,8 +48,27 @@ def index():
         "rain": c.rain,
     }]
 
+    # twentyFourHour.py
+    tf = TwentyFourHourWeather()
+    tfHour = tf.tfHour
+
+    # sevenDay.py
+    dataframe = tf.getDataFrame()
+    sdObj = SevenDayWeather(dataframe, tf)
+
+    sevenDay = [
+        sdObj.day1, 
+        sdObj.day2, 
+        sdObj.day3, 
+        sdObj.day4, 
+        sdObj.day5, 
+        sdObj.day6, 
+        sdObj.day7
+    ]
+
     if request.method == 'POST':
 
+        # JSON info dumped for PostGreSQL Feedback DB
         info = json.dumps({"current" : current})
 
         data = Feedback(info)
@@ -57,11 +78,14 @@ def index():
         return {"message": f"Feedback has been created successfully."}
 
     else:
-        return jsonify({"current" : current})
+        # Flask API JSON return
+        weatherDisplay = {"current" : current, "tfHour" : tfHour, "sevenDay" : sevenDay}
+
+        return jsonify(weatherDisplay)
 
 @app.route('/')
 @cross_origin()
-def serve():
+def servePage():
     return send_from_directory(app.static_folder, 'index.html')
 
 if __name__ == "__main__":

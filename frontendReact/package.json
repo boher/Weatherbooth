@@ -2,7 +2,6 @@
   "name": "weatherboothreactflask",
   "version": "0.1.0",
   "private": true,
-  "proxy": "https://weatherbooth.herokuapp.com/",
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.35",
     "@fortawesome/free-brands-svg-icons": "^5.15.3",
@@ -15,6 +14,7 @@
     "bootstrap": "^4.6.0",
     "bootstrap-switch-button-react": "^1.2.0",
     "chart.js": "^3.4.1",
+    "chartjs-plugin-labels": "^1.1.0",
     "font-awesome": "^4.7.0",
     "react": "^17.0.2",
     "react-bootstrap": "^1.6.1",
@@ -53,5 +53,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "proxy": "http://localhost:5000"
 }
