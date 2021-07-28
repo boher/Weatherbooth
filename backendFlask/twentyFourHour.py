@@ -16,12 +16,12 @@ class TwentyFourHourWeather:
 
     def __init__(self) -> None:
     
-        tfHourDict, t, h, pe, a, w, c = self.getHourly()
+        tfHour, t, h, pe, a, w, c = self.getHourly()
 
-        self.tfHourDict = tfHourDict
+        self.tfHour = tfHour
         self.t = t
-        self.h = h
         self.pe = pe
+        self.h = h
         self.a = a
         self.w = w
         self.c = c
@@ -79,15 +79,20 @@ class TwentyFourHourWeather:
         rainP = self.getList(rainP)
         rain = list(map(lambda x: float(str(x).replace(",", "")), rainP)) # Cast numpy.float32 to String, then map to primitive float
 
-        attributes = [temp, hum, rain, ap, wind, cloud]
-        attribute_list = ['t', 'h', 'pe', 'a', 'w', 'c']
-        tfHourDict = dict()
+        attributes = [temp, rain, hum, ap, wind, cloud]
+        attribute_list = ['temp', 'pcpn', 'humd', 'pres', 'wind', 'cloud']
+        tfHour = []
         for i in range(len(attribute_list)):
-            tfHourDict[attribute_list[i]] = {}
+            tfHourDict = dict()
+            tfHourDict['attr'] = attribute_list[i]
+            tfHourDict['hour'] = []
+            tfHourDict['values'] = []
             for hr, attr in zip(hourly_details, attributes[i]):
-                tfHourDict[attribute_list[i]][hr] = attr
+                tfHourDict['hour'].append(hr)
+                tfHourDict['values'].append(attr)
+            tfHour.append(tfHourDict)
 
-        return tfHourDict, temp, hum, rain, ap, wind, cloud
+        return tfHour, temp, rain, hum, ap, wind, cloud
 
     def scalarBack(self, data, min_value, max_value):
         x = []
