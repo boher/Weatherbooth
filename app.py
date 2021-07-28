@@ -27,7 +27,7 @@ class Feedback(db.Model):
     def __init__(self, info):
         self.info = info 
 
-@app.route('/getDisplay/', methods=['GET', 'POST'])
+@app.route('/api', methods=['GET', 'POST'])
 @cross_origin()
 def getDisplay():
 
