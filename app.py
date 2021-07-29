@@ -29,12 +29,12 @@ class Feedback(db.Model):
 
 @app.route('/api', methods=['GET', 'POST'])
 @cross_origin()
-def getDisplay():
+def index():
 
     # current.py
     c = CurrentHourWeather()
     current  = [{
-    
+        
         "temp": int(c.temp),
         "cond": c.cond,
         "date": c.date,
@@ -68,8 +68,8 @@ def getDisplay():
 
     if request.method == 'POST':
 
-        # JSON info dumped for PostGreSQL Feedback DB
-        info = json.dumps({"current" : current})
+        # info = json.dumps({"current" : current, "tfHour" : tfHour, "sevenDay" : sevenDay})
+        info = json.dumps({"current" : current, "tfHour" : tfHour})
 
         data = Feedback(info)
         db.session.add(data)
@@ -78,14 +78,13 @@ def getDisplay():
         return {"message": f"Feedback has been created successfully."}
 
     else:
-        # Flask API JSON return
         weatherDisplay = {"current" : current, "tfHour" : tfHour, "sevenDay" : sevenDay}
 
         return jsonify(weatherDisplay)
 
 @app.route('/')
 @cross_origin()
-def servePage():
+def serve():
     return send_from_directory(app.static_folder, 'index.html')
 
 if __name__ == "__main__":

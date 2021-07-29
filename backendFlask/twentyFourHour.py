@@ -85,6 +85,7 @@ class TwentyFourHourWeather:
         for i in range(len(attribute_list)):
             tfHourDict = dict()
             tfHourDict['attr'] = attribute_list[i]
+            # Following line can be removed
             tfHourDict['hour'] = []
             tfHourDict['values'] = []
             for hr, attr in zip(hourly_details, attributes[i]):

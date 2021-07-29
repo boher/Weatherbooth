@@ -4,9 +4,9 @@ import { createMemoryHistory } from 'history';
 import axios from 'axios';
 
 import Form from './components/Form';
-import Current from './components/Current.js'
-import TwentyFourHour from './components/TwentyFourHour.js'
-import SevenDays from './components/SevenDays.js'
+import Current from './components/Current';
+import TwentyFourHour from './components/TwentyFourHour';
+import SevenDays from './components/SevenDays';
 
 import './main.css';
 
@@ -18,25 +18,23 @@ import Navbar from 'react-bootstrap/Navbar';
 
 function App() {
 
-  const [getDisplay, setDisplay] = useState({weather: []});
+  const [data, setDisplay] = useState(null);
   const [smShow, setSmShow] = React.useState(false);
 
   const fetchWeather = async () => {
     try {
       const {data} = await axios.get('/api');
       setDisplay(data);
-    } catch(error) { /* Maybe can intercept 4xx OR 5xx Requests b4 being handled via axios.interceptors.request */
+    } catch(error) { 
       console.error(error.response.data);
     }
   };
 
   useEffect(() => {
-    fetchWeather();
+    fetchWeather();  
   }, []);
 
-  const data = getDisplay;
-
-  if (getDisplay == null) {
+  if (data === null) {
     return (
       <div className="container mt-3 text-center">
         <Spinner animation="border" role="status">

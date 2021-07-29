@@ -1,16 +1,12 @@
 import React from 'react';
-import Table from 'react-bootstrap/Table'
-import { Accordion,  Card, Spinner } from 'react-bootstrap';
+import { Accordion,  Card, Spinner, Table } from 'react-bootstrap';
 import '../main.css';
 
 function SevenDays(props) {
   const {data: {sevenDay}} = props;
   console.log(sevenDay)
-  if (typeof sevenDay == 'object')
-    console.log("Is Object of JSON")
-  else if (Array.isArray(sevenDay))
-    console.log("Is Array")
 
+  // this can be removed
   if (sevenDay == null) {
     
     return (
@@ -36,7 +32,7 @@ function SevenDays(props) {
                       <td>{day.day}</td>
                       {/*<td>{day.cond_overall}</td>*/}
                       <td>
-                        <img src={'/'+ day.cond_img} alt={day.cond_img}/>
+                        <img src={day.cond_img} alt={day.cond_img}/>
                       </td>
                       <td>{day.min_temp}</td>
                       <td>{day.max_temp}</td>
@@ -53,7 +49,7 @@ function SevenDays(props) {
                         <Table className="container mr-5">
                           <p align="center">Morning</p>
                           <div align="center">
-                            <img src={'/'+ day.morn_img} alt={day.morn_img}/>
+                            <img src={day.morn_img} alt={day.morn_img}/>
                           </div>
                           <tr>
                             <td>Temperature</td>
@@ -78,7 +74,7 @@ function SevenDays(props) {
                         <Table className="container mr-5">
                           <p align="center">Afternoon</p>
                           <div align="center">
-                            <img src={'/'+ day.noon_img} alt={day.noon_img}/>
+                            <img src={day.noon_img} alt={day.noon_img}/>
                           </div>
                           <tr>
                             <td>Temperature</td>
@@ -103,7 +99,7 @@ function SevenDays(props) {
                         <Table className="container mr-5">
                           <p align="center">Evening</p>
                           <div align="center">
-                            <img src={'/'+ day.eve_img} alt={day.eve_img}/>
+                            <img src={day.eve_img} alt={day.eve_img}/>
                           </div>
                           <tr>
                             <td>Temperature</td>
@@ -128,7 +124,7 @@ function SevenDays(props) {
                         <Table className="container mr-5">
                           <p align="center" >Midnight</p>
                           <div align="center">
-                            <img src={'/'+ day.mid_img} alt={day.mid_img}/>
+                            <img src={day.mid_img} alt={day.mid_img}/>
                           </div>
                           <tr>
                             <td>Temperature</td>
