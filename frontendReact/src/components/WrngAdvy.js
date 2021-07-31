@@ -105,52 +105,52 @@ function WrngAdvy(current) {
     return(
       <Accordion defaultActiveKey="0">
         <Card>
+          <Accordion.Toggle eventKey="0">
+            {uviHeader()}
           <Card.Header>
-            <Accordion.Toggle eventKey="0">
-              {uviHeader()}
-            </Accordion.Toggle>
-          </Card.Header>
-          <Accordion.Collapse eventKey="0">
+          <Accordion.Collapse eventKey="0" style = {{textAlign: "left"}}>
             <Card.Body>
             {uviContent()}
             </Card.Body>
           </Accordion.Collapse>
+          </Card.Header>
+          </Accordion.Toggle>
         </Card>
         <Card style = {renderFlood()}>
+          <Accordion.Toggle eventKey="1">
+            {rainHeader()}
           <Card.Header>
-            <Accordion.Toggle eventKey="1">
-              {rainHeader()}
-            </Accordion.Toggle>
-          </Card.Header>
-          <Accordion.Collapse eventKey="1">
+          <Accordion.Collapse eventKey="1" style = {{textAlign: "left"}}>
             <Card.Body>
               {rainContent()}
             </Card.Body>
           </Accordion.Collapse>
+          </Card.Header>
+          </Accordion.Toggle>
         </Card>
         <Card>
+          <Accordion.Toggle eventKey="2">
+            {mozzyHeader()}
           <Card.Header>
-            <Accordion.Toggle eventKey="2">
-              {mozzyHeader()}
-            </Accordion.Toggle>
-          </Card.Header>
-          <Accordion.Collapse eventKey="2">
+          <Accordion.Collapse eventKey="2" style = {{textAlign: "left"}}>
             <Card.Body>
             {mozzyContent()}
             </Card.Body>
           </Accordion.Collapse>
+          </Card.Header>
+          </Accordion.Toggle>
         </Card>
         <Card>
+          <Accordion.Toggle eventKey="3">
+            {wbgtHeader()}
           <Card.Header>
-            <Accordion.Toggle eventKey="3">
-              {wbgtHeader()}
-            </Accordion.Toggle>
-          </Card.Header>
-          <Accordion.Collapse eventKey="3">
+          <Accordion.Collapse eventKey="3" style = {{textAlign: "left"}}>
             <Card.Body>
               {wbgtContent()}
             </Card.Body>
           </Accordion.Collapse>
+          </Card.Header>
+          </Accordion.Toggle>
         </Card>
       </Accordion>
       )
