@@ -9,6 +9,7 @@ from sklearn.preprocessing import MinMaxScaler
 import datetime
 import numpy as np
 from tensorflow.keras.models import load_model
+import pytz
 
 class TwentyFourHourWeather:
 
@@ -27,6 +28,11 @@ class TwentyFourHourWeather:
         td = self.testdata()
         dataframe, min_pressure, max_pressure, min_ws, max_ws, df_new = self.dataFrame(td)
 
+        tempm = self.getTemp(dataframe)
+        tempModel = load_model('website/model/temp.h5')
+        tempP = tempModel.predict(tempm)
+        tempP = self.getList(tempP)
+
         humm = self.getHum(dataframe)
         humModel = load_model('website/model/humidity.h5')
         humP = humModel.predict(humm)
@@ -36,11 +42,6 @@ class TwentyFourHourWeather:
         cloudModel = load_model('website/model/cloud.h5')
         cloudP = cloudModel.predict(cloudm)
         cloudP = self.getListPercentage(cloudP)
-
-        tempm = self.getTemp(dataframe)
-        tempModel = load_model('website/model/temp.h5')
-        tempP = tempModel.predict(tempm)
-        tempP = self.getList(tempP)
 
         windspeed = self.getwindSpeed(dataframe)
         windModel = load_model('website/model/windspeed.h5')
@@ -62,39 +63,30 @@ class TwentyFourHourWeather:
         return tempP, humP, rainP, apP, windP, cloudP
 
     def scalarBack(self, data, min_value, max_value):
-        x = []
-
-        for i in data:
-            new = (i * (max_value - min_value)) + min_value
-            x.append(new)
-        
+        x = [(i * (max_value - min_value)) + min_value for i in data]        
         return x
 
     def getListPercentage(self, data):
-        x = []
-        for i in data[0]:
-            a = i
-            if(i < 1):
-                a = int(i * 100)
-            x.append(a)
+        x = [int(i*100) if i<=1 else 100 for i in data[0]]
         return x
 
     def getList(self, data):
-        x = []
-        for i in data[0]:
-            x.append(i)
+        x = [i for i in data[0]]
         return x
 
     def testdata(self):
-        dt1 = datetime.datetime.now()- timedelta(3)
+
+        kl=pytz.timezone('Asia/Kuala_Lumpur')
+
+        dt1 = datetime.datetime.now(kl)- timedelta(3)
         dt1 = dt1.strftime('%m/%d/%Y 00:00:00')
         dt1 = datetime.datetime.strptime(dt1, '%m/%d/%Y %H:%M:%S')
-        dt1 = int(time.mktime(dt1.timetuple()))
+        dt1 = int(time.mktime(dt1.timetuple())) 
 
-        dt2 = datetime.datetime.now()- timedelta(1)
+        dt2 = datetime.datetime.now(kl)- timedelta(1)
         dt2 = dt2.strftime('%m/%d/%Y 23:59:00')
         dt2 = datetime.datetime.strptime(dt2, '%m/%d/%Y %H:%M:%S')
-        dt2 = int(time.mktime(dt2.timetuple()))
+        dt2 = int(time.mktime(dt2.timetuple())) 
 
         api_key = "94c05f2e1e1a930f1a8e3ddba65af770"
         lat = "1.3521"
@@ -108,8 +100,7 @@ class TwentyFourHourWeather:
 
     def ifRain(self, data):
         if 'rain' in data:
-            r = data['rain']
-            return r.get('1h')
+            return data['rain']['1h']
         else:
             return 0
 
@@ -139,7 +130,7 @@ class TwentyFourHourWeather:
             temp.append(i['main']['temp'])
             windspeed.append(i['wind']['speed'])
             m = i['weather'][0]['main']
-            if(m == 'Rain' or m == 'Thunderstorm' or m == 'Drizzle' or m == 'Snow'):
+            if(m == 'Rain' or m == 'Drizzle' or m == 'Thunderstorm' or m == 'Snow'):
                 cond_is_rain.append(1.0)
                 cond_is_clear.append(0.0)
                 cond_is_cloud.append(0.0)
@@ -150,8 +141,8 @@ class TwentyFourHourWeather:
             if(m == 'Clear'):
                 cond_is_rain.append(0.0)
                 cond_is_clear.append(1.0)
-                cond_is_cloud.append(0.0)
-            rain.append(self.ifRain(i))
+                cond_is_cloud.append(0.0)    
+            rain.append(self.ifRain(i))  
 
         df = pd.DataFrame(list(zip(dt, feel_like, cloud, hum, pressure, temp, cond_is_cloud, cond_is_clear, cond_is_rain, windspeed, rain)),
                 columns =['datetime', 'feel_like', 'cloud', 'hum', 'p', 't', 'cond_is_cloud','cond_is_clear', 'cond_is_rain', 'ws', 'rain'])

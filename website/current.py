@@ -2,6 +2,7 @@ import requests
 import json
 from datetime import datetime
 import time
+import pytz
 
 class CurrentHourWeather:
     
@@ -16,6 +17,8 @@ class CurrentHourWeather:
         return data
     
     def getCurrent(self, data):
+        kl=pytz.timezone('Asia/Kuala_Lumpur')
+
         current = data["current"]["dt"]
         temp = data["current"]["temp"]
         uvi = data["current"]["uvi"]
@@ -24,11 +27,11 @@ class CurrentHourWeather:
         ws = data["current"]["wind_speed"]
         p = data["current"]["pressure"]
         rain = self.ifRain(data)
-        for i in data["current"]["weather"]:
-            condi = i["main"]
+        condi = data["current"]["weather"][0]['main']
 
-        ts = int(current)
-        dateTime = datetime.fromtimestamp(ts).strftime('%Y-%m-%d %H:%M:%S')
+        dateTime = datetime.fromtimestamp(current)
+        dateTime = dateTime.astimezone(kl)
+        dateTime = dateTime.strftime('%Y-%m-%d %H:%M:%S')
 
         return dateTime, temp, condi, uvi, humd, cloud, ws, p, rain
 
@@ -37,11 +40,8 @@ class CurrentHourWeather:
         return str
 
     def ifRain(self, data):
-        rain = "rain" in data["current"]
-
-        if rain == True:
-            r = data["current"]["rain"]
-            return r.get('1h')
+        if "rain" in data["current"]:
+            return data["current"]["rain"]['1h']
         else:
             return 0
 

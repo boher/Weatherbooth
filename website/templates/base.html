@@ -12,8 +12,8 @@
 	<title>{% block title %}{% endblock %}</title>
 </head>
 <body>
-	<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #8fcbf7;">
-  		<a class="navbar-app-name mr-sm-4" style="text-decoration: none;">
+	<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #257cfd;">
+  		<a class="navbar-app-name mr-sm-4" style="text-decoration: none; color:white; font-size:large">
   			<img src="{{url_for('static', filename='images/weatherbooth.png')}}" width="60" height="60" class="d-inline-block" alt="">
   			Weatherbooth
   		</a>
@@ -21,11 +21,11 @@
 		    <span class="navbar-toggler-icon"></span>
 		  </button>
 		    <div class="collapse navbar-collapse" id="navbarText">
-				<a class="nav-link disabled mx-auto h1" href="#"><h2>Singapore</h2></a>	
-  			  	<input type="checkbox" id = "change-temp" data-toggle="toggle" data-on="Fahrenheit" data-off="Celsius" data-onstyle="warning" data-offstyle="success">
+				<a class="nav-link disabled mx-auto h1" style="color:white" href="#"><h2>Singapore</h2></a>	
+  			  	<input type="checkbox" id = "change-units" data-toggle="toggle" data-on="Imperial" data-off="Metrics" data-onstyle="warning" data-offstyle="success">
 		    </div>
 	</nav>
-    &copy; Copyrights. Last system update date 
+    &copy; FYP-21-S2-03. Last system update {{current.date}}
 	<div class="container-fluid">
 		{% block content %}
 		{% endblock %}
@@ -33,17 +33,17 @@
 	  <nav class="navbar-expand-sm fixed-bottom navbar-light bg-light">
 		<ul class="nav nav-pills nav-justified" id="pills-tab" role="tablist">
 			<li class="nav-item" role="presentation">
-			<a class="nav-link active" id="pills-current-tab" data-toggle="pill" href="#pills-current" role="tab" aria-controls="pills-current" aria-selected="true">Current</a>
+			<a class="nav-link active" id="pills-current-tab" data-toggle="pill" href="#pills-current" role="tab" aria-controls="pills-current" aria-selected="true" data-link>Current</a>
 			</li>
 			<li class="nav-item" role="presentation">
-			<a class="nav-link" id="pills-24hour-tab" data-toggle="pill" href="#pills-24hour" role="tab" aria-controls="pills-24hour" aria-selected="false">24-Hour</a>
+			<a class="nav-link" id="pills-24hour-tab" data-toggle="pill" href="#pills-24hour" role="tab" aria-controls="pills-24hour" aria-selected="false" data-link>24-Hour</a>
 			</li>
 			<li class="nav-item" role="presentation">
-			<a class="nav-link" id="pills-7day-tab" data-toggle="pill" href="#pills-7day" role="tab" aria-controls="pills-7day" aria-selected="false">7-Day</a>
+			<a class="nav-link" id="pills-4day-tab" data-toggle="pill" href="#pills-4day" role="tab" aria-controls="pills-4day" aria-selected="false" data-link>4-Day</a>
 			</li>
 		</ul> 
 	  </nav>
-    <button class="open-button" onclick="openForm()">Feedback</button>
+    <button class="open-button" onclick="openForm()"><span style="display:inline-block; transform:rotate(-90deg); padding-bottom:30px;">Feedback</span></button>
 
     <div class="chat-popup" id="myForm">
     <form action="/" method = "POST" class="form-container">
@@ -54,8 +54,8 @@
         <label for="msg" id="displayMsg"><b>Do you find the information accurate?</b></label>
         <p></p>
         <p style = "text-align:center">
-            <button type="submit" class="btn" name ='action' value = 'yes' onclick="displayMsg()">Yes</button>
-            <button type="submit" class="btn" name ='action' value = 'no' onclick="displayMsg()">No</button>
+            <button type="submit" class="btn" id = "yes" name ='action' value = 'yes' onclick="displayMsg()">Yes</button>
+            <button type="submit" class="btn" id = "no" name ='action' value = 'no' onclick="displayMsg()">No</button>
         </p>
         
     </form>
@@ -151,7 +151,7 @@
           labels: hourly,
           datasets: [{
               data: t,
-			  label: "Temp",
+			  label: "Temp in C",
 			  borderColor: 'rgb(185, 241, 250)',
               backgroundColor: '#b9f1fa',
               fill: true,
@@ -170,7 +170,7 @@
   var ctx = document.getElementById('peChart').getContext('2d');
   ctx.width = 400;
   ctx.height = 400;
-  var myChart = new Chart(ctx, {
+  var rainChart = new Chart(ctx, {
       type: 'line',
       data: {
           labels: hourly,
@@ -245,7 +245,7 @@
   var ctx = document.getElementById('wChart').getContext('2d');
   ctx.width = 400;
   ctx.height = 400;
-  var myChart = new Chart(ctx, {
+  var windChart = new Chart(ctx, {
       type: 'line',
       fill: true,
       data: {

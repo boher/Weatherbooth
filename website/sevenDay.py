@@ -29,11 +29,8 @@ class SevenDayWeather:
         secondDay, temp, humd, rain, pressure, ws, cloud, df_new, c, clear, rn = self.getPerDay(df_new, temp, humd, rain, pressure, ws, cloud, c, clear, rn)
         thirdDay, temp, humd, rain, pressure, ws, cloud, df_new, c, clear, rn = self.getPerDay(df_new, temp, humd, rain, pressure, ws, cloud, c, clear, rn)
         fourthDay, temp, humd, rain, pressure, ws, cloud, df_new, c, clear, rn = self.getPerDay(df_new, temp, humd, rain, pressure, ws, cloud, c, clear, rn)
-        fifthDay, temp, humd, rain, pressure, ws, cloud, df_new, c, clear, rn = self.getPerDay(df_new, temp, humd, rain, pressure, ws, cloud, c, clear, rn)
-        sixthDay, temp, humd, rain, pressure, ws, cloud, df_new, c, clear, rn = self.getPerDay(df_new, temp, humd, rain, pressure, ws, cloud, c, clear, rn)
-        seventhDay, temp, humd, rain, pressure, ws, cloud, df_new, c, clear, rn = self.getPerDay(df_new, temp, humd, rain, pressure, ws, cloud, c, clear, rn)
         
-        return firstDay, secondDay, thirdDay, fourthDay, fifthDay, sixthDay, seventhDay
+        return firstDay, secondDay, thirdDay, fourthDay
 
     def getPerDay(self, df_new, temp, humd, rain, pressure, ws, cloud, c, clear, rn):
         years = []
@@ -251,28 +248,17 @@ class SevenDayWeather:
         return rainP
 
     def scalarBack(self, data, min_value, max_value):
-        x = []
-        for i in data:
-            new = (i * (max_value - min_value)) + min_value
-            x.append(new)
-        
+        x = [(i * (max_value - min_value)) + min_value for i in data]        
         return x
 
     def getListPercentage(self, data):
-        x = []
-        for i in data[0]:
-            if i > 1:
-                i = 1
-            a = int(i * 100)
-            x.append(a)
+        x = [int(i*100) if i<=1 else 100 for i in data[0]]
         return x
 
     def getList(self, data):
-        x = []
-        for i in data[0]:
-            x.append(i)
+        x = [i for i in data[0]]
         return x
-
+    
     def getScalar(self, df):
         df['month'] = df['month'].astype(int)
         df['day'] = df['day'].astype(int)
@@ -360,12 +346,9 @@ class SevenDayWeather:
     
     def __init__(self, df, dict) -> None:
         
-        firstDay, secondDay, thirdDay, fourthDay, fifthDay, sixthDay, seventhDay= self.get7Day(df, dict)
+        firstDay, secondDay, thirdDay, fourthDay = self.get7Day(df, dict)
 
         self.test1 = firstDay
         self.test2 = secondDay
         self.test3 = thirdDay
         self.test4 = fourthDay
-        self.test5 = fifthDay
-        self.test6 = sixthDay
-        self.test7 = seventhDay
