@@ -138,19 +138,19 @@ class TwentyFourHourWeather:
             pressure.append(i['main']['pressure'])
             temp.append(i['main']['temp'])
             windspeed.append(i['wind']['speed'])
-            for x in i["weather"]:
-                if(x['main'] == 'Rain'):
-                    cond_is_rain.append(1.0)
-                    cond_is_clear.append(0.0)
-                    cond_is_cloud.append(0.0)
-                if(x['main'] == 'Clouds'):
-                    cond_is_rain.append(0.0)
-                    cond_is_clear.append(0.0)
-                    cond_is_cloud.append(1.0)
-                if(x['main'] == 'Clear'):
-                    cond_is_rain.append(0.0)
-                    cond_is_clear.append(1.0)
-                    cond_is_cloud.append(0.0)
+            m = i['weather'][0]['main']
+            if(m == 'Rain' or m == 'Thunderstorm' or m == 'Drizzle' or m == 'Snow'):
+                cond_is_rain.append(1.0)
+                cond_is_clear.append(0.0)
+                cond_is_cloud.append(0.0)
+            if(m == 'Clouds'):
+                cond_is_rain.append(0.0)
+                cond_is_clear.append(0.0)
+                cond_is_cloud.append(1.0)
+            if(m == 'Clear'):
+                cond_is_rain.append(0.0)
+                cond_is_clear.append(1.0)
+                cond_is_cloud.append(0.0)
             rain.append(self.ifRain(i))
 
         df = pd.DataFrame(list(zip(dt, feel_like, cloud, hum, pressure, temp, cond_is_cloud, cond_is_clear, cond_is_rain, windspeed, rain)),
