@@ -4,8 +4,10 @@ from datetime import datetime
 import time
 import pytz
 
+#This is the class which will extract all the information needed for the current day tab in the openweather API
 class CurrentHourWeather:
     
+    #This function will talk with the openweather API to get the data in a json object
     def startRun(self, dt):
         api_key = "5fbf6df2ae8f85211572ef4cb10989e5"
         lat = "1.3521"
@@ -16,6 +18,7 @@ class CurrentHourWeather:
         data = json.loads(response.text)
         return data
     
+    #This function will retreive the datas we need in the json object and return it
     def getCurrent(self, data):
         kl=pytz.timezone('Asia/Kuala_Lumpur')
 
@@ -35,18 +38,22 @@ class CurrentHourWeather:
 
         return dateTime, temp, condi, uvi, humd, cloud, ws, p, rain
 
+    #This function gets the path of the condition of the time 
     def getImg(self, condi):
         str = "images/"+condi+".jpeg"
         return str
 
+    #This condition checks the rain volume of the time
     def ifRain(self, data):
         if "rain" in data["current"]:
             return data["current"]["rain"]['1h']
         else:
             return 0
 
+    #Init function
     def __init__(self) -> None:
 
+        #Get the date of the current day to feed into the API
         dt = datetime.now()
         dt = int(time.mktime(dt.timetuple()))
         data = self.startRun(dt)
