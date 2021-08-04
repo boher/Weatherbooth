@@ -10,9 +10,6 @@ weatherDisplay = Blueprint('weatherDisplay', __name__)
 
 @weatherDisplay.route("/feedback", methods=['POST'])
 def feedback():
-    print("I am in feedback")
-    print(request.form['curhr'])
-
     info = {"current":request.form['curhr'], "tfHour":request.form['twfhr'], "sDay":request.form['svndy']}
     question = Feedback(prediction = info)
     try:
@@ -23,8 +20,6 @@ def feedback():
     finally:
         db.session.commit()
         db.session.close()
-
-    return ('', 204)
 
 @weatherDisplay.route("/", methods=['GET', 'POST'])
 def currentPage():
