@@ -13,16 +13,16 @@ def feedback():
     print("I am in feedback")
     print(request.form['curhr'])
 
-    prediction = {"current":request.form['curhr'], "tfHour":request.form['twfhr'], "sDay":request.form['svndy']}
-    question = Feedback(prediction)
+    info = {"current":request.form['curhr'], "tfHour":request.form['twfhr'], "sDay":request.form['svndy']}
+    question = Feedback(prediction = info)
     try:
-       db.session.add(question)
+        db.session.add(question)
     except:
-      db.session.rollback()
-      raise
+        db.session.rollback()
+        raise
     finally:
-      db.session.commit()
-      db.session.close()
+        db.session.commit()
+        db.session.close()
 
     return ('', 204)
 
