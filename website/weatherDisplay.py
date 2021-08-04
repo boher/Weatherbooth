@@ -21,6 +21,8 @@ def feedback():
         db.session.commit()
         db.session.close()
 
+    return ('', 204)
+
 @weatherDisplay.route("/", methods=['GET', 'POST'])
 def currentPage():
 
