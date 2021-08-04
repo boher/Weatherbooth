@@ -5,8 +5,6 @@ from website.twentyFourHour import TwentyFourHourWeather
 from website.sevenDay import SevenDayWeather
 from website.extensions import db
 from website.models import Feedback
-import json
-import time
 
 weatherDisplay = Blueprint('weatherDisplay', __name__)
 
@@ -66,5 +64,6 @@ def currentPage():
                 raise
             finally:
                 db.session.commit()
+                db.session.close()
 
     return render_template('index.html', current = current, tfHour = tfHour, sepDay = sepDay)
