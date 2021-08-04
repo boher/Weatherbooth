@@ -8,6 +8,24 @@ from website.models import Feedback
 
 weatherDisplay = Blueprint('weatherDisplay', __name__)
 
+@weatherDisplay.route("/feedback", methods=['POST'])
+def feedback():
+    print("I am in feedback")
+    print(request.form['curhr'])
+
+    prediction = {"current":request.form['curhr'], "tfHour":request.form['twfhr'], "sDay":request.form['svndy']}
+    question = Feedback(prediction)
+    try:
+       db.session.add(question)
+    except:
+      db.session.rollback()
+      raise
+    finally:
+      db.session.commit()
+      db.session.close()
+
+    return ('', 204)
+
 @weatherDisplay.route("/", methods=['GET', 'POST'])
 def currentPage():
 

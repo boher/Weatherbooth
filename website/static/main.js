@@ -128,9 +128,57 @@ var wsV = document.querySelectorAll("#wsValue");
     document.getElementById("myForm").style.display = "none";
   };
   
-  function displayMsg() { 
-    // document.getElementById('displayMsg').innerHTML = "Thank you for your feedback!! Please wait for the website to re-load.";
-    // document.getElementById('displayMsg').style.fontWeight = 'bold';
-    alert("Thank you for your feedback!!!");
-    closeForm();
-  }
+  // function displayMsg() { 
+  //   // document.getElementById('displayMsg').innerHTML = "Thank you for your feedback!! Please wait for the website to re-load.";
+  //   // document.getElementById('displayMsg').style.fontWeight = 'bold';
+  //   alert("Thank you for your feedback!!!");
+  //   closeForm();
+  // }
+
+  // function htmlDecode(input) {
+  //   let doc = new DOMParser().parseFromString(input, "text/html");
+  //   return doc.documentElement.textContent;
+  // }
+  
+  // $(document).on('submit', '#myForm', function (e, current, tfHour, sepDay) {
+  //   console.log('hello');
+  //   e.preventDefault();
+  //   $.ajax({
+  //     type: 'POST',
+  //     url: "/feedback",
+  //     data: {
+  //       curhr: htmlDecode(current),
+  //       twfhr: htmlDecode(tfHour),
+  //       svndy: htmlDecode(sepDay),
+  //     },
+  //     success: function () {
+  //       setTimeout(() => {
+  //         closeForm();
+  //       }, 2000);
+  //     }
+  //   })
+  // });
+
+  function displayMsg(value, current, tfHour, sepDay) {
+  
+    document.getElementById('displayMsg').innerHTML = "Thank you for your feedback!!";
+    document.getElementById('displayMsg').style.fontWeight = 'bold';
+  
+    if (value=='no') {
+  
+      $.ajax({
+        type: 'POST',
+        url: "/feedback",
+        data: {
+          curhr: htmlDecode(JSON.stringify(current)),
+          twfhr: htmlDecode(JSON.stringify(tfHour)),
+          svndy: htmlDecode(JSON.stringify(sepDay)),
+        },
+        success: function () {
+          setTimeout(() => {
+            closeForm();
+          }, 2000);
+        }
+      })
+    }
+  };
