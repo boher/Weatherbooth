@@ -132,4 +132,5 @@ var wsV = document.querySelectorAll("#wsValue");
     // document.getElementById('displayMsg').innerHTML = "Thank you for your feedback!! Please wait for the website to re-load.";
     // document.getElementById('displayMsg').style.fontWeight = 'bold';
     alert("Thank you for your feedback!!!");
+    closeForm();
   }
