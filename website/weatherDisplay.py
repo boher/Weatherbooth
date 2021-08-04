@@ -14,7 +14,6 @@ weatherDisplay = Blueprint('weatherDisplay', __name__)
 def currentPage():
 
     # current.py
-    start = time.time()
     c = CurrentHourWeather()
     current ={
         'temp': c.temp,
@@ -29,12 +28,8 @@ def currentPage():
         'img': c.img,
         'rain': c.rain,
     }
-    end = time.time()
-    print("curr")
-    print(end-start)
 
     # twentyFourHour.py
-    start = time.time()
     tf = TwentyFourHourWeather()
     tfHour = {
         't': tf.t,
@@ -44,12 +39,8 @@ def currentPage():
         "w": tf.w,
         "c": tf.c
     }
-    end = time.time()
-    print("tf")
-    print(end-start)
 
     # sevenDay.py
-    start = time.time()
     dataframe = tf.getDataFrame()
     s = SevenDayWeather(dataframe, tf)
     sepDay ={
@@ -58,19 +49,13 @@ def currentPage():
         'test3':s.test3,
         'test4':s.test4
     }
-    end = time.time()
-    print("s")
-    print(end-start)
 
     prediction = {"current":str(current), "tfHour":str(tfHour), "sDay":str(sepDay)}
 
-    start = time.time()
     if request.method == 'POST':
         action = request.form['action']
         if action =='no':
-
             info = prediction
-
             question = Feedback(
                 prediction=info
             )
@@ -81,9 +66,5 @@ def currentPage():
                 raise
             finally:
                 db.session.commit()
-                db.session.close()
-    end = time.time()
-    print("db")
-    print(end-start)
 
     return render_template('index.html', current = current, tfHour = tfHour, sepDay = sepDay)
