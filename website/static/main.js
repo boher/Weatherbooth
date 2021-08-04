@@ -161,8 +161,7 @@ var wsV = document.querySelectorAll("#wsValue");
 
   function displayMsg(value, current, tfHour, sepDay) {
   
-    document.getElementById('displayMsg').innerHTML = "Thank you for your feedback!!";
-    document.getElementById('displayMsg').style.fontWeight = 'bold';
+    alert("Thank you for your feedback!!!");
   
     if (value=='no') {
   

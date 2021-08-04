@@ -66,22 +66,4 @@ def currentPage():
         'test4':s.test4
     }
 
-    prediction = {"current":str(current), "tfHour":str(tfHour), "sDay":str(sepDay)}
-
-    if request.method == 'POST':
-        action = request.form['action']
-        if action =='no':
-            info = prediction
-            question = Feedback(
-                prediction=info
-            )
-            try:
-                db.session.add(question)
-            except:
-                db.session.rollback()
-                raise
-            finally:
-                db.session.commit()
-                db.session.close()
-
     return render_template('index.html', current = current, tfHour = tfHour, sepDay = sepDay)
