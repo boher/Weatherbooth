@@ -1,10 +1,10 @@
-#from website.models import Feedback
+from website.models import Feedback
 from flask import Blueprint, render_template, request, redirect
 from website.current import CurrentHourWeather
 from website.twentyFourHour import TwentyFourHourWeather
 from website.sevenDay import SevenDayWeather
-#from website.extensions import db
-#from website.models import Feedback
+from website.extensions import db
+from website.models import Feedback
 import json
 import time
 
