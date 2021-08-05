@@ -181,7 +181,7 @@ var wsV = document.querySelectorAll("#wsValue");
         success: function () {
           setTimeout(() => {
             closeForm();
-          }, 2000);
+          }, 1000);
         }
       })
     }
