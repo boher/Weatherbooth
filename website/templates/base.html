@@ -1,9 +1,9 @@
 <html>
 <head>
-    <link rel="icon" href="{{url_for('static', filename='images/weatherbooth.png')}}">
   	<meta charset="utf-8">
   	<meta name="viewport" content="width=device-width, initial-scale=1">
-  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="icon" href="{{url_for('static', filename='images/weatherbooth.png')}}">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet">
 	<link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
 	<link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
@@ -23,7 +23,7 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarText">
             <a class="nav-link disabled mx-auto h1" style="color:white" href="#"><h2>Singapore</h2></a>	
-            <input type="checkbox" style = "width:125px;" id = "change-units" data-toggle="toggle" data-on="Imperial" data-off="Metrics" data-onstyle="warning" data-offstyle="success">
+            <input type="checkbox" style = "width:125px;" id = "change-units" data-toggle="toggle" data-on="Imperial" data-off="Metric" data-onstyle="warning" data-offstyle="success">
         </div>
 	</nav>
     &copy; FYP-21-S2-03. Last system update {{current.date}}
@@ -55,8 +55,8 @@
         <label for="msg" id="displayMsg"><b>Do you find the information accurate?</b></label>
         <p></p>
         <p style = "text-align:center">
-            <button type="button" class="btn" id = "yes" name ='action' value = 'yes' onclick="displayMsg(value, {{current}}, {{tfHour}}, {{sepDay}})">Yes</button>
-            <button type="button" class="btn" id = "no" name ='action' value = 'no' onclick="displayMsg(value, {{current}}, {{tfHour}}, {{sepDay}})">No</button>
+            <button type="submit" class="btn" id="yes" name ='action' value='yes' onclick="displayMsg(value, {{current}}, {{tfHour}}, {{sepDay}})">Yes</button>
+            <button type="submit" class="btn" id="no" name ='action' value='no' onclick="displayMsg(value, {{current}}, {{tfHour}}, {{sepDay}})">No</button>
         </p>
         
     </form>
@@ -66,236 +66,46 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@3.3.2/dist/chart.min.js"></script>
+<script
+  src="{{url_for('static', filename='WrngAdvy.js')}}"
+></script>
+<script
+  src="{{url_for('static', filename='Charts.js')}}"
+></script>
+<script
+  src="{{url_for('static', filename='Form.js')}}"
+></script>
 <script>
-	var elms = document.querySelectorAll("#console-event");
-	var icon = document.querySelectorAll("#icon");
-    var wbgt = {{current.temp}}
-    var rainVolume = {{current.rain}}
-    var wbgt = {{current.temp}}
-    var rainVolume = {{current.rain}}
-    var humid = {{current.humd}}
+  // Conditional rendering of warnings and advisories in WrngAdvy.js
+  var uvi = uviWrng({{current.uvi}})
+  var rainVol = floodWrng({{current.rain}})
+  var wbgt = heatWrng({{current.temp}})
+  var mozzy = mozzyWrng({{current.temp}}, {{current.humd}})
+  
+  // All line area charts of Twenty Four Hour tab
+  var tempID = document.getElementById('tempChart').getContext('2d');
+  var humdID = document.getElementById('humdChart').getContext('2d');
+  var pcpnID = document.getElementById('pcpnChart').getContext('2d');
+  var presID = document.getElementById('presChart').getContext('2d');
+  var windID = document.getElementById('windChart').getContext('2d');
+  var cloudID = document.getElementById('cloudChart').getContext('2d');
 
+  // Define the 4 attributes affected by metric / imperial units conversion of Twenty Four Hour tab in main.js
+  var tfHourTemp = {{tfHour.t}};
+  var tfHourPcpn = {{tfHour.pe}};
+  var tfHourWind = {{tfHour.w}};
+  var tfHourPres = {{tfHour.a}};
 
-  $(document).ready(function() {
-        if({{current.uvi}} <= 2){
-            document.getElementById('uv_main').innerHTML = 'UVI: '+"&#x1F7E2;";
-            document.getElementById('uv').innerHTML = 'Description:'+"</br>"+"Low risk of skin burn and unlikely"+"</br>"+"Minimal danger for the average person"+"</br>"+"Cautionary measures:"+'</br>'+"Apply sunscreen";
-        }else if(({{current.uvi}} >= 3) && ({{current.uvi}} <= 5)){
-            document.getElementById('uv_main').innerHTML ='UVI: '+"&#128993;";
-            document.getElementById('uv').innerHTML = 'Description:'+"</br>"+"Low risk of skin burn but possible"+"</br>"+"Exposure for 20 mins may lead to skin burns"+"</br>"+"Cautionary measures:"+"</br>"+"Apply broad spectrum sunscreen with SPF30"+"</br>"+'Wear hats and sunglasses'+"</br>"+'Wear long sleeved shirts when outdoors';
-        }else if(({{current.uvi}} >= 6) && ({{current.uvi}} <= 7)){
-            document.getElementById('uv_main').innerHTML ='UVI: '+"&#128992;";
-            document.getElementById('uv').innerHTML = 'Description:'+"</br>"+"Moderate risk of skin burn"+"</br>"+"Exposure for 20 mins may lead to skin burns"+"</br>"+"Cautionary measures:"+"</br>"+"Apply broad spectrum sunscreen with SPF30"+"</br>"+"Use lip balm or lip cream containing sunscreen"+"</br>"+'Wear hats and sunglasses'+"</br>"+'Wear long sleeved shirts when outdoors';
-        }else if(({{current.uvi}} >= 8) && ({{current.uvi}} <= 10)){
-            document.getElementById('uv_main').innerHTML ='UVI: '+"&#128308;";
-            document.getElementById('uv').innerHTML = 'Description:'+"</br>"+"High risk of skin burn"+"</br>"+"Exposure for 10 mins may lead to skin burns"+"</br>"+"Cautionary measures:"+"</br>"+"Apply broad spectrum sunscreen with SPF30"+"</br>"+"Use lip balm or lip cream containing sunscreen"+"</br>"+'Wear hats and sunglasses'+"</br>"+'Wear long sleeved shirts when outdoors'+"</br>"+"Seek shade and avoid being in the sun as much as possible";
-        }else{
-            document.getElementById('uv_main').innerHTML ='UVI: '+"&#128995;";
-            document.getElementById('uv').innerHTML = 'Description:'+"</br>"+"Very high risk of skin burn"+"</br>"+"Exposure for 5 mins may lead to skin burns"+"</br>"+"Occupational outdoor workers are at high risk"+"</br>"+"Cautionary measures:"+"</br>"+"Apply broad spectrum sunscreen with SPF30"+"</br>"+"Use lip balm or lip cream containing sunscreen"+"</br>"+'Wear hats and sunglasses'+"</br>"+'Wear long sleeved shirts when outdoors'+"</br>"+"Seek shade and avoid being in the sun as much as possible";
-        }
-        
-        if(wbgt < 18){
-            document.getElementById('wbgt_main').innerHTML = 'Heat Stress: '+"&#x1F7E2;";
-            document.getElementById('wbgt').innerHTML = 'Description:'+"</br>"+"Low risk of heat injury but possible "+"</br>"+"Cautionary measures:"+'</br>'+"Hydrate yourself every 45 minutes"+'</br>'+"Seek shade and rest for at least 15 minutes";
-        }else if((wbgt >= 18) && (wbgt <23)){
-            document.getElementById('wbgt_main').innerHTML = 'Heat Stress: '+"&#128993;";
-            document.getElementById('wbgt').innerHTML = 'Description:'+"</br>"+"Moderate risk of heat injury"+"</br>"+"Cautionary measures:"+'</br>'+"Hydrate yourself every 30 minutes"+'</br>'+"Seek shade and rest for at least 15 minutes";
-        }else if((wbgt >= 23) && (wbgt <28)){
-            document.getElementById('wbgt_main').innerHTML = 'Heat Stress: '+"&#128308;";
-            document.getElementById('wbgt').innerHTML = 'Description:'+"</br>"+"High risk of heat injury"+"</br>"+"Cautionary measures:"+'</br>'+"Hydrate yourself every 30 minutes"+'</br>'+"Seek shade and rest for at least 30 minutes";
-        }else{
-            document.getElementById('wbgt_main').innerHTML = 'Heat Stress: '+"&#128995;";
-            document.getElementById('wbgt').innerHTML = 'Description:'+"</br>"+"Very high risk of heat injury"+"</br>"+"Cautionary measures:"+'</br>'+"Hydrate yourself every 15 minutes"+'</br>'+"Seek shade and rest for at least 30 minutes";
-        }
+  // Get line area charts for each attributes in Charts.js
+  var tempChart = getChart(tempID, tfHourTemp, "Temp °C");
+  var pcpnChart = getChart(pcpnID, tfHourPcpn, "Volume mm");
+  var humdChart = getChart(humdID, {{tfHour.h}}, 'Humidity %');
+  var presChart = getChart(presID, tfHourPres, 'Air Pressure pHa');
+  var windChart = getChart(windID, tfHourWind, "Speed m/s");
+  var cloudChart = getChart(cloudID, {{tfHour.c}}, 'Cloudiness %');
 
-        x = document.getElementById('rain_style');
-
-        if(rainVolume > 7){
-            if((rainVolume >= 7.5)&& (rainVolume < 15)){
-                document.getElementById('rain_main').innerHTML ='Flash Flood: '+"&#128993;";
-                document.getElementById('rain').innerHTML = 'Description:'+"</br>"+"Low risk of flooding in low lying locations and river channels"+"</br>"+"Cautionary measures:"+'</br>'+"Stay indoors";
-            }else if((rainVolume >= 15)&& (rainVolume < 30)){
-                document.getElementById('rain_main').innerHTML = 'Flash Flood: '+"&#128992;";
-                document.getElementById('rain').innerHTML = 'Description:'+"</br>"+"Moderate risk of flooding in low lying locations and river channels"+"</br>"+"Cautionary measures:"+'</br>'+"Stay indoors"+'</br>'+"Avoid commuting"+'</br>'+"Move to higher grounds";
-            }else if(rainVolume >= 30){
-                document.getElementById('rain_main').innerHTML = 'Flash Flood: '+"&#128308;";
-                document.getElementById('rain').innerHTML = 'Description:'+"</br>"+"High risk of flooding in low lying locations and river channels"+"</br>"+"Cautionary measures:"+'</br>'+"Stay indoors"+'</br>'+"Avoid commuting"+'</br>'+"Move to higher grounds"+'</br>'+"Be on the alert for evacuation procedures";
-            }
-        }else{
-            x.style.display = 'none';
-        }
-
-        if((wbgt >= 30)&&(humid>=42)){
-            document.getElementById("mozzy_main").innerHTML = 'Mosquito Activity: '+"&#128993;";
-            document.getElementById("mozzy").innerHTML = 'Description:'+"</br>"+"Mosquitoes are active"+"</br>"+"Cautionary measures:"+'</br>'+"Wear light-colored clothing"+'</br>'+"Equip yourself with mosquito repellents";
-        }else{
-            document.getElementById("mozzy_main").innerHTML = 'Mosquito Activity: '+"&#128994;";
-            document.getElementById("mozzy").innerHTML = 'Description:'+"</br>"+"Mosquitoes are less active";
-        }
-    
-});
-// BELOW CODE BLOCK IS KEPT TO RENDER ALL CHARTS IN THE ORIGINAL IMPLEMENTATION, END GOAL WOULD BE TO LET FLASK HANDLE ALL THESE
-  var t = {{tfHour.t}};
-  var h = {{tfHour.h}};
-  var pe = {{tfHour.pe}};
-  var a = {{tfHour.a}};
-  var w = {{tfHour.w}};
-  var c = {{tfHour.c}};
-  var hourly = ["12am", "1am", "2am", "3am", "4am", "5am", "6am", "7am", "8am", "9am", "10am", "11am", "12pm", 
-                  "1pm", "2pm", "3pm", "4pm", "5pm", "6pm", "7pm", "8pm", "9pm", "10pm", "11pm"]
-
-  var ct = document.getElementById('tempChart').getContext('2d');
-  ct.width = 400;
-  ct.height = 400;
-  var tempChart = new Chart(ct, {
-      type: 'line',
-      data: {
-          labels: hourly,
-          datasets: [{
-              data: t,
-			  label: "Temp in C",
-			  borderColor: 'rgb(185, 241, 250)',
-              backgroundColor: '#b9f1fa',
-              fill: true,
-              borderWidth: 1
-          }]
-      },
-      options: {
-          scales: {
-              y: {
-                  beginAtZero: true
-              }
-          }
-      }
-  }); 
-
-  var ctx = document.getElementById('peChart').getContext('2d');
-  ctx.width = 400;
-  ctx.height = 400;
-  var rainChart = new Chart(ctx, {
-      type: 'line',
-      data: {
-          labels: hourly,
-          datasets: [{
-              data: pe,
-        label: "Volume mm",
-        borderColor: 'rgb(185, 241, 250)',
-              backgroundColor: '#b9f1fa',
-              fill: true,
-              borderWidth: 1
-          }]
-      },
-      options: {
-          scales: {
-              y: {
-                  beginAtZero: true
-              }
-          }
-      }
-  });
-
-  var ctx = document.getElementById('humChart').getContext('2d');
-  ctx.width = 400;
-  ctx.height = 400;
-  var hChart = new Chart(ctx, {
-      type: 'line',
-      data: {
-          labels: hourly,
-          datasets: [{
-              data: h,
-			  label: "Humidity %",
-			  borderColor: 'rgb(185, 241, 250)',
-              backgroundColor: '#b9f1fa',
-              fill: true,
-              borderWidth: 1
-          }]
-      },
-      options: {
-          scales: {
-              y: {
-                  beginAtZero: true
-              }
-          }
-      }
-  });
-
-  var ctx = document.getElementById('aChart').getContext('2d');
-  ctx.width = 400;
-  ctx.height = 400;
-  var myChart = new Chart(ctx, {
-      type: 'line',
-      data: {
-          labels: hourly,
-          datasets: [{
-              data: a,
-			  label: "Air pressure pHa",
-			  borderColor: 'rgb(185, 241, 250)',
-              backgroundColor: '#b9f1fa',
-              fill: true,
-              borderWidth: 1,
-          }]
-      },
-      options: {
-          scales: {
-              y: {
-                  beginAtZero: false
-              }
-          }
-      }
-  });
-
-  var ctx = document.getElementById('wChart').getContext('2d');
-  ctx.width = 400;
-  ctx.height = 400;
-  var windChart = new Chart(ctx, {
-      type: 'line',
-      fill: true,
-      data: {
-          labels: hourly,
-          datasets: [{
-              data: w,
-			  label: "Windspeed m/s",
-			  borderColor: 'rgb(185, 241, 250)',
-              backgroundColor: '#b9f1fa',
-              fill: true,
-              borderWidth: 1,
-          }]
-      },
-      options: {
-          scales: {
-              y: {
-                  beginAtZero: true,
-              }
-          }
-      }
-  });
-
-  var ctx = document.getElementById('cChart').getContext('2d');
-  ctx.width = 400;
-  ctx.height = 400;
-  var myChart = new Chart(ctx, {
-      type: 'line',
-      data: {
-          labels: hourly,
-          fill: true,
-          datasets: [{
-              data: c,
-			  label: "Clouds %",
-			  borderColor: 'rgb(185, 241, 250)',
-              backgroundColor: '#b9f1fa',
-              fill: true,
-              borderWidth: 1,
-          }]
-      },
-      options: {
-          scales: {
-              y: {
-                  beginAtZero: true,
-              }
-          }
-      }
-  });
-</script><script
+</script>
+<script
   src="{{url_for('static', filename='main.js')}}"
 ></script>
 </html>

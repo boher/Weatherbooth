@@ -377,7 +377,7 @@ class SevenDayWeather:
         
         firstDay, secondDay, thirdDay, fourthDay = self.get7Day(df, dict)
 
-        self.test1 = firstDay
-        self.test2 = secondDay
-        self.test3 = thirdDay
-        self.test4 = fourthDay
+        self.day1 = firstDay
+        self.day2 = secondDay
+        self.day3 = thirdDay
+        self.day4 = fourthDay

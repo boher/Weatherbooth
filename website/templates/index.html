@@ -8,39 +8,39 @@
     <div class = "container mt-3 border">
       <div class="row">
         <div class="col-sm warning" style="background-color:rgb(214, 214, 209); height: 750px;">
-          <div style = "margin: 20px; text-align:center">
+          <div style="margin: 20px; text-align:center">
             <h3>Warning and Advisory</h3>
           </div>
           <div id="accordion">
             <div class="card">
-                <button class="btn collapsed" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" id = "uv_main" style="text-align: left; padding: .8em .5em;">
+                <button class="btn collapsed" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" id="uv_main">
                 </button>
               <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
-                <div class="card-body" id = "uv">
+                <div class="card-body" id="uv">
                 </div>
               </div>
             </div>
             <div class="card">
-                <button class="btn collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" id = "wbgt_main" style="text-align: left; padding: .8em .5em;">
+                <button class="btn collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" id="wbgt_main">
                 </button>
               <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
-                <div class="card-body" id = 'wbgt'>
+                <div class="card-body" id='wbgt'>
                 </div>
               </div>
             </div>
             <div class="card">
-                <button class="btn collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree" id = 'mozzy_main' style="text-align: left; padding: .8em .5em;">
+                <button class="btn collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree" id='mozzy_main'>
                 </button>
               <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
-                <div class="card-body" id = 'mozzy'>
+                <div class="card-body" id='mozzy'>
                 </div>
               </div>
             </div>
-            <div class="card" id = 'rain_style'>
-                <button class="btn collapsed" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour" id = 'rain_main' style="text-align: left; padding: .8em .5em;">
+            <div class="card" id='flood_style'>
+                <button class="btn collapsed" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour" id='flood_main'>
                 </button>
               <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
-                <div class="card-body" id = 'rain'>
+                <div class="card-body" id='flood'>
                 </div>
               </div>
             </div>
@@ -48,29 +48,29 @@
         </div>
         <div class="col-sm" style="background-color:rgb(194, 194, 189); height: 750px; background-image: url({{url_for('static', filename=current.img)}});">
           <ul class="list-group">
-            <li class="list-group-item border-0" style = "margin-top: 350px; height:50px; background-color: transparent;">
+            <li class="list-group-item border-0" style="margin-top: 350px; height:50px; background-color: transparent;">
               <div class = "row">
-                <div class= "col-3 no-gutters display-6" id = 'console-event' style = "height:48px; width:50px;">{{current.temp}}</div>
-                <div class= "col no-gutters display-6" id = 'icon'></div>
+                <div class= "col-3 no-gutters display-6" id='console-event' style="height:48px; width:50px;">{{current.temp}}</div>
+                <div class= "col no-gutters display-6" id='icon'></div>
               </div>
             </li>
-            <li class="list-group-item border-0" style = "margin-top: 20px; height:20px; background-color: transparent;">Condition: {{current.cond}}</li>
-            <li class="list-group-item border-0" style = "margin-top: 20px; height:20px; background-color: transparent;">Date: {{current.date}}</li>
-            <li class="list-group-item border-0" style = "margin-top: 20px; height:20px; background-color: transparent;">Time: {{current.time}}</li>
+            <li class="list-group-item border-0" style="margin-top: 20px; height:20px; background-color: transparent;">Condition: {{current.cond}}</li>
+            <li class="list-group-item border-0" style="margin-top: 20px; height:20px; background-color: transparent;">Date: {{current.date}}</li>
+            <li class="list-group-item border-0" style="margin-top: 20px; height:20px; background-color: transparent;">Time: {{current.time}}</li>
           </ul>
         </div>
         <div class="col-sm" style="background-color:rgb(201, 201, 195); height: 750px; display: flex; justify-content: center; flex-direction: column;">
           <div class="row">
-            <div class = "col-sm-4 offset-1 mb-5" style = "height: 30px">Cloudiness:</br>{{current.cloud}}%</div>
-            <div class = "col-sm-4 offset-1 mb-5" style = "height: 30px">Ultraviolet Index:</br>{{current.uvi}}</div>
+            <div class = "col-sm-4 offset-1 mb-5" style="height: 30px">Cloudiness:</br>{{current.cloud}}%</div>
+            <div class = "col-sm-4 offset-1 mb-5" style="height: 30px">Ultraviolet Index:</br>{{current.uvi}}</div>
           </div>  
           <div class="row">
-            <div class = "col-sm-4 offset-1 mb-5" style = "height: 30px;">Humidity:</br>{{current.humd}}%</div>
-            <div class = "col-sm-4 offset-1 mb-5" style = "height: 30px;">Precipitation:</br><div style = 'display: flex;'><div id = "rainValue">{{current.rain}}</div><div id ='rainID'></div></div></div>
+            <div class = "col-sm-4 offset-1 mb-5" style="height: 30px;">Humidity:</br>{{current.humd}}%</div>
+            <div class = "col-sm-4 offset-1 mb-5" style="height: 30px;">Precipitation:</br><div style='display: flex;'><div id="rainValue">{{current.rain}}</div><div id ='rainID'></div></div></div>
           </div>
           <div class="row">
-            <div class = "col-sm-4 offset-1 mb-5" style = "height: 30px">Air pressure:</br>{{current.p}}hPa</div>
-            <div class = "col-sm-4 offset-1 mb-5" style = "height: 30px">Wind-speed:</br><div style = 'display: flex;'><div id = "wsValue">{{current.ws}}</div><div id ='wsID'></div></div></div>
+            <div class = "col-sm-4 offset-1 mb-5" style="height: 30px">Air pressure:</br><div style='display: flex;'><div id="pValue">{{current.p}}</div><div id ='pID'></div></div></div>
+            <div class = "col-sm-4 offset-1 mb-5" style="height: 30px">Wind-speed:</br><div style='display: flex;'><div id="wsValue">{{current.ws}}</div><div id ='wsID'></div></div></div>
           </div> 
         </div>
       </div>
@@ -81,49 +81,49 @@
     <div class="container mt-3 border">
       <div class= "row">
         <div class = "col">
-          <p style = "margin:0;">24-Hour Forecast</p><p id = "attribute">Temperature</p>
+          <p style="margin:0;">24-Hour Forecast</p><p id="attribute">Temperature</p>
         </div>
         <div class = "col-expand-sm d-flex justify-content-end">
         <ul class="nav nav-pills">
           <li class="nav-item">
-            <a class="nav-link active" data-toggle="tab" href="#temp" onclick="document.getElementById('attribute').innerHTML = 'Temperature'"><button type="button" class="btn btn-outline-dark btn-sm"><i class="fas fa-temperature-low"></i></button></a>
+            <a class="nav-link active" data-toggle="tab" href="#temp" onclick="document.getElementById('attribute').innerHTML = 'Temperature'"><button type="button" class="btn btn-outline-dark btn-md"><i class="fas fa-temperature-low"></i></button></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#pcpn" onclick="document.getElementById('attribute').innerHTML = 'Precipitation'"><button type="button" class="btn btn-outline-dark btn-sm"><i class="fas fa-cloud-rain"></i></button></a>
+            <a class="nav-link" data-toggle="tab" href="#pcpn" onclick="document.getElementById('attribute').innerHTML = 'Precipitation'"><button type="button" class="btn btn-outline-dark btn-md"><i class="fas fa-cloud-rain"></i></button></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#humd" onclick="document.getElementById('attribute').innerHTML = 'Humidity'"><button type="button" class="btn btn-outline-dark btn-sm"><i class="fab fa-safari"></i></button></a>
+            <a class="nav-link" data-toggle="tab" href="#humd" onclick="document.getElementById('attribute').innerHTML = 'Humidity'"><button type="button" class="btn btn-outline-dark btn-md"><i class="fab fa-safari"></i></button></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#pres" onclick="document.getElementById('attribute').innerHTML = 'Air Pressure'"><button type="button" class="btn btn-outline-dark btn-sm"><i class="fas fa-long-arrow-alt-down"></i></button></a>
+            <a class="nav-link" data-toggle="tab" href="#pres" onclick="document.getElementById('attribute').innerHTML = 'Air Pressure'"><button type="button" class="btn btn-outline-dark btn-md"><i class="fas fa-long-arrow-alt-down"></i></button></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#wind" onclick="document.getElementById('attribute').innerHTML = 'Wind Speed'"><button type="button" class="btn btn-outline-dark btn-sm"><i class="fas fa-wind"></i></button></a>
+            <a class="nav-link" data-toggle="tab" href="#wind" onclick="document.getElementById('attribute').innerHTML = 'Wind Speed'"><button type="button" class="btn btn-outline-dark btn-md"><i class="fas fa-wind"></i></button></a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#cloud" onclick="document.getElementById('attribute').innerHTML = 'Cloud'"><button type="button" class="btn btn-outline-dark btn-sm"><i class="fas fa-cloud"></i></button></a>
+            <a class="nav-link" data-toggle="tab" href="#cloud" onclick="document.getElementById('attribute').innerHTML = 'Clouds'"><button type="button" class="btn btn-outline-dark btn-md"><i class="fas fa-cloud"></i></button></a>
           </li>
         </ul>
         </div>
       </div>
       <div class="tab-content charts">
         <div class="tab-pane container active" id="temp">
-          <canvas id="tempChart" data-endpoint='{{CHART_ENDPOINT}}'></canvas>
+          <canvas id="tempChart"></canvas>
         </div>
         <div class="tab-pane container fade" id="pcpn">
-          <canvas id="peChart" data-endpoint='{{CHART_ENDPOINT}}'></canvas>
+          <canvas id="pcpnChart"></canvas>
         </div>
         <div class="tab-pane container fade" id="humd">
-          <canvas id="humChart" data-endpoint='{{CHART_ENDPOINT}}'></canvas>
+          <canvas id="humdChart"></canvas>
         </div>
         <div class="tab-pane container fade" id="pres">
-          <canvas id="aChart" data-endpoint='{{CHART_ENDPOINT}}'></canvas>
+          <canvas id="presChart"></canvas>
         </div>
         <div class="tab-pane container fade" id="wind">
-          <canvas id="wChart" data-endpoint='{{CHART_ENDPOINT}}'></canvas>
+          <canvas id="windChart"></canvas>
         </div>
         <div class="tab-pane container fade" id="cloud">
-          <canvas id="cChart" data-endpoint='{{CHART_ENDPOINT}}'></canvas>
+          <canvas id="cloudChart"></canvas>
         </div>
       </div>
     </div>
@@ -140,12 +140,12 @@
           <!--1-->
           <tr class="accordion-toggle collapsed" id="accordion1" data-toggle="collapse" data-parent="#accordion1" href="#collapseOne">
             <td class="expand-button"></td>
-            <td>{{sepDay.test1[1]}}</td>
-            <td>{{sepDay.test1[0]}}</td>
-            <td><img src="static/{{sepDay.test1[3]}}"></td>
-            <td id = 'console-event'>{{sepDay.test1[4]}}</td>
-            <td id = 'console-event'>{{sepDay.test1[5]}}</td>
-            <td id = "icon"></td>
+            <td>{{sepDay.day1[1]}}</td>
+            <td>{{sepDay.day1[0]}}</td>
+            <td><img src="static/{{sepDay.day1[3]}}"></td>
+            <td id='console-event'>{{sepDay.day1[4]}}</td>
+            <td id='console-event'>{{sepDay.day1[5]}}</td>
+            <td id="icon"></td>
           </tr>
           <tr class="hide-table-padding">
             <td></td>
@@ -157,26 +157,26 @@
                     <div class = "col" style="text-align:center">Midnight</div>
                   </div>
                   <div class = "row">
-                    <div class = "col" style="text-align:center"><img src="static/{{sepDay.test1[6]}}"></div>
+                    <div class = "col" style="text-align:center"><img src="static/{{sepDay.day1[6]}}"></div>
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Temperature:</div>
-                    <div class = "column" style="width:10%" id = 'console-event'>{{sepDay.test1[7]}}</div>
-                    <div class = "column" style="width:30%" id = "icon"></div>
+                    <div class = "column" style="width:10%" id='console-event'>{{sepDay.day1[7]}}</div>
+                    <div class = "column" style="width:30%" id="icon"></div>
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Cloudiness:</div>
-                    <div class = "column" style="width:10%">{{sepDay.test1[8]}}</div>
+                    <div class = "column" style="width:10%">{{sepDay.day1[8]}}</div>
                     <div class = "column" style="width:30%">%</div>
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Precipitation:</div>
-                    <div class = "column" style="width:15%" id = 'rainValue'>{{sepDay.test1[9]}}</div>
-                    <div class = "column" style="width:10%" id = 'rainID'></div>
+                    <div class = "column" style="width:15%" id='rainValue'>{{sepDay.day1[9]}}</div>
+                    <div class = "column" style="width:10%" id='rainID'></div>
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Humidity:</div>
-                    <div class = "column" style="width:10%">{{sepDay.test1[10]}}</div>
+                    <div class = "column" style="width:10%">{{sepDay.day1[10]}}</div>
                     <div class = "column" style="width:30%">%</div>
                   </div>
                 </div>
@@ -185,26 +185,26 @@
                     <div class = "col" style="text-align:center">Morning</div>
                   </div>
                   <div class = "row">
-                    <div class = "col" style="text-align:center"><img src="static/{{sepDay.test1[11]}}"></div>
+                    <div class = "col" style="text-align:center"><img src="static/{{sepDay.day1[11]}}"></div>
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Temperature:</div>
-                    <div class = "column" style="width:10%" id = 'console-event'>{{sepDay.test1[12]}}</div>
-                    <div class = "column" style="width:30%" id = "icon"></div>
+                    <div class = "column" style="width:10%" id='console-event'>{{sepDay.day1[12]}}</div>
+                    <div class = "column" style="width:30%" id="icon"></div>
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Cloudiness:</div>
-                    <div class = "column" style="width:10%">{{sepDay.test1[13]}}</div>
+                    <div class = "column" style="width:10%">{{sepDay.day1[13]}}</div>
                     <div class = "column" style="width:30%">%</div>
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Precipitation:</div>
-                    <div class = "column" style="width:15%" id = 'rainValue'>{{sepDay.test1[14]}}</div>
-                    <div class = "column" style="width:10%" id = 'rainID'></div>
+                    <div class = "column" style="width:15%" id='rainValue'>{{sepDay.day1[14]}}</div>
+                    <div class = "column" style="width:10%" id='rainID'></div>
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Humidity:</div>
-                    <div class = "column" style="width:10%">{{sepDay.test1[15]}}</div>
+                    <div class = "column" style="width:10%">{{sepDay.day1[15]}}</div>
                     <div class = "column" style="width:30%">%</div>
                   </div>
                 </div>
@@ -213,26 +213,26 @@
                     <div class = "col" style="text-align:center">Afternoon</div>
                   </div>
                   <div class = "row">
-                    <div class = "col" style="text-align:center"><img src="static/{{sepDay.test1[16]}}"></div>
+                    <div class = "col" style="text-align:center"><img src="static/{{sepDay.day1[16]}}"></div>
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Temperature:</div>
-                    <div class = "column" style="width:10%" id = 'console-event'>{{sepDay.test1[17]}}</div>
-                    <div class = "column" style="width:30%" id = "icon"></div>
+                    <div class = "column" style="width:10%" id='console-event'>{{sepDay.day1[17]}}</div>
+                    <div class = "column" style="width:30%" id="icon"></div>
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Cloudiness:</div>
-                    <div class = "column" style="width:10%">{{sepDay.test1[18]}}</div>
+                    <div class = "column" style="width:10%">{{sepDay.day1[18]}}</div>
                     <div class = "column" style="width:30%">%</div>
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Precipitation:</div>
-                    <div class = "column" style="width:15%" id = 'rainValue'>{{sepDay.test1[19]}}</div>
-                    <div class = "column" style="width:10%" id = 'rainID'></div>
+                    <div class = "column" style="width:15%" id='rainValue'>{{sepDay.day1[19]}}</div>
+                    <div class = "column" style="width:10%" id='rainID'></div>
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Humidity:</div>
-                    <div class = "column" style="width:10%">{{sepDay.test1[20]}}</div>
+                    <div class = "column" style="width:10%">{{sepDay.day1[20]}}</div>
                     <div class = "column" style="width:30%">%</div>
                   </div>
                 </div>
@@ -241,26 +241,26 @@
                     <div class = "col" style="text-align:center">Evening</div>
                   </div>
                   <div class = "row">
-                    <div class = "col" style="text-align:center"><img src="static/{{sepDay.test1[21]}}"></div>
+                    <div class = "col" style="text-align:center"><img src="static/{{sepDay.day1[21]}}"></div>
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Temperature:</div>
-                    <div class = "column" style="width:10%" id = 'console-event'>{{sepDay.test1[22]}}</div>
-                    <div class = "column" style="width:30%" id = "icon"></div>
+                    <div class = "column" style="width:10%" id='console-event'>{{sepDay.day1[22]}}</div>
+                    <div class = "column" style="width:30%" id="icon"></div>
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Cloudiness:</div>
-                    <div class = "column" style="width:10%">{{sepDay.test1[23]}}</div>
+                    <div class = "column" style="width:10%">{{sepDay.day1[23]}}</div>
                     <div class = "column" style="width:30%">%</div>
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Precipitation:</div>
-                    <div class = "column" style="width:15%" id = 'rainValue'>{{sepDay.test1[24]}}</div>
-                    <div class = "column" style="width:10%" id = 'rainID'></div>
+                    <div class = "column" style="width:15%" id='rainValue'>{{sepDay.day1[24]}}</div>
+                    <div class = "column" style="width:10%" id='rainID'></div>
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Humidity:</div>
-                    <div class = "column" style="width:10%">{{sepDay.test1[25]}}</div>
+                    <div class = "column" style="width:10%">{{sepDay.day1[25]}}</div>
                     <div class = "column" style="width:30%">%</div>
                   </div>
                 </div>
@@ -270,12 +270,12 @@
           </tr>
           <tr class="accordion-toggle collapsed" id="accordion2" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
             <td class="expand-button"></td>
-            <td>{{sepDay.test2[1]}}</td>
-            <td>{{sepDay.test2[0]}}</td>
-            <td><img src="static/{{sepDay.test2[3]}}"></td>
-            <td id = 'console-event'>{{sepDay.test2[4]}}</td>
-            <td class = "padding-1" id = 'console-event'>{{sepDay.test2[5]}}</td>
-            <td class = "padding-1" id = "icon"></td>
+            <td>{{sepDay.day2[1]}}</td>
+            <td>{{sepDay.day2[0]}}</td>
+            <td><img src="static/{{sepDay.day2[3]}}"></td>
+            <td id='console-event'>{{sepDay.day2[4]}}</td>
+            <td class = "padding-1" id='console-event'>{{sepDay.day2[5]}}</td>
+            <td class = "padding-1" id="icon"></td>
           </tr>
           <tr class="hide-table-padding">
             <td></td>
@@ -287,26 +287,26 @@
                     <div class = "col" style="text-align:center">Midnight</div>
                   </div>
                   <div class = "row">
-                    <div class = "col" style="text-align:center"><img src="static/{{sepDay.test2[6]}}"></div>
+                    <div class = "col" style="text-align:center"><img src="static/{{sepDay.day2[6]}}"></div>
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Temperature:</div>
-                    <div class = "column" style="width:10%" id = 'console-event'>{{sepDay.test2[7]}}</div>
-                    <div class = "column" style="width:30%"  id = "icon"></div>
+                    <div class = "column" style="width:10%" id='console-event'>{{sepDay.day2[7]}}</div>
+                    <div class = "column" style="width:30%"  id="icon"></div>
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Cloudiness:</div>
-                    <div class = "column" style="width:10%">{{sepDay.test2[8]}}</div>
+                    <div class = "column" style="width:10%">{{sepDay.day2[8]}}</div>
                     <div class = "column" style="width:30%">%</div>
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Precipitation:</div>
-                    <div class = "column" style="width:15%" id = 'rainValue'>{{sepDay.test2[9]}}</div>
-                    <div class = "column" style="width:10%" id = 'rainID'></div>
+                    <div class = "column" style="width:15%" id='rainValue'>{{sepDay.day2[9]}}</div>
+                    <div class = "column" style="width:10%" id='rainID'></div>
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Humidity:</div>
-                    <div class = "column" style="width:10%">{{sepDay.test2[10]}}</div>
+                    <div class = "column" style="width:10%">{{sepDay.day2[10]}}</div>
                     <div class = "column" style="width:30%">%</div>
                   </div>
                 </div>
@@ -315,26 +315,26 @@
                     <div class = "col" style="text-align:center">Morning</div>
                   </div>
                   <div class = "row">
-                    <div class = "col" style="text-align:center"><img src="static/{{sepDay.test2[11]}}"></div>
+                    <div class = "col" style="text-align:center"><img src="static/{{sepDay.day2[11]}}"></div>
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Temperature:</div>
-                    <div class = "column" style="width:10%" id = 'console-event'>{{sepDay.test2[12]}}</div>
-                    <div class = "column" style="width:30%" id = "icon"></div>
+                    <div class = "column" style="width:10%" id='console-event'>{{sepDay.day2[12]}}</div>
+                    <div class = "column" style="width:30%" id="icon"></div>
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Cloudiness:</div>
-                    <div class = "column" style="width:10%">{{sepDay.test2[13]}}</div>
+                    <div class = "column" style="width:10%">{{sepDay.day2[13]}}</div>
                     <div class = "column" style="width:30%">%</div>
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Precipitation:</div>
-                    <div class = "column" style="width:15%" id = 'rainValue'>{{sepDay.test2[14]}}</div>
-                    <div class = "column" style="width:10%" id = 'rainID'></div>
+                    <div class = "column" style="width:15%" id='rainValue'>{{sepDay.day2[14]}}</div>
+                    <div class = "column" style="width:10%" id='rainID'></div>
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Humidity:</div>
-                    <div class = "column" style="width:10%">{{sepDay.test2[15]}}</div>
+                    <div class = "column" style="width:10%">{{sepDay.day2[15]}}</div>
                     <div class = "column" style="width:30%">%</div>
                   </div>
                 </div>
@@ -343,26 +343,26 @@
                     <div class = "col" style="text-align:center">Afternoon</div>
                   </div>
                   <div class = "row">
-                    <div class = "col" style="text-align:center"><img src="static/{{sepDay.test2[16]}}"></div>
+                    <div class = "col" style="text-align:center"><img src="static/{{sepDay.day2[16]}}"></div>
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Temperature:</div>
-                    <div class = "column" style="width:10%" id = 'console-event'>{{sepDay.test2[17]}}</div>
-                    <div class = "column" style="width:30%" id = "icon"></div>
+                    <div class = "column" style="width:10%" id='console-event'>{{sepDay.day2[17]}}</div>
+                    <div class = "column" style="width:30%" id="icon"></div>
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Cloudiness:</div>
-                    <div class = "column" style="width:10%">{{sepDay.test2[18]}}</div>
+                    <div class = "column" style="width:10%">{{sepDay.day2[18]}}</div>
                     <div class = "column" style="width:30%">%</div>
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Precipitation:</div>
-                    <div class = "column" style="width:15%" id = 'rainValue'>{{sepDay.test2[19]}}</div>
-                    <div class = "column" style="width:10%" id = 'rainID'></div>
+                    <div class = "column" style="width:15%" id='rainValue'>{{sepDay.day2[19]}}</div>
+                    <div class = "column" style="width:10%" id='rainID'></div>
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Humidity:</div>
-                    <div class = "column" style="width:10%">{{sepDay.test2[20]}}</div>
+                    <div class = "column" style="width:10%">{{sepDay.day2[20]}}</div>
                     <div class = "column" style="width:30%">%</div>
                   </div>
                 </div>
@@ -371,26 +371,26 @@
                     <div class = "col" style="text-align:center">Evening</div>
                   </div>
                   <div class = "row">
-                    <div class = "col" style="text-align:center"><img src="static/{{sepDay.test2[21]}}"></div>
+                    <div class = "col" style="text-align:center"><img src="static/{{sepDay.day2[21]}}"></div>
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Temperature:</div>
-                    <div class = "column" style="width:10%" id = 'console-event'>{{sepDay.test2[22]}}</div>
-                    <div class = "column" style="width:30%" id = "icon"></div>
+                    <div class = "column" style="width:10%" id='console-event'>{{sepDay.day2[22]}}</div>
+                    <div class = "column" style="width:30%" id="icon"></div>
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Cloudiness:</div>
-                    <div class = "column" style="width:10%">{{sepDay.test2[23]}}</div>
+                    <div class = "column" style="width:10%">{{sepDay.day2[23]}}</div>
                     <div class = "column" style="width:30%">%</div>
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Precipitation:</div>
-                    <div class = "column" style="width:15%" id = 'rainValue'>{{sepDay.test2[24]}}</div>
-                    <div class = "column" style="width:10%" id = 'rainID'></div>
+                    <div class = "column" style="width:15%" id='rainValue'>{{sepDay.day2[24]}}</div>
+                    <div class = "column" style="width:10%" id='rainID'></div>
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Humidity:</div>
-                    <div class = "column" style="width:10%">{{sepDay.test2[25]}}</div>
+                    <div class = "column" style="width:10%">{{sepDay.day2[25]}}</div>
                     <div class = "column" style="width:30%">%</div>
                   </div>
                 </div>
@@ -400,12 +400,12 @@
           </tr>
           <tr class="accordion-toggle collapsed" id="accordion3" data-toggle="collapse" data-parent="#accordion3" href="#collapseThree">
             <td class="expand-button"></td>
-            <td>{{sepDay.test3[1]}}</td>
-            <td>{{sepDay.test3[0]}}</td>
-            <td><img src="static/{{sepDay.test3[3]}}"></td>
-            <td id = 'console-event'>{{sepDay.test3[4]}}</td>
-            <td class = "padding-1" id = 'console-event'>{{sepDay.test3[5]}}</td>
-            <td class = "padding-1" id = "icon"></td>
+            <td>{{sepDay.day3[1]}}</td>
+            <td>{{sepDay.day3[0]}}</td>
+            <td><img src="static/{{sepDay.day3[3]}}"></td>
+            <td id='console-event'>{{sepDay.day3[4]}}</td>
+            <td class = "padding-1" id='console-event'>{{sepDay.day3[5]}}</td>
+            <td class = "padding-1" id="icon"></td>
           </tr>
           <tr class="hide-table-padding">
             <td></td>
@@ -417,26 +417,26 @@
                     <div class = "col" style="text-align:center">Midnight</div>
                   </div>
                   <div class = "row">
-                    <div class = "col" style="text-align:center"><img src="static/{{sepDay.test3[6]}}"></div>
+                    <div class = "col" style="text-align:center"><img src="static/{{sepDay.day3[6]}}"></div>
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Temperature:</div>
-                    <div class = "column" style="width:10%" id = 'console-event'>{{sepDay.test3[7]}}</div>
-                    <div class = "column" style="width:30%" id = "icon"></div>
+                    <div class = "column" style="width:10%" id='console-event'>{{sepDay.day3[7]}}</div>
+                    <div class = "column" style="width:30%" id="icon"></div>
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Cloudiness:</div>
-                    <div class = "column" style="width:10%">{{sepDay.test3[8]}}</div>
+                    <div class = "column" style="width:10%">{{sepDay.day3[8]}}</div>
                     <div class = "column" style="width:30%">%</div>
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Precipitation:</div>
-                    <div class = "column" style="width:15%" id = 'rainValue'>{{sepDay.test3[9]}}</div>
-                    <div class = "column" style="width:10%" id = 'rainID'></div>
+                    <div class = "column" style="width:15%" id='rainValue'>{{sepDay.day3[9]}}</div>
+                    <div class = "column" style="width:10%" id='rainID'></div>
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Humidity:</div>
-                    <div class = "column" style="width:10%">{{sepDay.test3[10]}}</div>
+                    <div class = "column" style="width:10%">{{sepDay.day3[10]}}</div>
                     <div class = "column" style="width:30%">%</div>
                   </div>
                 </div>
@@ -445,26 +445,26 @@
                     <div class = "col" style="text-align:center">Morning</div>
                   </div>
                   <div class = "row">
-                    <div class = "col" style="text-align:center"><img src="static/{{sepDay.test3[11]}}"></div>
+                    <div class = "col" style="text-align:center"><img src="static/{{sepDay.day3[11]}}"></div>
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Temperature:</div>
-                    <div class = "column" style="width:10%" id = 'console-event'>{{sepDay.test3[12]}}</div>
-                    <div class = "column" style="width:30%" id = "icon"></div>
+                    <div class = "column" style="width:10%" id='console-event'>{{sepDay.day3[12]}}</div>
+                    <div class = "column" style="width:30%" id="icon"></div>
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Cloudiness:</div>
-                    <div class = "column" style="width:10%">{{sepDay.test3[13]}}</div>
+                    <div class = "column" style="width:10%">{{sepDay.day3[13]}}</div>
                     <div class = "column" style="width:30%">%</div>
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Precipitation:</div>
-                    <div class = "column" style="width:15%" id = 'rainValue'>{{sepDay.test3[14]}}</div>
-                    <div class = "column" style="width:10%" id = 'rainID'></div>
+                    <div class = "column" style="width:15%" id='rainValue'>{{sepDay.day3[14]}}</div>
+                    <div class = "column" style="width:10%" id='rainID'></div>
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Humidity:</div>
-                    <div class = "column" style="width:10%">{{sepDay.test3[15]}}</div>
+                    <div class = "column" style="width:10%">{{sepDay.day3[15]}}</div>
                     <div class = "column" style="width:30%">%</div>
                   </div>
                 </div>
@@ -473,26 +473,26 @@
                     <div class = "col" style="text-align:center">Afternoon</div>
                   </div>
                   <div class = "row">
-                    <div class = "col" style="text-align:center"><img src="static/{{sepDay.test3[16]}}"></div>
+                    <div class = "col" style="text-align:center"><img src="static/{{sepDay.day3[16]}}"></div>
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Temperature:</div>
-                    <div class = "column" style="width:10%" id = 'console-event'>{{sepDay.test3[17]}}</div>
-                    <div class = "column" style="width:30%" id = "icon"></div>
+                    <div class = "column" style="width:10%" id='console-event'>{{sepDay.day3[17]}}</div>
+                    <div class = "column" style="width:30%" id="icon"></div>
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Cloudiness:</div>
-                    <div class = "column" style="width:10%">{{sepDay.test3[18]}}</div>
+                    <div class = "column" style="width:10%">{{sepDay.day3[18]}}</div>
                     <div class = "column" style="width:30%">%</div>
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Precipitation:</div>
-                    <div class = "column" style="width:15%" id = 'rainValue'>{{sepDay.test3[19]}}</div>
-                    <div class = "column" style="width:10%" id = 'rainID'></div>
+                    <div class = "column" style="width:15%" id='rainValue'>{{sepDay.day3[19]}}</div>
+                    <div class = "column" style="width:10%" id='rainID'></div>
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Humidity:</div>
-                    <div class = "column" style="width:10%">{{sepDay.test3[20]}}</div>
+                    <div class = "column" style="width:10%">{{sepDay.day3[20]}}</div>
                     <div class = "column" style="width:30%">%</div>
                   </div>
                 </div>
@@ -501,26 +501,26 @@
                     <div class = "col" style="text-align:center">Evening</div>
                   </div>
                   <div class = "row">
-                    <div class = "col" style="text-align:center"><img src="static/{{sepDay.test3[21]}}"></div>
+                    <div class = "col" style="text-align:center"><img src="static/{{sepDay.day3[21]}}"></div>
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Temperature:</div>
-                    <div class = "column" style="width:10%" id = 'console-event'>{{sepDay.test3[22]}}</div>
-                    <div class = "column" style="width:30%" id = "icon"></div>
+                    <div class = "column" style="width:10%" id='console-event'>{{sepDay.day3[22]}}</div>
+                    <div class = "column" style="width:30%" id="icon"></div>
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Cloudiness:</div>
-                    <div class = "column" style="width:10%">{{sepDay.test3[23]}}</div>
+                    <div class = "column" style="width:10%">{{sepDay.day3[23]}}</div>
                     <div class = "column" style="width:30%">%</div>
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Precipitation:</div>
-                    <div class = "column" style="width:15%" id = 'rainValue'>{{sepDay.test3[24]}}</div>
-                    <div class = "column" style="width:10%" id = 'rainID'></div>
+                    <div class = "column" style="width:15%" id='rainValue'>{{sepDay.day3[24]}}</div>
+                    <div class = "column" style="width:10%" id='rainID'></div>
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Humidity:</div>
-                    <div class = "column" style="width:10%">{{sepDay.test3[25]}}</div>
+                    <div class = "column" style="width:10%">{{sepDay.day3[25]}}</div>
                     <div class = "column" style="width:30%">%</div>
                   </div>
                 </div>
@@ -530,12 +530,12 @@
           </tr>
           <tr class="accordion-toggle collapsed" id="accordion4" data-toggle="collapse" data-parent="#accordion4" href="#collapseFour">
             <td class="expand-button"></td>
-            <td>{{sepDay.test4[1]}}</td>
-            <td>{{sepDay.test4[0]}}</td>
-            <td><img src="static/{{sepDay.test4[3]}}"></td>
-            <td id = 'console-event'>{{sepDay.test4[4]}}</td>
-            <td class = "padding-1" id = 'console-event'>{{sepDay.test4[5]}}</td>
-            <td class = "padding-1" id = "icon"></td>
+            <td>{{sepDay.day4[1]}}</td>
+            <td>{{sepDay.day4[0]}}</td>
+            <td><img src="static/{{sepDay.day4[3]}}"></td>
+            <td id='console-event'>{{sepDay.day4[4]}}</td>
+            <td class = "padding-1" id='console-event'>{{sepDay.day4[5]}}</td>
+            <td class = "padding-1" id="icon"></td>
           </tr>
           <tr class="hide-table-padding">
             <td></td>
@@ -547,26 +547,26 @@
                     <div class = "col" style="text-align:center">Midnight</div>
                   </div>
                   <div class = "row">
-                    <div class = "col" style="text-align:center"><img src="static/{{sepDay.test4[6]}}"></div>
+                    <div class = "col" style="text-align:center"><img src="static/{{sepDay.day4[6]}}"></div>
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Temperature:</div>
-                    <div class = "column" style="width:10%" id = 'console-event'>{{sepDay.test4[7]}}</div>
-                    <div class = "column" style="width:30%" id = "icon"></div>
+                    <div class = "column" style="width:10%" id='console-event'>{{sepDay.day4[7]}}</div>
+                    <div class = "column" style="width:30%" id="icon"></div>
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Cloudiness:</div>
-                    <div class = "column" style="width:10%">{{sepDay.test4[8]}}</div>
+                    <div class = "column" style="width:10%">{{sepDay.day4[8]}}</div>
                     <div class = "column" style="width:30%">%</div>
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Precipitation:</div>
-                    <div class = "column" style="width:15%" id = 'rainValue'>{{sepDay.test4[9]}}</div>
-                    <div class = "column" style="width:10%" id = 'rainID'></div>
+                    <div class = "column" style="width:15%" id='rainValue'>{{sepDay.day4[9]}}</div>
+                    <div class = "column" style="width:10%" id='rainID'></div>
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Humidity:</div>
-                    <div class = "column" style="width:10%">{{sepDay.test4[10]}}</div>
+                    <div class = "column" style="width:10%">{{sepDay.day4[10]}}</div>
                     <div class = "column" style="width:30%">%</div>
                   </div>
                 </div>
@@ -575,26 +575,26 @@
                     <div class = "col" style="text-align:center">Morning</div>
                   </div>
                   <div class = "row">
-                    <div class = "col" style="text-align:center"><img src="static/{{sepDay.test4[11]}}"></div>
+                    <div class = "col" style="text-align:center"><img src="static/{{sepDay.day4[11]}}"></div>
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Temperature:</div>
-                    <div class = "column" style="width:10%" id = 'console-event'>{{sepDay.test4[12]}}</div>
+                    <div class = "column" style="width:10%" id='console-event'>{{sepDay.day4[12]}}</div>
                     <div class = "column" style="width:30%" id ='icon'></div>
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Cloudiness:</div>
-                    <div class = "column" style="width:10%">{{sepDay.test4[13]}}</div>
+                    <div class = "column" style="width:10%">{{sepDay.day4[13]}}</div>
                     <div class = "column" style="width:30%">%</div>
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Precipitation:</div>
-                    <div class = "column" style="width:15%" id = 'rainValue'>{{sepDay.test4[14]}}</div>
-                    <div class = "column" style="width:10%" id = 'rainID'></div>
+                    <div class = "column" style="width:15%" id='rainValue'>{{sepDay.day4[14]}}</div>
+                    <div class = "column" style="width:10%" id='rainID'></div>
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Humidity:</div>
-                    <div class = "column" style="width:10%">{{sepDay.test4[15]}}</div>
+                    <div class = "column" style="width:10%">{{sepDay.day4[15]}}</div>
                     <div class = "column" style="width:30%">%</div>
                   </div>
                 </div>
@@ -603,26 +603,26 @@
                     <div class = "col" style="text-align:center">Afternoon</div>
                   </div>
                   <div class = "row">
-                    <div class = "col" style="text-align:center"><img src="static/{{sepDay.test4[16]}}"></div>
+                    <div class = "col" style="text-align:center"><img src="static/{{sepDay.day4[16]}}"></div>
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Temperature:</div>
-                    <div class = "column" style="width:10%" id = 'console-event'>{{sepDay.test4[17]}}</div>
-                    <div class = "column" style="width:30%" id = "icon"></div>
+                    <div class = "column" style="width:10%" id='console-event'>{{sepDay.day4[17]}}</div>
+                    <div class = "column" style="width:30%" id="icon"></div>
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Cloudiness:</div>
-                    <div class = "column" style="width:10%">{{sepDay.test4[18]}}</div>
+                    <div class = "column" style="width:10%">{{sepDay.day4[18]}}</div>
                     <div class = "column" style="width:30%">%</div>
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Precipitation:</div>
-                    <div class = "column" style="width:15%" id = 'rainValue'>{{sepDay.test4[19]}}</div>
-                    <div class = "column" style="width:10%" id = 'rainID'></div>
+                    <div class = "column" style="width:15%" id='rainValue'>{{sepDay.day4[19]}}</div>
+                    <div class = "column" style="width:10%" id='rainID'></div>
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Humidity:</div>
-                    <div class = "column" style="width:10%">{{sepDay.test4[20]}}</div>
+                    <div class = "column" style="width:10%">{{sepDay.day4[20]}}</div>
                     <div class = "column" style="width:30%">%</div>
                   </div>
                 </div>
@@ -631,26 +631,26 @@
                     <div class = "col" style="text-align:center">Evening</div>
                   </div>
                   <div class = "row">
-                    <div class = "col" style="text-align:center"><img src="static/{{sepDay.test4[21]}}"></div>
+                    <div class = "col" style="text-align:center"><img src="static/{{sepDay.day4[21]}}"></div>
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Temperature:</div>
-                    <div class = "column" style="width:10%" id = 'console-event'>{{sepDay.test4[22]}}</div>
-                    <div class = "column" style="width:30%" id = "icon"></div>
+                    <div class = "column" style="width:10%" id='console-event'>{{sepDay.day4[22]}}</div>
+                    <div class = "column" style="width:30%" id="icon"></div>
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Cloudiness:</div>
-                    <div class = "column" style="width:10%">{{sepDay.test4[23]}}</div>
+                    <div class = "column" style="width:10%">{{sepDay.day4[23]}}</div>
                     <div class = "column" style="width:30%">%</div>
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Precipitation:</div>
-                    <div class = "column" style="width:15%" id ='rainValue'>{{sepDay.test4[24]}}</div>
-                    <div class = "column" style="width:10%" id = 'rainID'></div>
+                    <div class = "column" style="width:15%" id ='rainValue'>{{sepDay.day4[24]}}</div>
+                    <div class = "column" style="width:10%" id='rainID'></div>
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Humidity:</div>
-                    <div class = "column" style="width:10%">{{sepDay.test4[25]}}</div>
+                    <div class = "column" style="width:10%">{{sepDay.day4[25]}}</div>
                     <div class = "column" style="width:30%">%</div>
                   </div>
                 </div>
