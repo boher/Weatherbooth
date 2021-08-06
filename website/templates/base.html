@@ -22,8 +22,8 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarText">
-            <a class="nav-link disabled mx-auto h1" style="color:white" href="#"><h2>Singapore</h2></a>	
-            <input type="checkbox" class="btn btn-primary" id = "change-units" data-toggle="toggle" data-on="Imperial" data-off="Metric" data-onstyle="warning" data-offstyle="success">
+            <a class="nav-link disabled mx-auto h1" style="color:white" href="#"><h2>Singapore</h2></a>
+            <input type="checkbox" class="btn btn-primary" id="change-units" data-toggle="toggle" data-on="Imperial" data-off="Metric" data-onstyle="warning" data-offstyle="success">
         </div>
 	</nav>
     &copy; FYP-21-S2-03. Last system update {{current.date}}
@@ -45,7 +45,6 @@
 		</ul> 
 	  </nav>
     <button class="open-button" onclick="openForm()"><span style="display:inline-block; transform:rotate(-90deg); padding-bottom:30px;">Feedback</span></button>
-
     <div class="chat-popup" id="myForm">
     <form action="/" method = "POST" class="form-container">
         <h1>Feedback</h1>
@@ -54,11 +53,10 @@
 
         <label for="msg" id="displayMsg"><b>Do you find the information accurate?</b></label>
         <p></p>
-        <p style = "text-align:center">
+        <p style="text-align:center">
             <button type="submit" class="btn" id="yes" name ='action' value='yes' onclick="displayMsg(value, {{current}}, {{tfHour}}, {{sepDay}})">Yes</button>
             <button type="submit" class="btn" id="no" name ='action' value='no' onclick="displayMsg(value, {{current}}, {{tfHour}}, {{sepDay}})">No</button>
-        </p>
-        
+        </p>        
     </form>
 </body>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>

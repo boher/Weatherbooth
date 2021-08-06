@@ -1,14 +1,13 @@
 {% extends "base.html" %}
 {% block title %}Weatherbooth - Home{% endblock %}
 {% block content %}
-<body>
 <!-- current hour portion-->
 <div class="tab-content" id="pills-tabContent" style="margin-top:20px; overflow:hidden; margin-bottom:80px;">
   <div class="tab-pane fade show active" id="pills-current" role="tabpanel" aria-labelledby="pills-current-tab">
     <div class = "container mt-3 border">
       <div class="row">
         <div class="col-sm warning" style="background-color:rgb(214, 214, 209); height: 750px;">
-          <div style="margin: 20px; text-align:center">
+          <div style = "margin: 20px; text-align:center">
             <h3>Warning and Advisory</h3>
           </div>
           <div id="accordion">
@@ -70,7 +69,7 @@
           </div>
           <div class="row">
             <div class = "col-sm-4 offset-1 mb-5" style="height: 30px">Air pressure:</br><div style='display: flex;'><div id="pValue">{{current.p}}</div><div id ='pID'></div></div></div>
-            <div class = "col-sm-4 offset-1 mb-5" style="height: 30px">Wind-speed:</br><div style='display: flex;'><div id="wsValue">{{current.ws}}</div><div id ='wsID'></div></div></div>
+            <div class = "col-sm-4 offset-1 mb-5" style="height: 30px">Wind speed:</br><div style='display: flex;'><div id="wsValue">{{current.ws}}</div><div id ='wsID'></div></div></div>
           </div> 
         </div>
       </div>
@@ -171,7 +170,7 @@
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Precipitation:</div>
-                    <div class = "column" style="width:15%" id='rainValue'>{{sepDay.day1[9]}}</div>
+                    <div class = "column" style="width:18%" id='rainValue'>{{sepDay.day1[9]}}</div>
                     <div class = "column" style="width:10%" id='rainID'></div>
                   </div>
                   <div class = "row">
@@ -199,7 +198,7 @@
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Precipitation:</div>
-                    <div class = "column" style="width:15%" id='rainValue'>{{sepDay.day1[14]}}</div>
+                    <div class = "column" style="width:18%" id='rainValue'>{{sepDay.day1[14]}}</div>
                     <div class = "column" style="width:10%" id='rainID'></div>
                   </div>
                   <div class = "row">
@@ -227,7 +226,7 @@
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Precipitation:</div>
-                    <div class = "column" style="width:15%" id='rainValue'>{{sepDay.day1[19]}}</div>
+                    <div class = "column" style="width:18%" id='rainValue'>{{sepDay.day1[19]}}</div>
                     <div class = "column" style="width:10%" id='rainID'></div>
                   </div>
                   <div class = "row">
@@ -255,7 +254,7 @@
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Precipitation:</div>
-                    <div class = "column" style="width:15%" id='rainValue'>{{sepDay.day1[24]}}</div>
+                    <div class = "column" style="width:18%" id='rainValue'>{{sepDay.day1[24]}}</div>
                     <div class = "column" style="width:10%" id='rainID'></div>
                   </div>
                   <div class = "row">
@@ -301,7 +300,7 @@
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Precipitation:</div>
-                    <div class = "column" style="width:15%" id='rainValue'>{{sepDay.day2[9]}}</div>
+                    <div class = "column" style="width:18%" id='rainValue'>{{sepDay.day2[9]}}</div>
                     <div class = "column" style="width:10%" id='rainID'></div>
                   </div>
                   <div class = "row">
@@ -329,7 +328,7 @@
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Precipitation:</div>
-                    <div class = "column" style="width:15%" id='rainValue'>{{sepDay.day2[14]}}</div>
+                    <div class = "column" style="width:18%" id='rainValue'>{{sepDay.day2[14]}}</div>
                     <div class = "column" style="width:10%" id='rainID'></div>
                   </div>
                   <div class = "row">
@@ -357,7 +356,7 @@
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Precipitation:</div>
-                    <div class = "column" style="width:15%" id='rainValue'>{{sepDay.day2[19]}}</div>
+                    <div class = "column" style="width:18%" id='rainValue'>{{sepDay.day2[19]}}</div>
                     <div class = "column" style="width:10%" id='rainID'></div>
                   </div>
                   <div class = "row">
@@ -385,7 +384,7 @@
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Precipitation:</div>
-                    <div class = "column" style="width:15%" id='rainValue'>{{sepDay.day2[24]}}</div>
+                    <div class = "column" style="width:18%" id='rainValue'>{{sepDay.day2[24]}}</div>
                     <div class = "column" style="width:10%" id='rainID'></div>
                   </div>
                   <div class = "row">
@@ -431,7 +430,7 @@
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Precipitation:</div>
-                    <div class = "column" style="width:15%" id='rainValue'>{{sepDay.day3[9]}}</div>
+                    <div class = "column" style="width:18%" id='rainValue'>{{sepDay.day3[9]}}</div>
                     <div class = "column" style="width:10%" id='rainID'></div>
                   </div>
                   <div class = "row">
@@ -459,7 +458,7 @@
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Precipitation:</div>
-                    <div class = "column" style="width:15%" id='rainValue'>{{sepDay.day3[14]}}</div>
+                    <div class = "column" style="width:18%" id='rainValue'>{{sepDay.day3[14]}}</div>
                     <div class = "column" style="width:10%" id='rainID'></div>
                   </div>
                   <div class = "row">
@@ -487,7 +486,7 @@
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Precipitation:</div>
-                    <div class = "column" style="width:15%" id='rainValue'>{{sepDay.day3[19]}}</div>
+                    <div class = "column" style="width:18%" id='rainValue'>{{sepDay.day3[19]}}</div>
                     <div class = "column" style="width:10%" id='rainID'></div>
                   </div>
                   <div class = "row">
@@ -515,7 +514,7 @@
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Precipitation:</div>
-                    <div class = "column" style="width:15%" id='rainValue'>{{sepDay.day3[24]}}</div>
+                    <div class = "column" style="width:18%" id='rainValue'>{{sepDay.day3[24]}}</div>
                     <div class = "column" style="width:10%" id='rainID'></div>
                   </div>
                   <div class = "row">
@@ -561,7 +560,7 @@
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Precipitation:</div>
-                    <div class = "column" style="width:15%" id='rainValue'>{{sepDay.day4[9]}}</div>
+                    <div class = "column" style="width:18%" id='rainValue'>{{sepDay.day4[9]}}</div>
                     <div class = "column" style="width:10%" id='rainID'></div>
                   </div>
                   <div class = "row">
@@ -589,7 +588,7 @@
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Precipitation:</div>
-                    <div class = "column" style="width:15%" id='rainValue'>{{sepDay.day4[14]}}</div>
+                    <div class = "column" style="width:18%" id='rainValue'>{{sepDay.day4[14]}}</div>
                     <div class = "column" style="width:10%" id='rainID'></div>
                   </div>
                   <div class = "row">
@@ -617,7 +616,7 @@
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Precipitation:</div>
-                    <div class = "column" style="width:15%" id='rainValue'>{{sepDay.day4[19]}}</div>
+                    <div class = "column" style="width:18%" id='rainValue'>{{sepDay.day4[19]}}</div>
                     <div class = "column" style="width:10%" id='rainID'></div>
                   </div>
                   <div class = "row">
@@ -645,7 +644,7 @@
                   </div>
                   <div class = "row">
                     <div class = "column" style="width:60%">Precipitation:</div>
-                    <div class = "column" style="width:15%" id ='rainValue'>{{sepDay.day4[24]}}</div>
+                    <div class = "column" style="width:18%" id ='rainValue'>{{sepDay.day4[24]}}</div>
                     <div class = "column" style="width:10%" id='rainID'></div>
                   </div>
                   <div class = "row">
