@@ -1,27 +1,15 @@
-.padding-0 {
-    padding-right:0;
-}
-
-.padding-1 {
-    padding-left:0;
-}
-
-.warning {
-    overflow-y: auto;
-    height: 750px;
-    scrollbar-width: thin;
-}
-
 h1 {
     margin-top: 5%;
     float: left;
 }
 
+/* Warnings and advisories collapsible sections with buttons */
 #uv_main, #wbgt_main, #mozzy_main, #flood_main {
     text-align: left;
     padding: .8em .5em;
 }
 
+/* 4-day tab collapsible sections with highlighting on mouse hover and expanded */
 .accordion-toggle:hover, .accordion-toggle[aria-expanded="true"], .p-3 {
     background-color: #efefef;
 }

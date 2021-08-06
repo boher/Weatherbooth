@@ -1,3 +1,4 @@
+// UVI scale from green, yellow, orange, red and purple in increasing intensity
 function uviWrng(uvi) {
   if (uvi < 3) {
       document.getElementById('uv_main').innerHTML = 'UVI: '+"&#x1F7E2;";
@@ -17,6 +18,7 @@ function uviWrng(uvi) {
   }
 };
       
+// Wet bulb globe temperature scale from green, yellow, red and purple in increasing intensity
 function heatWrng(wbgt) {
   if (wbgt < 18) {
       document.getElementById('wbgt_main').innerHTML = 'Heat Stress: '+"&#x1F7E2;";
@@ -33,8 +35,9 @@ function heatWrng(wbgt) {
   }
 };
 
+// Mosquito activity based on high wet bulb globe temperature and above average humidity
 function mozzyWrng(wbgt, humd) {
-  if ((wbgt >= 30)&&(humd >= 42)) {
+  if ((wbgt >= 30) && (humd >= 42)) {
       document.getElementById("mozzy_main").innerHTML = 'Mosquito Activity: '+"&#128993;";
       document.getElementById("mozzy").innerHTML = 'Description:'+"</br>"+"Mosquitoes are active"+"</br>"+"Cautionary measures:"+'</br>'+"Wear light-coloured clothing"+'</br>'+"Equip yourself with mosquito repellents";
   } else {
@@ -44,9 +47,9 @@ function mozzyWrng(wbgt, humd) {
   
 };
 
+// Precipitation volume scale from yellow, orange and red in increasing intensity
 function floodWrng(rainVol) {
   document.getElementById('flood_style').style.display = 'none';
-
   if (rainVol > 7) {
       if ((rainVol >= 7.5)&& (rainVol < 15)) {
           document.getElementById('flood_style').style.display = 'flex';
