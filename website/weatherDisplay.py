@@ -24,7 +24,7 @@ def feedback():
 
     return ('', 204)
 
-@weatherDisplay.route("/", methods=['GET', 'POST'])
+@weatherDisplay.route("/")
 def currentPage():
     try:
         # current.py

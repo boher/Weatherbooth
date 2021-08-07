@@ -18,7 +18,7 @@ function htmlDecode(input) {
 function displayMsg(value, current, tfHour, sepDay) {
 
   alert("Thank you for your feedback!!!");
-
+  e.preventDefault();
   if (value=='no') {
 
     $.ajax({
