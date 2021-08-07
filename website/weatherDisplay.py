@@ -9,7 +9,7 @@ import time
 
 weatherDisplay = Blueprint('weatherDisplay', __name__)
 
-@weatherDisplay.route("/feedback", methods=['POST'])
+@weatherDisplay.route("/feedback", methods=['GET','POST'])
 def feedback():
     info = {"current":request.form['curhr'], "tfHour":request.form['twfhr'], "sDay":request.form['svndy']}
     question = Feedback(prediction = info)
