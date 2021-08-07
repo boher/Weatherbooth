@@ -69,22 +69,22 @@ $(function() {
       }
       // Temperature (Twenty four hour tab)
       for (var i = 0; i < tfHourTemp.length; i++) {
-        tfHourTemp[i] = Math.round((tfHourTemp[i] * 9/5) + 32);
+        tfHourTemp[i] = ((tfHourTemp[i] * 9/5) + 32).toFixed(3);
       }
       // Precipitation (Twenty four hour tab)
       for (var i = 0; i < tfHourPcpn.length; i++) {
         toImperial = tfHourPcpn[i]/25.4;
-        tfHourPcpn[i] = toImperial.toFixed(4);
+        tfHourPcpn[i] = toImperial.toFixed(3);
       }
       // Air pressure (Twenty four hour tab)
       for (var i = 0; i < tfHourPres.length; i++) {
         toImperialMetric = tfHourPres[i]*0.01450377;
-        tfHourPres[i] = toImperialMetric.toFixed(2);
+        tfHourPres[i] = toImperialMetric.toFixed(3);
       }
       // Wind speed (Twenty four hour tab)
       for (var i = 0; i < tfHourWind.length; i++) {
         toImperialMetric = tfHourWind[i]/2.237;
-        tfHourWind[i] = toImperialMetric.toFixed(2);
+        tfHourWind[i] = toImperialMetric.toFixed(3);
       }
 
       // Update the charts of the 4 affected attributes
@@ -138,22 +138,22 @@ $(function() {
       }
       // Temperature (Twenty four hour tab)
       for (var i = 0; i < tfHourTemp.length; i++) {
-        tfHourTemp[i] = Math.round((tfHourTemp[i] - 32) * 5/9);
+        tfHourTemp[i] = ((tfHourTemp[i] - 32) * 5/9).toFixed(3);
       }
       // Precipitation (Twenty four hour tab)
       for (var i = 0; i < tfHourPcpn.length; i++) {
         toMetric = tfHourPcpn[i]*25.4;
-        tfHourPcpn[i] = toMetric.toFixed(2);
+        tfHourPcpn[i] = toMetric.toFixed(3);
       }
       // Air pressure (Twenty four hour tab)
       for (var i = 0; i < tfHourPres.length; i++) {
         toMetric = tfHourPres[i]/0.01450377;
-        tfHourPres[i] = toMetric.toFixed(0);
+        tfHourPres[i] = toMetric.toFixed(3);
       }
       // Wind speed (Twenty four hour tab)
       for (var i = 0; i < tfHourWind.length; i++) {
         toMetric = tfHourWind[i]*2.237;
-        tfHourWind[i] = toMetric.toFixed(2);
+        tfHourWind[i] = toMetric.toFixed(3);
       }
 
       // Update the charts of the 4 affected attributes
