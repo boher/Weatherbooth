@@ -1,109 +1,123 @@
 <html>
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" href="{{url_for('static', filename='images/weatherbooth.png')}}">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-  <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
-  <link rel="stylesheet" href="static/main.css">
-  <title>{% block title %}{% endblock %}</title>
-</head>
-<body>
-	<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #257cfd;">
-    <a class="navbar-app-name mr-sm-4" style="text-decoration: none; color:white; font-size:large">
-      <img src="{{url_for('static', filename='images/weatherbooth.png')}}" width="60" height="60" class="d-inline-block" alt="">
-      Weatherbooth
-    </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarText">
-      <a class="nav-link disabled mx-auto h1" style="color:white" href="#"><h2>Singapore</h2></a>
-      <input type="checkbox" id="change-units" data-toggle="toggle" data-on="imperial" data-off="Metric" data-onstyle="warning" data-offstyle="success" data-width="100">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="{{url_for('static', filename='images/weatherbooth.png')}}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <link rel="stylesheet" href="static/main.css">
+    <title>{% block title %}{% endblock %}</title>
+  </head>
+  <body>
+    <!-- Header -->
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #257cfd;">
+      <!-- Applocations' logo and name -->
+      <a class="navbar-app-name mr-sm-4" style="text-decoration: none; color:white; font-size:large">
+        <img src="{{url_for('static', filename='images/weatherbooth.png')}}" width="60" height="60" class="d-inline-block" alt="">
+        Weatherbooth
+      </a>
+      <!-- hamburger icon on switching to mobile screen -->
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+      </button>
+      <!-- Location and Interactive toggle button -->
+      <div class="collapse navbar-collapse" id="navbarText">
+        <a class="nav-link disabled mx-auto h1" style="color:white" href="#"><h2>Singapore</h2></a>
+        <input type="checkbox" id="change-units" data-toggle="toggle" data-on="imperial" data-off="Metric" data-onstyle="warning" data-offstyle="success" data-width="100">
+      </div>
+    </nav>
+
+    <!-- Footer Last update -->
+    &copy; FYP-21-S2-03. Last system update {{current.date}}
+
+    <!-- Tab Containers -->
+    <div class="container-fluid">
+      {% block content %}
+      {% endblock %}
     </div>
-	</nav>
-  &copy; FYP-21-S2-03. Last system update {{current.date}}
-	<div class="container-fluid">
-		{% block content %}
-		{% endblock %}
-	</div>
-	<nav class="navbar-expand-sm fixed-bottom navbar-light bg-light">
-		<ul class="nav nav-pills nav-justified" id="pills-tab" role="tablist">
-			<li class="nav-item" role="presentation">
-			  <a class="nav-link active" id="pills-current-tab" data-toggle="pill" href="#pills-current" role="tab" aria-controls="pills-current" aria-selected="true" data-link>Current</a>
-			</li>
-			<li class="nav-item" role="presentation">
-			  <a class="nav-link" id="pills-24hour-tab" data-toggle="pill" href="#pills-24hour" role="tab" aria-controls="pills-24hour" aria-selected="false" data-link>24-Hour</a>
-			</li>
-			<li class="nav-item" role="presentation">
-			  <a class="nav-link" id="pills-4day-tab" data-toggle="pill" href="#pills-4day" role="tab" aria-controls="pills-4day" aria-selected="false" data-link>4-Day</a>
-			</li>
-		</ul> 
-	</nav>
-  <button class="open-button" onclick="openForm()"><span style="display:inline-block; transform:rotate(-90deg); padding-bottom:30px;">Feedback</span></button>
-  <div class="chat-popup" id="myForm">
-    <form action="/" method = "POST" class="form-container">
-      <h1>Feedback</h1>
-      <button type="button" class="btn cancel" onclick="closeForm()">X</button>
-      <hr style="clear:both;"/>
 
-      <label for="msg" id="displayMsg"><b>Do you find the information accurate?</b></label>
-      <p></p>
-      <p style="text-align:center">
-        <button type="submit" class="btn" id="yes" name ='action' value='yes' onclick="displayMsg(value, {{current}}, {{tfHour}}, {{sepDay}})">Yes</button>
-        <button type="submit" class="btn" id="no" name ='action' value='no' onclick="displayMsg(value, {{current}}, {{tfHour}}, {{sepDay}})">No</button>
-      </p>        
-    </form>
-</body>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@3.3.2/dist/chart.min.js"></script>
-<script
-  src="{{url_for('static', filename='WrngAdvy.js')}}"
-></script>
-<script
-  src="{{url_for('static', filename='Charts.js')}}"
-></script>
-<script
-  src="{{url_for('static', filename='Form.js')}}"
-></script>
-<script>
-  // Conditional rendering of warnings and advisories in WrngAdvy.js
-  var uvi = uviWrng({{current.uvi}})
-  var rainVol = floodWrng({{current.rain}})
-  var wbgt = heatWrng({{current.temp}})
-  var mozzy = mozzyWrng({{current.temp}}, {{current.humd}})
-  
-  // All line area charts of Twenty Four Hour tab
-  var tempID = document.getElementById('tempChart').getContext('2d');
-  var humdID = document.getElementById('humdChart').getContext('2d');
-  var pcpnID = document.getElementById('pcpnChart').getContext('2d');
-  var presID = document.getElementById('presChart').getContext('2d');
-  var windID = document.getElementById('windChart').getContext('2d');
-  var cloudID = document.getElementById('cloudChart').getContext('2d');
+    <!-- Navigation bar with toggle between current, 24-hour and 4days -->
+    <nav class="navbar-expand-sm fixed-bottom navbar-light bg-light">
+      <ul class="nav nav-pills nav-justified" id="pills-tab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <a class="nav-link active" id="pills-current-tab" data-toggle="pill" href="#pills-current" role="tab" aria-controls="pills-current" aria-selected="true" data-link>Current</a>
+        </li>
+        <li class="nav-item" role="presentation">
+          <a class="nav-link" id="pills-24hour-tab" data-toggle="pill" href="#pills-24hour" role="tab" aria-controls="pills-24hour" aria-selected="false" data-link>24-Hour</a>
+        </li>
+        <li class="nav-item" role="presentation">
+          <a class="nav-link" id="pills-4day-tab" data-toggle="pill" href="#pills-4day" role="tab" aria-controls="pills-4day" aria-selected="false" data-link>4-Day</a>
+        </li>
+      </ul> 
+    </nav>
 
-  // Define the 4 attributes affected by metric / imperial units conversion of Twenty Four Hour tab in main.js
-  var tfHourTemp = {{tfHour.t}};
-  var tfHourPcpn = {{tfHour.pe}};
-  var tfHourWind = {{tfHour.w}};
-  var tfHourPres = {{tfHour.a}};
+    <!-- Feedback form implementation -->
+    <button class="open-button" onclick="openForm()"><span style="display:inline-block; transform:rotate(-90deg); padding-bottom:30px;">Feedback</span></button>
+    <div class="chat-popup" id="myForm">
+      <form action="/" method = "POST" class="form-container">
+        <h1>Feedback</h1>
+        <button type="button" class="btn cancel" onclick="closeForm()">X</button>
+        <hr style="clear:both;"/>
 
-  // Get line area charts for each attributes in Charts.js
-  var tempChart = getChart(tempID, tfHourTemp, "Temp °C");
-  var pcpnChart = getChart(pcpnID, tfHourPcpn, "Volume mm");
-  var humdChart = getChart(humdID, {{tfHour.h}}, 'Humidity %');
-  var presChart = getChart(presID, tfHourPres, 'Air Pressure pHa');
-  var windChart = getChart(windID, tfHourWind, "Speed m/s");
-  var cloudChart = getChart(cloudID, {{tfHour.c}}, 'Cloudiness %');
+        <label for="msg" id="displayMsg"><b>Do you find the information accurate?</b></label>
+        <p></p>
+        <p style="text-align:center">
+          <button type="submit" class="btn" id="yes" name ='action' value='yes' onclick="displayMsg(value, {{current}}, {{tfHour}}, {{sepDay}})">Yes</button>
+          <button type="submit" class="btn" id="no" name ='action' value='no' onclick="displayMsg(value, {{current}}, {{tfHour}}, {{sepDay}})">No</button>
+        </p>        
+      </form>
+    </div>
+  </body>
 
-</script>
-<script
-  src="{{url_for('static', filename='main.js')}}"
-></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.3.2/dist/chart.min.js"></script>
+  <script
+    src="{{url_for('static', filename='WrngAdvy.js')}}"
+  ></script>
+  <script
+    src="{{url_for('static', filename='Charts.js')}}"
+  ></script>
+  <script
+    src="{{url_for('static', filename='Form.js')}}"
+  ></script>
+  <script
+    src="{{url_for('static', filename='main.js')}}"
+  ></script>
+  <script>
+    // Conditional rendering of warnings and advisories in WrngAdvy.js
+    var uvi = uviWrng({{current.uvi}})
+    var rainVol = floodWrng({{current.rain}})
+    var wbgt = heatWrng({{current.temp}})
+    var mozzy = mozzyWrng({{current.temp}}, {{current.humd}})
+    
+    // All line area charts of Twenty Four Hour tab
+    var tempID = document.getElementById('tempChart').getContext('2d');
+    var humdID = document.getElementById('humdChart').getContext('2d');
+    var pcpnID = document.getElementById('pcpnChart').getContext('2d');
+    var presID = document.getElementById('presChart').getContext('2d');
+    var windID = document.getElementById('windChart').getContext('2d');
+    var cloudID = document.getElementById('cloudChart').getContext('2d');
+
+    // Define the 4 attributes affected by metric / imperial units conversion of Twenty Four Hour tab in main.js
+    var tfHourTemp = {{tfHour.t}};
+    var tfHourPcpn = {{tfHour.pe}};
+    var tfHourWind = {{tfHour.w}};
+    var tfHourPres = {{tfHour.a}};
+
+    // Get line area charts for each attributes in Charts.js
+    var tempChart = getChart(tempID, tfHourTemp, "Temp °C");
+    var pcpnChart = getChart(pcpnID, tfHourPcpn, "Volume mm");
+    var humdChart = getChart(humdID, {{tfHour.h}}, 'Humidity %');
+    var presChart = getChart(presID, tfHourPres, 'Air Pressure pHa');
+    var windChart = getChart(windID, tfHourWind, "Speed m/s");
+    var cloudChart = getChart(cloudID, {{tfHour.c}}, 'Cloudiness %');
+  </script>
+
 </html>

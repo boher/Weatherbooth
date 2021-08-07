@@ -1,43 +1,45 @@
 {% extends "base.html" %}
 {% block title %}Weatherbooth - Home{% endblock %}
 {% block content %}
-<!-- current hour portion-->
 <div class="tab-content" id="pills-tabContent" style="margin-top:20px; overflow:hidden; margin-bottom:80px;">
+
+  <!-- current hour portion-->
   <div class="tab-pane fade show active" id="pills-current" role="tabpanel" aria-labelledby="pills-current-tab">
     <div class = "container mt-3 border">
       <div class="row">
+        <!-- Warning and Advisories -->
         <div class="col-sm warning" style="background-color:rgb(214, 214, 209); height: 750px;">
           <div style = "margin: 20px; text-align:center">
             <h3>Warning and Advisory</h3>
           </div>
           <div id="accordion">
+            <!-- High Ultraviolet Index -->
             <div class="card">
-                <button class="btn collapsed" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" id="uv_main">
-                </button>
+              <button class="btn collapsed" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" id="uv_main"></button>
               <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
                 <div class="card-body" id="uv">
                 </div>
               </div>
             </div>
+            <!-- Heat stress -->
             <div class="card">
-                <button class="btn collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" id="wbgt_main">
-                </button>
+              <button class="btn collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo" id="wbgt_main"></button>
               <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
                 <div class="card-body" id='wbgt'>
                 </div>
               </div>
             </div>
+            <!-- Mosquito activity -->
             <div class="card">
-                <button class="btn collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree" id='mozzy_main'>
-                </button>
+              <button class="btn collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree" id='mozzy_main'></button>
               <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
                 <div class="card-body" id='mozzy'>
                 </div>
               </div>
             </div>
+            <!-- Possible flash flood occurence -->
             <div class="card" id='flood_style'>
-                <button class="btn collapsed" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour" id='flood_main'>
-                </button>
+              <button class="btn collapsed" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour" id='flood_main'></button>
               <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
                 <div class="card-body" id='flood'>
                 </div>
@@ -45,6 +47,7 @@
             </div>
           </div>
         </div>
+        <!-- Visual dashboard (temperature, weather condition, date, time and weather condition image) -->
         <div class="col-sm" style="background-color:rgb(194, 194, 189); height: 750px; background-image: url({{url_for('static', filename=current.img)}});">
           <ul class="list-group">
             <li class="list-group-item border-0" style="margin-top: 350px; height:50px; background-color: transparent;">
@@ -58,6 +61,7 @@
             <li class="list-group-item border-0" style="margin-top: 20px; height:20px; background-color: transparent;">Time: {{current.time}}</li>
           </ul>
         </div>
+        <!-- Visual Daskboard (Cloudiness, UV Index, Humidity, Precipitation, Air pressure, Wind speed) -->
         <div class="col-sm" style="background-color:rgb(201, 201, 195); height: 750px; display: flex; justify-content: center; flex-direction: column;">
           <div class="row">
             <div class = "col-sm-4 offset-1 mb-5" style="height: 30px">Cloudiness:</br>{{current.cloud}}%</div>
@@ -72,39 +76,44 @@
             <div class = "col-sm-4 offset-1 mb-5" style="height: 30px">Wind speed:</br><div style='display: flex;'><div id="wsValue">{{current.ws}}</div><div id ='wsID'></div></div></div>
           </div> 
         </div>
+
       </div>
     </div>
   </div>
+
   <!-- 24hour portion-->
   <div class="tab-pane fade" id="pills-24hour" role="tabpanel" aria-labelledby="pills-24hour-tab">
     <div class="container mt-3 border">
       <div class= "row">
+        <!-- 24-Hour chart title -->
         <div class = "col">
           <p style="margin:0;">24-Hour Forecast</p><p id="attribute">Temperature</p>
         </div>
+        <!-- 24-Hour Meteorological attribute toggle button -->
         <div class = "col-expand-sm d-flex justify-content-end">
-        <ul class="nav nav-pills">
-          <li class="nav-item">
-            <a class="nav-link active" data-toggle="tab" href="#temp" onclick="document.getElementById('attribute').innerHTML = 'Temperature'"><button type="button" class="btn btn-outline-dark btn-md"><i class="fas fa-temperature-low"></i></button></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#pcpn" onclick="document.getElementById('attribute').innerHTML = 'Precipitation'"><button type="button" class="btn btn-outline-dark btn-md"><i class="fas fa-cloud-rain"></i></button></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#humd" onclick="document.getElementById('attribute').innerHTML = 'Humidity'"><button type="button" class="btn btn-outline-dark btn-md"><i class="fab fa-safari"></i></button></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#pres" onclick="document.getElementById('attribute').innerHTML = 'Air Pressure'"><button type="button" class="btn btn-outline-dark btn-md"><i class="fas fa-long-arrow-alt-down"></i></button></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#wind" onclick="document.getElementById('attribute').innerHTML = 'Wind Speed'"><button type="button" class="btn btn-outline-dark btn-md"><i class="fas fa-wind"></i></button></a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#cloud" onclick="document.getElementById('attribute').innerHTML = 'Clouds'"><button type="button" class="btn btn-outline-dark btn-md"><i class="fas fa-cloud"></i></button></a>
-          </li>
-        </ul>
+          <ul class="nav nav-pills">
+            <li class="nav-item">
+              <a class="nav-link active" data-toggle="tab" href="#temp" onclick="document.getElementById('attribute').innerHTML = 'Temperature'"><button type="button" class="btn btn-outline-dark btn-sm"><i class="fas fa-temperature-low"></i></button></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="tab" href="#pcpn" onclick="document.getElementById('attribute').innerHTML = 'Precipitation'"><button type="button" class="btn btn-outline-dark btn-sm"><i class="fas fa-cloud-rain"></i></button></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="tab" href="#humd" onclick="document.getElementById('attribute').innerHTML = 'Humidity'"><button type="button" class="btn btn-outline-dark btn-sm"><i class="fab fa-safari"></i></button></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="tab" href="#pres" onclick="document.getElementById('attribute').innerHTML = 'Air Pressure'"><button type="button" class="btn btn-outline-dark btn-sm"><i class="fas fa-long-arrow-alt-down"></i></button></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="tab" href="#wind" onclick="document.getElementById('attribute').innerHTML = 'Wind Speed'"><button type="button" class="btn btn-outline-dark btn-sm"><i class="fas fa-wind"></i></button></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" data-toggle="tab" href="#cloud" onclick="document.getElementById('attribute').innerHTML = 'Clouds'"><button type="button" class="btn btn-outline-dark btn-sm"><i class="fas fa-cloud"></i></button></a>
+            </li>
+          </ul>
         </div>
       </div>
+      <!-- Chart visualization -->
       <div class="tab-content charts">
         <div class="tab-pane container active" id="temp">
           <canvas id="tempChart"></canvas>
@@ -125,544 +134,574 @@
           <canvas id="cloudChart"></canvas>
         </div>
       </div>
+
     </div>
   </div>
+
   <!-- 4 day portion-->
   <div class="tab-pane fade" id="pills-4day" role="tabpanel" aria-labelledby="pills-4day-tab">
     <div class="container mt-3 border">
+      <!-- 4-Day title -->
       <div class = "col">
-        <p>4-Day Forecast</p>
+        <p style="margin:0;">4-Day Forecast</p>
       </div>
       <div style="overflow-x:auto;">
-      <table class="table">
-        <tbody>
-          <!--1-->
-          <tr class="accordion-toggle collapsed" id="accordion1" data-toggle="collapse" data-parent="#accordion1" href="#collapseOne">
-            <td class="expand-button"></td>
-            <td>{{sepDay.day1[1]}}</td>
-            <td>{{sepDay.day1[0]}}</td>
-            <td><img src="static/{{sepDay.day1[3]}}"></td>
-            <td id='console-event'>{{sepDay.day1[4]}}</td>
-            <td id='console-event'>{{sepDay.day1[5]}}</td>
-            <td id="icon"></td>
-          </tr>
-          <tr class="hide-table-padding">
-            <td></td>
-            <td colspan="6">
-            <div id="collapseOne" class="collapse in p-3">
-              <div class="row">
-                <div class = "col-sm">
-                  <div class = "row">
-                    <div class = "col" style="text-align:center">Midnight</div>
-                  </div>
-                  <div class = "row">
-                    <div class = "col" style="text-align:center"><img src="static/{{sepDay.day1[6]}}"></div>
-                  </div>
-                  <div class = "row">
-                    <div class = "column" style="width:60%">Temperature:</div>
-                    <div class = "column" style="width:10%" id='console-event'>{{sepDay.day1[7]}}</div>
-                    <div class = "column" style="width:30%" id="icon"></div>
-                  </div>
-                  <div class = "row">
-                    <div class = "column" style="width:60%">Cloudiness:</div>
-                    <div class = "column" style="width:10%">{{sepDay.day1[8]}}</div>
-                    <div class = "column" style="width:30%">%</div>
-                  </div>
-                  <div class = "row">
-                    <div class = "column" style="width:60%">Precipitation:</div>
-                    <div class = "column" style="width:18%" id='rainValue'>{{sepDay.day1[9]}}</div>
-                    <div class = "column" style="width:10%" id='rainID'></div>
-                  </div>
-                  <div class = "row">
-                    <div class = "column" style="width:60%">Humidity:</div>
-                    <div class = "column" style="width:10%">{{sepDay.day1[10]}}</div>
-                    <div class = "column" style="width:30%">%</div>
+        <!-- 4-Day table -->
+        <table class="table">
+          <tbody>
+            <!-- Day 1 -->
+            <!-- Collapsible section -->
+            <tr class="accordion-toggle collapsed" id="accordion1" data-toggle="collapse" data-parent="#accordion1" href="#collapseOne">
+              <td class="expand-button"></td>
+              <td>{{sepDay.day1[1]}}</td>
+              <td>{{sepDay.day1[0]}}</td>
+              <td><img src="static/{{sepDay.day1[3]}}"></td>
+              <td id='console-event'>{{sepDay.day1[4]}}</td>
+              <td id='console-event'>{{sepDay.day1[5]}}</td>
+              <td id="icon"></td>
+            </tr>
+            <!-- Collapsed section -->
+            <tr class="hide-table-padding">
+              <td></td>
+              <td colspan="6">
+                <div id="collapseOne" class="collapse in p-3">
+                  <div class="row">
+                    <!-- Midnight -->
+                    <div class = "col-sm">
+                      <div class = "row">
+                        <div class = "col" style="text-align:center">Midnight</div>
+                      </div>
+                      <div class = "row">
+                        <div class = "col" style="text-align:center"><img src="static/{{sepDay.day1[6]}}"></div>
+                      </div>
+                      <div class = "row">
+                        <div class = "column" style="width:60%">Temperature:</div>
+                        <div class = "column" style="width:10%" id='console-event'>{{sepDay.day1[7]}}</div>
+                        <div class = "column" style="width:30%" id="icon"></div>
+                      </div>
+                      <div class = "row">
+                        <div class = "column" style="width:60%">Cloudiness:</div>
+                        <div class = "column" style="width:10%">{{sepDay.day1[8]}}</div>
+                        <div class = "column" style="width:30%">%</div>
+                      </div>
+                      <div class = "row">
+                        <div class = "column" style="width:60%">Precipitation:</div>
+                        <div class = "column" style="width:18%" id='rainValue'>{{sepDay.day1[9]}}</div>
+                        <div class = "column" style="width:10%" id='rainID'></div>
+                      </div>
+                      <div class = "row">
+                        <div class = "column" style="width:60%">Humidity:</div>
+                        <div class = "column" style="width:10%">{{sepDay.day1[10]}}</div>
+                        <div class = "column" style="width:30%">%</div>
+                      </div>
+                    </div>
+                    <!-- Morning -->
+                    <div class = "col-sm">
+                      <div class = "row">
+                        <div class = "col" style="text-align:center">Morning</div>
+                      </div>
+                      <div class = "row">
+                        <div class = "col" style="text-align:center"><img src="static/{{sepDay.day1[11]}}"></div>
+                      </div>
+                      <div class = "row">
+                        <div class = "column" style="width:60%">Temperature:</div>
+                        <div class = "column" style="width:10%" id='console-event'>{{sepDay.day1[12]}}</div>
+                        <div class = "column" style="width:30%" id="icon"></div>
+                      </div>
+                      <div class = "row">
+                        <div class = "column" style="width:60%">Cloudiness:</div>
+                        <div class = "column" style="width:10%">{{sepDay.day1[13]}}</div>
+                        <div class = "column" style="width:30%">%</div>
+                      </div>
+                      <div class = "row">
+                        <div class = "column" style="width:60%">Precipitation:</div>
+                        <div class = "column" style="width:18%" id='rainValue'>{{sepDay.day1[14]}}</div>
+                        <div class = "column" style="width:10%" id='rainID'></div>
+                      </div>
+                      <div class = "row">
+                        <div class = "column" style="width:60%">Humidity:</div>
+                        <div class = "column" style="width:10%">{{sepDay.day1[15]}}</div>
+                        <div class = "column" style="width:30%">%</div>
+                      </div>
+                    </div>
+                    <!-- Afternoon -->
+                    <div class = "col-sm">
+                      <div class = "row">
+                        <div class = "col" style="text-align:center">Afternoon</div>
+                      </div>
+                      <div class = "row">
+                        <div class = "col" style="text-align:center"><img src="static/{{sepDay.day1[16]}}"></div>
+                      </div>
+                      <div class = "row">
+                        <div class = "column" style="width:60%">Temperature:</div>
+                        <div class = "column" style="width:10%" id='console-event'>{{sepDay.day1[17]}}</div>
+                        <div class = "column" style="width:30%" id="icon"></div>
+                      </div>
+                      <div class = "row">
+                        <div class = "column" style="width:60%">Cloudiness:</div>
+                        <div class = "column" style="width:10%">{{sepDay.day1[18]}}</div>
+                        <div class = "column" style="width:30%">%</div>
+                      </div>
+                      <div class = "row">
+                        <div class = "column" style="width:60%">Precipitation:</div>
+                        <div class = "column" style="width:18%" id='rainValue'>{{sepDay.day1[19]}}</div>
+                        <div class = "column" style="width:10%" id='rainID'></div>
+                      </div>
+                      <div class = "row">
+                        <div class = "column" style="width:60%">Humidity:</div>
+                        <div class = "column" style="width:10%">{{sepDay.day1[20]}}</div>
+                        <div class = "column" style="width:30%">%</div>
+                      </div>
+                    </div>
+                    <!-- Evening -->
+                    <div class = "col">
+                      <div class = "row">
+                        <div class = "col" style="text-align:center">Evening</div>
+                      </div>
+                      <div class = "row">
+                        <div class = "col" style="text-align:center"><img src="static/{{sepDay.day1[21]}}"></div>
+                      </div>
+                      <div class = "row">
+                        <div class = "column" style="width:60%">Temperature:</div>
+                        <div class = "column" style="width:10%" id='console-event'>{{sepDay.day1[22]}}</div>
+                        <div class = "column" style="width:30%" id="icon"></div>
+                      </div>
+                      <div class = "row">
+                        <div class = "column" style="width:60%">Cloudiness:</div>
+                        <div class = "column" style="width:10%">{{sepDay.day1[23]}}</div>
+                        <div class = "column" style="width:30%">%</div>
+                      </div>
+                      <div class = "row">
+                        <div class = "column" style="width:60%">Precipitation:</div>
+                        <div class = "column" style="width:18%" id='rainValue'>{{sepDay.day1[24]}}</div>
+                        <div class = "column" style="width:10%" id='rainID'></div>
+                      </div>
+                      <div class = "row">
+                        <div class = "column" style="width:60%">Humidity:</div>
+                        <div class = "column" style="width:10%">{{sepDay.day1[25]}}</div>
+                        <div class = "column" style="width:30%">%</div>
+                      </div>
+                    </div>
+                  </div> 
+                </div>
+              </td>
+            </tr>
+            <!-- Day 2 -->
+            <!-- Collapsible section -->
+            <tr class="accordion-toggle collapsed" id="accordion2" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+              <td class="expand-button"></td>
+              <td>{{sepDay.day2[1]}}</td>
+              <td>{{sepDay.day2[0]}}</td>
+              <td><img src="static/{{sepDay.day2[3]}}"></td>
+              <td id='console-event'>{{sepDay.day2[4]}}</td>
+              <td class = "padding-1" id='console-event'>{{sepDay.day2[5]}}</td>
+              <td class = "padding-1" id="icon"></td>
+            </tr>
+            <!-- Collapsed section -->
+            <tr class="hide-table-padding">
+              <td></td>
+              <td colspan="6">
+                <div id="collapseTwo" class="collapse in p-3">
+                  <div class="row" >
+                    <!-- Midnight -->
+                    <div class = "col-sm">
+                      <div class = "row">
+                        <div class = "col" style="text-align:center">Midnight</div>
+                      </div>
+                      <div class = "row">
+                        <div class = "col" style="text-align:center"><img src="static/{{sepDay.day2[6]}}"></div>
+                      </div>
+                      <div class = "row">
+                        <div class = "column" style="width:60%">Temperature:</div>
+                        <div class = "column" style="width:10%" id='console-event'>{{sepDay.day2[7]}}</div>
+                        <div class = "column" style="width:30%"  id="icon"></div>
+                      </div>
+                      <div class = "row">
+                        <div class = "column" style="width:60%">Cloudiness:</div>
+                        <div class = "column" style="width:10%">{{sepDay.day2[8]}}</div>
+                        <div class = "column" style="width:30%">%</div>
+                      </div>
+                      <div class = "row">
+                        <div class = "column" style="width:60%">Precipitation:</div>
+                        <div class = "column" style="width:18%" id='rainValue'>{{sepDay.day2[9]}}</div>
+                        <div class = "column" style="width:10%" id='rainID'></div>
+                      </div>
+                      <div class = "row">
+                        <div class = "column" style="width:60%">Humidity:</div>
+                        <div class = "column" style="width:10%">{{sepDay.day2[10]}}</div>
+                        <div class = "column" style="width:30%">%</div>
+                      </div>
+                    </div>
+                    <!-- Morning -->
+                    <div class = "col-sm">
+                      <div class = "row">
+                        <div class = "col" style="text-align:center">Morning</div>
+                      </div>
+                      <div class = "row">
+                        <div class = "col" style="text-align:center"><img src="static/{{sepDay.day2[11]}}"></div>
+                      </div>
+                      <div class = "row">
+                        <div class = "column" style="width:60%">Temperature:</div>
+                        <div class = "column" style="width:10%" id='console-event'>{{sepDay.day2[12]}}</div>
+                        <div class = "column" style="width:30%" id="icon"></div>
+                      </div>
+                      <div class = "row">
+                        <div class = "column" style="width:60%">Cloudiness:</div>
+                        <div class = "column" style="width:10%">{{sepDay.day2[13]}}</div>
+                        <div class = "column" style="width:30%">%</div>
+                      </div>
+                      <div class = "row">
+                        <div class = "column" style="width:60%">Precipitation:</div>
+                        <div class = "column" style="width:18%" id='rainValue'>{{sepDay.day2[14]}}</div>
+                        <div class = "column" style="width:10%" id='rainID'></div>
+                      </div>
+                      <div class = "row">
+                        <div class = "column" style="width:60%">Humidity:</div>
+                        <div class = "column" style="width:10%">{{sepDay.day2[15]}}</div>
+                        <div class = "column" style="width:30%">%</div>
+                      </div>
+                    </div>
+                    <!-- Afternoon -->
+                    <div class = "col-sm">
+                      <div class = "row">
+                        <div class = "col" style="text-align:center">Afternoon</div>
+                      </div>
+                      <div class = "row">
+                        <div class = "col" style="text-align:center"><img src="static/{{sepDay.day2[16]}}"></div>
+                      </div>
+                      <div class = "row">
+                        <div class = "column" style="width:60%">Temperature:</div>
+                        <div class = "column" style="width:10%" id='console-event'>{{sepDay.day2[17]}}</div>
+                        <div class = "column" style="width:30%" id="icon"></div>
+                      </div>
+                      <div class = "row">
+                        <div class = "column" style="width:60%">Cloudiness:</div>
+                        <div class = "column" style="width:10%">{{sepDay.day2[18]}}</div>
+                        <div class = "column" style="width:30%">%</div>
+                      </div>
+                      <div class = "row">
+                        <div class = "column" style="width:60%">Precipitation:</div>
+                        <div class = "column" style="width:18%" id='rainValue'>{{sepDay.day2[19]}}</div>
+                        <div class = "column" style="width:10%" id='rainID'></div>
+                      </div>
+                      <div class = "row">
+                        <div class = "column" style="width:60%">Humidity:</div>
+                        <div class = "column" style="width:10%">{{sepDay.day2[20]}}</div>
+                        <div class = "column" style="width:30%">%</div>
+                      </div>
+                    </div>
+                    <!-- Evening -->
+                    <div class = "col">
+                      <div class = "row">
+                        <div class = "col" style="text-align:center">Evening</div>
+                      </div>
+                      <div class = "row">
+                        <div class = "col" style="text-align:center"><img src="static/{{sepDay.day2[21]}}"></div>
+                      </div>
+                      <div class = "row">
+                        <div class = "column" style="width:60%">Temperature:</div>
+                        <div class = "column" style="width:10%" id='console-event'>{{sepDay.day2[22]}}</div>
+                        <div class = "column" style="width:30%" id="icon"></div>
+                      </div>
+                      <div class = "row">
+                        <div class = "column" style="width:60%">Cloudiness:</div>
+                        <div class = "column" style="width:10%">{{sepDay.day2[23]}}</div>
+                        <div class = "column" style="width:30%">%</div>
+                      </div>
+                      <div class = "row">
+                        <div class = "column" style="width:60%">Precipitation:</div>
+                        <div class = "column" style="width:18%" id='rainValue'>{{sepDay.day2[24]}}</div>
+                        <div class = "column" style="width:10%" id='rainID'></div>
+                      </div>
+                      <div class = "row">
+                        <div class = "column" style="width:60%">Humidity:</div>
+                        <div class = "column" style="width:10%">{{sepDay.day2[25]}}</div>
+                        <div class = "column" style="width:30%">%</div>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <div class = "col-sm">
-                  <div class = "row">
-                    <div class = "col" style="text-align:center">Morning</div>
-                  </div>
-                  <div class = "row">
-                    <div class = "col" style="text-align:center"><img src="static/{{sepDay.day1[11]}}"></div>
-                  </div>
-                  <div class = "row">
-                    <div class = "column" style="width:60%">Temperature:</div>
-                    <div class = "column" style="width:10%" id='console-event'>{{sepDay.day1[12]}}</div>
-                    <div class = "column" style="width:30%" id="icon"></div>
-                  </div>
-                  <div class = "row">
-                    <div class = "column" style="width:60%">Cloudiness:</div>
-                    <div class = "column" style="width:10%">{{sepDay.day1[13]}}</div>
-                    <div class = "column" style="width:30%">%</div>
-                  </div>
-                  <div class = "row">
-                    <div class = "column" style="width:60%">Precipitation:</div>
-                    <div class = "column" style="width:18%" id='rainValue'>{{sepDay.day1[14]}}</div>
-                    <div class = "column" style="width:10%" id='rainID'></div>
-                  </div>
-                  <div class = "row">
-                    <div class = "column" style="width:60%">Humidity:</div>
-                    <div class = "column" style="width:10%">{{sepDay.day1[15]}}</div>
-                    <div class = "column" style="width:30%">%</div>
-                  </div>
-                </div>
-                <div class = "col-sm">
-                  <div class = "row">
-                    <div class = "col" style="text-align:center">Afternoon</div>
-                  </div>
-                  <div class = "row">
-                    <div class = "col" style="text-align:center"><img src="static/{{sepDay.day1[16]}}"></div>
-                  </div>
-                  <div class = "row">
-                    <div class = "column" style="width:60%">Temperature:</div>
-                    <div class = "column" style="width:10%" id='console-event'>{{sepDay.day1[17]}}</div>
-                    <div class = "column" style="width:30%" id="icon"></div>
-                  </div>
-                  <div class = "row">
-                    <div class = "column" style="width:60%">Cloudiness:</div>
-                    <div class = "column" style="width:10%">{{sepDay.day1[18]}}</div>
-                    <div class = "column" style="width:30%">%</div>
-                  </div>
-                  <div class = "row">
-                    <div class = "column" style="width:60%">Precipitation:</div>
-                    <div class = "column" style="width:18%" id='rainValue'>{{sepDay.day1[19]}}</div>
-                    <div class = "column" style="width:10%" id='rainID'></div>
-                  </div>
-                  <div class = "row">
-                    <div class = "column" style="width:60%">Humidity:</div>
-                    <div class = "column" style="width:10%">{{sepDay.day1[20]}}</div>
-                    <div class = "column" style="width:30%">%</div>
-                  </div>
-                </div>
-                <div class = "col">
-                  <div class = "row">
-                    <div class = "col" style="text-align:center">Evening</div>
-                  </div>
-                  <div class = "row">
-                    <div class = "col" style="text-align:center"><img src="static/{{sepDay.day1[21]}}"></div>
-                  </div>
-                  <div class = "row">
-                    <div class = "column" style="width:60%">Temperature:</div>
-                    <div class = "column" style="width:10%" id='console-event'>{{sepDay.day1[22]}}</div>
-                    <div class = "column" style="width:30%" id="icon"></div>
-                  </div>
-                  <div class = "row">
-                    <div class = "column" style="width:60%">Cloudiness:</div>
-                    <div class = "column" style="width:10%">{{sepDay.day1[23]}}</div>
-                    <div class = "column" style="width:30%">%</div>
-                  </div>
-                  <div class = "row">
-                    <div class = "column" style="width:60%">Precipitation:</div>
-                    <div class = "column" style="width:18%" id='rainValue'>{{sepDay.day1[24]}}</div>
-                    <div class = "column" style="width:10%" id='rainID'></div>
-                  </div>
-                  <div class = "row">
-                    <div class = "column" style="width:60%">Humidity:</div>
-                    <div class = "column" style="width:10%">{{sepDay.day1[25]}}</div>
-                    <div class = "column" style="width:30%">%</div>
-                  </div>
-                </div>
-              </div>            
-            </div>
-            </td>
-          </tr>
-          <tr class="accordion-toggle collapsed" id="accordion2" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
-            <td class="expand-button"></td>
-            <td>{{sepDay.day2[1]}}</td>
-            <td>{{sepDay.day2[0]}}</td>
-            <td><img src="static/{{sepDay.day2[3]}}"></td>
-            <td id='console-event'>{{sepDay.day2[4]}}</td>
-            <td class = "padding-1" id='console-event'>{{sepDay.day2[5]}}</td>
-            <td class = "padding-1" id="icon"></td>
-          </tr>
-          <tr class="hide-table-padding">
-            <td></td>
-            <td colspan="6">
-            <div id="collapseTwo" class="collapse in p-3">
-              <div class="row" >
-                <div class = "col-sm">
-                  <div class = "row">
-                    <div class = "col" style="text-align:center">Midnight</div>
-                  </div>
-                  <div class = "row">
-                    <div class = "col" style="text-align:center"><img src="static/{{sepDay.day2[6]}}"></div>
-                  </div>
-                  <div class = "row">
-                    <div class = "column" style="width:60%">Temperature:</div>
-                    <div class = "column" style="width:10%" id='console-event'>{{sepDay.day2[7]}}</div>
-                    <div class = "column" style="width:30%"  id="icon"></div>
-                  </div>
-                  <div class = "row">
-                    <div class = "column" style="width:60%">Cloudiness:</div>
-                    <div class = "column" style="width:10%">{{sepDay.day2[8]}}</div>
-                    <div class = "column" style="width:30%">%</div>
-                  </div>
-                  <div class = "row">
-                    <div class = "column" style="width:60%">Precipitation:</div>
-                    <div class = "column" style="width:18%" id='rainValue'>{{sepDay.day2[9]}}</div>
-                    <div class = "column" style="width:10%" id='rainID'></div>
-                  </div>
-                  <div class = "row">
-                    <div class = "column" style="width:60%">Humidity:</div>
-                    <div class = "column" style="width:10%">{{sepDay.day2[10]}}</div>
-                    <div class = "column" style="width:30%">%</div>
-                  </div>
-                </div>
-                <div class = "col-sm">
-                  <div class = "row">
-                    <div class = "col" style="text-align:center">Morning</div>
-                  </div>
-                  <div class = "row">
-                    <div class = "col" style="text-align:center"><img src="static/{{sepDay.day2[11]}}"></div>
-                  </div>
-                  <div class = "row">
-                    <div class = "column" style="width:60%">Temperature:</div>
-                    <div class = "column" style="width:10%" id='console-event'>{{sepDay.day2[12]}}</div>
-                    <div class = "column" style="width:30%" id="icon"></div>
-                  </div>
-                  <div class = "row">
-                    <div class = "column" style="width:60%">Cloudiness:</div>
-                    <div class = "column" style="width:10%">{{sepDay.day2[13]}}</div>
-                    <div class = "column" style="width:30%">%</div>
-                  </div>
-                  <div class = "row">
-                    <div class = "column" style="width:60%">Precipitation:</div>
-                    <div class = "column" style="width:18%" id='rainValue'>{{sepDay.day2[14]}}</div>
-                    <div class = "column" style="width:10%" id='rainID'></div>
-                  </div>
-                  <div class = "row">
-                    <div class = "column" style="width:60%">Humidity:</div>
-                    <div class = "column" style="width:10%">{{sepDay.day2[15]}}</div>
-                    <div class = "column" style="width:30%">%</div>
+              </td>
+            </tr>
+            <!-- Day 3 -->
+            <!-- Collapsible section -->
+            <tr class="accordion-toggle collapsed" id="accordion3" data-toggle="collapse" data-parent="#accordion3" href="#collapseThree">
+              <td class="expand-button"></td>
+              <td>{{sepDay.day3[1]}}</td>
+              <td>{{sepDay.day3[0]}}</td>
+              <td><img src="static/{{sepDay.day3[3]}}"></td>
+              <td id='console-event'>{{sepDay.day3[4]}}</td>
+              <td class = "padding-1" id='console-event'>{{sepDay.day3[5]}}</td>
+              <td class = "padding-1" id="icon"></td>
+            </tr>
+            <!-- Collapsed section -->
+            <tr class="hide-table-padding">
+              <td></td>
+              <td colspan="6">
+                <div id="collapseThree" class="collapse in p-3">
+                  <div class="row" >
+                    <!-- Midnight -->
+                    <div class = "col-sm">
+                      <div class = "row">
+                        <div class = "col" style="text-align:center">Midnight</div>
+                      </div>
+                      <div class = "row">
+                        <div class = "col" style="text-align:center"><img src="static/{{sepDay.day3[6]}}"></div>
+                      </div>
+                      <div class = "row">
+                        <div class = "column" style="width:60%">Temperature:</div>
+                        <div class = "column" style="width:10%" id='console-event'>{{sepDay.day3[7]}}</div>
+                        <div class = "column" style="width:30%" id="icon"></div>
+                      </div>
+                      <div class = "row">
+                        <div class = "column" style="width:60%">Cloudiness:</div>
+                        <div class = "column" style="width:10%">{{sepDay.day3[8]}}</div>
+                        <div class = "column" style="width:30%">%</div>
+                      </div>
+                      <div class = "row">
+                        <div class = "column" style="width:60%">Precipitation:</div>
+                        <div class = "column" style="width:18%" id='rainValue'>{{sepDay.day3[9]}}</div>
+                        <div class = "column" style="width:10%" id='rainID'></div>
+                      </div>
+                      <div class = "row">
+                        <div class = "column" style="width:60%">Humidity:</div>
+                        <div class = "column" style="width:10%">{{sepDay.day3[10]}}</div>
+                        <div class = "column" style="width:30%">%</div>
+                      </div>
+                    </div>
+                    <!-- Morning -->
+                    <div class = "col-sm">
+                      <div class = "row">
+                        <div class = "col" style="text-align:center">Morning</div>
+                      </div>
+                      <div class = "row">
+                        <div class = "col" style="text-align:center"><img src="static/{{sepDay.day3[11]}}"></div>
+                      </div>
+                      <div class = "row">
+                        <div class = "column" style="width:60%">Temperature:</div>
+                        <div class = "column" style="width:10%" id='console-event'>{{sepDay.day3[12]}}</div>
+                        <div class = "column" style="width:30%" id="icon"></div>
+                      </div>
+                      <div class = "row">
+                        <div class = "column" style="width:60%">Cloudiness:</div>
+                        <div class = "column" style="width:10%">{{sepDay.day3[13]}}</div>
+                        <div class = "column" style="width:30%">%</div>
+                      </div>
+                      <div class = "row">
+                        <div class = "column" style="width:60%">Precipitation:</div>
+                        <div class = "column" style="width:18%" id='rainValue'>{{sepDay.day3[14]}}</div>
+                        <div class = "column" style="width:10%" id='rainID'></div>
+                      </div>
+                      <div class = "row">
+                        <div class = "column" style="width:60%">Humidity:</div>
+                        <div class = "column" style="width:10%">{{sepDay.day3[15]}}</div>
+                        <div class = "column" style="width:30%">%</div>
+                      </div>
+                    </div>
+                    <!-- Afternoon -->
+                    <div class = "col-sm">
+                      <div class = "row">
+                        <div class = "col" style="text-align:center">Afternoon</div>
+                      </div>
+                      <div class = "row">
+                        <div class = "col" style="text-align:center"><img src="static/{{sepDay.day3[16]}}"></div>
+                      </div>
+                      <div class = "row">
+                        <div class = "column" style="width:60%">Temperature:</div>
+                        <div class = "column" style="width:10%" id='console-event'>{{sepDay.day3[17]}}</div>
+                        <div class = "column" style="width:30%" id="icon"></div>
+                      </div>
+                      <div class = "row">
+                        <div class = "column" style="width:60%">Cloudiness:</div>
+                        <div class = "column" style="width:10%">{{sepDay.day3[18]}}</div>
+                        <div class = "column" style="width:30%">%</div>
+                      </div>
+                      <div class = "row">
+                        <div class = "column" style="width:60%">Precipitation:</div>
+                        <div class = "column" style="width:18%" id='rainValue'>{{sepDay.day3[19]}}</div>
+                        <div class = "column" style="width:10%" id='rainID'></div>
+                      </div>
+                      <div class = "row">
+                        <div class = "column" style="width:60%">Humidity:</div>
+                        <div class = "column" style="width:10%">{{sepDay.day3[20]}}</div>
+                        <div class = "column" style="width:30%">%</div>
+                      </div>
+                    </div>
+                    <!-- Evening -->
+                    <div class = "col">
+                      <div class = "row">
+                        <div class = "col" style="text-align:center">Evening</div>
+                      </div>
+                      <div class = "row">
+                        <div class = "col" style="text-align:center"><img src="static/{{sepDay.day3[21]}}"></div>
+                      </div>
+                      <div class = "row">
+                        <div class = "column" style="width:60%">Temperature:</div>
+                        <div class = "column" style="width:10%" id='console-event'>{{sepDay.day3[22]}}</div>
+                        <div class = "column" style="width:30%" id="icon"></div>
+                      </div>
+                      <div class = "row">
+                        <div class = "column" style="width:60%">Cloudiness:</div>
+                        <div class = "column" style="width:10%">{{sepDay.day3[23]}}</div>
+                        <div class = "column" style="width:30%">%</div>
+                      </div>
+                      <div class = "row">
+                        <div class = "column" style="width:60%">Precipitation:</div>
+                        <div class = "column" style="width:18%" id='rainValue'>{{sepDay.day3[24]}}</div>
+                        <div class = "column" style="width:10%" id='rainID'></div>
+                      </div>
+                      <div class = "row">
+                        <div class = "column" style="width:60%">Humidity:</div>
+                        <div class = "column" style="width:10%">{{sepDay.day3[25]}}</div>
+                        <div class = "column" style="width:30%">%</div>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <div class = "col-sm">
-                  <div class = "row">
-                    <div class = "col" style="text-align:center">Afternoon</div>
-                  </div>
-                  <div class = "row">
-                    <div class = "col" style="text-align:center"><img src="static/{{sepDay.day2[16]}}"></div>
-                  </div>
-                  <div class = "row">
-                    <div class = "column" style="width:60%">Temperature:</div>
-                    <div class = "column" style="width:10%" id='console-event'>{{sepDay.day2[17]}}</div>
-                    <div class = "column" style="width:30%" id="icon"></div>
-                  </div>
-                  <div class = "row">
-                    <div class = "column" style="width:60%">Cloudiness:</div>
-                    <div class = "column" style="width:10%">{{sepDay.day2[18]}}</div>
-                    <div class = "column" style="width:30%">%</div>
-                  </div>
-                  <div class = "row">
-                    <div class = "column" style="width:60%">Precipitation:</div>
-                    <div class = "column" style="width:18%" id='rainValue'>{{sepDay.day2[19]}}</div>
-                    <div class = "column" style="width:10%" id='rainID'></div>
-                  </div>
-                  <div class = "row">
-                    <div class = "column" style="width:60%">Humidity:</div>
-                    <div class = "column" style="width:10%">{{sepDay.day2[20]}}</div>
-                    <div class = "column" style="width:30%">%</div>
-                  </div>
-                </div>
-                <div class = "col">
-                  <div class = "row">
-                    <div class = "col" style="text-align:center">Evening</div>
-                  </div>
-                  <div class = "row">
-                    <div class = "col" style="text-align:center"><img src="static/{{sepDay.day2[21]}}"></div>
-                  </div>
-                  <div class = "row">
-                    <div class = "column" style="width:60%">Temperature:</div>
-                    <div class = "column" style="width:10%" id='console-event'>{{sepDay.day2[22]}}</div>
-                    <div class = "column" style="width:30%" id="icon"></div>
-                  </div>
-                  <div class = "row">
-                    <div class = "column" style="width:60%">Cloudiness:</div>
-                    <div class = "column" style="width:10%">{{sepDay.day2[23]}}</div>
-                    <div class = "column" style="width:30%">%</div>
-                  </div>
-                  <div class = "row">
-                    <div class = "column" style="width:60%">Precipitation:</div>
-                    <div class = "column" style="width:18%" id='rainValue'>{{sepDay.day2[24]}}</div>
-                    <div class = "column" style="width:10%" id='rainID'></div>
-                  </div>
-                  <div class = "row">
-                    <div class = "column" style="width:60%">Humidity:</div>
-                    <div class = "column" style="width:10%">{{sepDay.day2[25]}}</div>
-                    <div class = "column" style="width:30%">%</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            </td>
-          </tr>
-          <tr class="accordion-toggle collapsed" id="accordion3" data-toggle="collapse" data-parent="#accordion3" href="#collapseThree">
-            <td class="expand-button"></td>
-            <td>{{sepDay.day3[1]}}</td>
-            <td>{{sepDay.day3[0]}}</td>
-            <td><img src="static/{{sepDay.day3[3]}}"></td>
-            <td id='console-event'>{{sepDay.day3[4]}}</td>
-            <td class = "padding-1" id='console-event'>{{sepDay.day3[5]}}</td>
-            <td class = "padding-1" id="icon"></td>
-          </tr>
-          <tr class="hide-table-padding">
-            <td></td>
-            <td colspan="6">
-            <div id="collapseThree" class="collapse in p-3">
-              <div class="row" >
-                <div class = "col-sm">
-                  <div class = "row">
-                    <div class = "col" style="text-align:center">Midnight</div>
-                  </div>
-                  <div class = "row">
-                    <div class = "col" style="text-align:center"><img src="static/{{sepDay.day3[6]}}"></div>
-                  </div>
-                  <div class = "row">
-                    <div class = "column" style="width:60%">Temperature:</div>
-                    <div class = "column" style="width:10%" id='console-event'>{{sepDay.day3[7]}}</div>
-                    <div class = "column" style="width:30%" id="icon"></div>
-                  </div>
-                  <div class = "row">
-                    <div class = "column" style="width:60%">Cloudiness:</div>
-                    <div class = "column" style="width:10%">{{sepDay.day3[8]}}</div>
-                    <div class = "column" style="width:30%">%</div>
-                  </div>
-                  <div class = "row">
-                    <div class = "column" style="width:60%">Precipitation:</div>
-                    <div class = "column" style="width:18%" id='rainValue'>{{sepDay.day3[9]}}</div>
-                    <div class = "column" style="width:10%" id='rainID'></div>
-                  </div>
-                  <div class = "row">
-                    <div class = "column" style="width:60%">Humidity:</div>
-                    <div class = "column" style="width:10%">{{sepDay.day3[10]}}</div>
-                    <div class = "column" style="width:30%">%</div>
-                  </div>
-                </div>
-                <div class = "col-sm">
-                  <div class = "row">
-                    <div class = "col" style="text-align:center">Morning</div>
-                  </div>
-                  <div class = "row">
-                    <div class = "col" style="text-align:center"><img src="static/{{sepDay.day3[11]}}"></div>
-                  </div>
-                  <div class = "row">
-                    <div class = "column" style="width:60%">Temperature:</div>
-                    <div class = "column" style="width:10%" id='console-event'>{{sepDay.day3[12]}}</div>
-                    <div class = "column" style="width:30%" id="icon"></div>
-                  </div>
-                  <div class = "row">
-                    <div class = "column" style="width:60%">Cloudiness:</div>
-                    <div class = "column" style="width:10%">{{sepDay.day3[13]}}</div>
-                    <div class = "column" style="width:30%">%</div>
-                  </div>
-                  <div class = "row">
-                    <div class = "column" style="width:60%">Precipitation:</div>
-                    <div class = "column" style="width:18%" id='rainValue'>{{sepDay.day3[14]}}</div>
-                    <div class = "column" style="width:10%" id='rainID'></div>
-                  </div>
-                  <div class = "row">
-                    <div class = "column" style="width:60%">Humidity:</div>
-                    <div class = "column" style="width:10%">{{sepDay.day3[15]}}</div>
-                    <div class = "column" style="width:30%">%</div>
-                  </div>
-                </div>
-                <div class = "col-sm">
-                  <div class = "row">
-                    <div class = "col" style="text-align:center">Afternoon</div>
-                  </div>
-                  <div class = "row">
-                    <div class = "col" style="text-align:center"><img src="static/{{sepDay.day3[16]}}"></div>
-                  </div>
-                  <div class = "row">
-                    <div class = "column" style="width:60%">Temperature:</div>
-                    <div class = "column" style="width:10%" id='console-event'>{{sepDay.day3[17]}}</div>
-                    <div class = "column" style="width:30%" id="icon"></div>
-                  </div>
-                  <div class = "row">
-                    <div class = "column" style="width:60%">Cloudiness:</div>
-                    <div class = "column" style="width:10%">{{sepDay.day3[18]}}</div>
-                    <div class = "column" style="width:30%">%</div>
-                  </div>
-                  <div class = "row">
-                    <div class = "column" style="width:60%">Precipitation:</div>
-                    <div class = "column" style="width:18%" id='rainValue'>{{sepDay.day3[19]}}</div>
-                    <div class = "column" style="width:10%" id='rainID'></div>
-                  </div>
-                  <div class = "row">
-                    <div class = "column" style="width:60%">Humidity:</div>
-                    <div class = "column" style="width:10%">{{sepDay.day3[20]}}</div>
-                    <div class = "column" style="width:30%">%</div>
+              </td>
+            </tr>
+            <!-- Day 4 -->
+            <!-- Collapsible section -->
+            <tr class="accordion-toggle collapsed" id="accordion4" data-toggle="collapse" data-parent="#accordion4" href="#collapseFour">
+              <td class="expand-button"></td>
+              <td>{{sepDay.day4[1]}}</td>
+              <td>{{sepDay.day4[0]}}</td>
+              <td><img src="static/{{sepDay.day4[3]}}"></td>
+              <td id='console-event'>{{sepDay.day4[4]}}</td>
+              <td class = "padding-1" id='console-event'>{{sepDay.day4[5]}}</td>
+              <td class = "padding-1" id="icon"></td>
+            </tr>
+            <!-- Collapsed section -->
+            <tr class="hide-table-padding">
+              <td></td>
+              <td colspan="6">
+                <div id="collapseFour" class="collapse in p-3">
+                  <div class="row">
+                    <!-- Midnight -->
+                    <div class = "col-sm">
+                      <div class = "row">
+                        <div class = "col" style="text-align:center">Midnight</div>
+                      </div>
+                      <div class = "row">
+                        <div class = "col" style="text-align:center"><img src="static/{{sepDay.day4[6]}}"></div>
+                      </div>
+                      <div class = "row">
+                        <div class = "column" style="width:60%">Temperature:</div>
+                        <div class = "column" style="width:10%" id='console-event'>{{sepDay.day4[7]}}</div>
+                        <div class = "column" style="width:30%" id="icon"></div>
+                      </div>
+                      <div class = "row">
+                        <div class = "column" style="width:60%">Cloudiness:</div>
+                        <div class = "column" style="width:10%">{{sepDay.day4[8]}}</div>
+                        <div class = "column" style="width:30%">%</div>
+                      </div>
+                      <div class = "row">
+                        <div class = "column" style="width:60%">Precipitation:</div>
+                        <div class = "column" style="width:18%" id='rainValue'>{{sepDay.day4[9]}}</div>
+                        <div class = "column" style="width:10%" id='rainID'></div>
+                      </div>
+                      <div class = "row">
+                        <div class = "column" style="width:60%">Humidity:</div>
+                        <div class = "column" style="width:10%">{{sepDay.day4[10]}}</div>
+                        <div class = "column" style="width:30%">%</div>
+                      </div>
+                    </div>
+                    <!-- Morning -->
+                    <div class = "col-sm">
+                      <div class = "row">
+                        <div class = "col" style="text-align:center">Morning</div>
+                      </div>
+                      <div class = "row">
+                        <div class = "col" style="text-align:center"><img src="static/{{sepDay.day4[11]}}"></div>
+                      </div>
+                      <div class = "row">
+                        <div class = "column" style="width:60%">Temperature:</div>
+                        <div class = "column" style="width:10%" id='console-event'>{{sepDay.day4[12]}}</div>
+                        <div class = "column" style="width:30%" id ='icon'></div>
+                      </div>
+                      <div class = "row">
+                        <div class = "column" style="width:60%">Cloudiness:</div>
+                        <div class = "column" style="width:10%">{{sepDay.day4[13]}}</div>
+                        <div class = "column" style="width:30%">%</div>
+                      </div>
+                      <div class = "row">
+                        <div class = "column" style="width:60%">Precipitation:</div>
+                        <div class = "column" style="width:18%" id='rainValue'>{{sepDay.day4[14]}}</div>
+                        <div class = "column" style="width:10%" id='rainID'></div>
+                      </div>
+                      <div class = "row">
+                        <div class = "column" style="width:60%">Humidity:</div>
+                        <div class = "column" style="width:10%">{{sepDay.day4[15]}}</div>
+                        <div class = "column" style="width:30%">%</div>
+                      </div>
+                    </div>
+                    <!-- Afternoon -->
+                    <div class = "col-sm">
+                      <div class = "row">
+                        <div class = "col" style="text-align:center">Afternoon</div>
+                      </div>
+                      <div class = "row">
+                        <div class = "col" style="text-align:center"><img src="static/{{sepDay.day4[16]}}"></div>
+                      </div>
+                      <div class = "row">
+                        <div class = "column" style="width:60%">Temperature:</div>
+                        <div class = "column" style="width:10%" id='console-event'>{{sepDay.day4[17]}}</div>
+                        <div class = "column" style="width:30%" id="icon"></div>
+                      </div>
+                      <div class = "row">
+                        <div class = "column" style="width:60%">Cloudiness:</div>
+                        <div class = "column" style="width:10%">{{sepDay.day4[18]}}</div>
+                        <div class = "column" style="width:30%">%</div>
+                      </div>
+                      <div class = "row">
+                        <div class = "column" style="width:60%">Precipitation:</div>
+                        <div class = "column" style="width:18%" id='rainValue'>{{sepDay.day4[19]}}</div>
+                        <div class = "column" style="width:10%" id='rainID'></div>
+                      </div>
+                      <div class = "row">
+                        <div class = "column" style="width:60%">Humidity:</div>
+                        <div class = "column" style="width:10%">{{sepDay.day4[20]}}</div>
+                        <div class = "column" style="width:30%">%</div>
+                      </div>
+                    </div>
+                    <!-- Evening -->
+                    <div class = "col">
+                      <div class = "row">
+                        <div class = "col" style="text-align:center">Evening</div>
+                      </div>
+                      <div class = "row">
+                        <div class = "col" style="text-align:center"><img src="static/{{sepDay.day4[21]}}"></div>
+                      </div>
+                      <div class = "row">
+                        <div class = "column" style="width:60%">Temperature:</div>
+                        <div class = "column" style="width:10%" id='console-event'>{{sepDay.day4[22]}}</div>
+                        <div class = "column" style="width:30%" id="icon"></div>
+                      </div>
+                      <div class = "row">
+                        <div class = "column" style="width:60%">Cloudiness:</div>
+                        <div class = "column" style="width:10%">{{sepDay.day4[23]}}</div>
+                        <div class = "column" style="width:30%">%</div>
+                      </div>
+                      <div class = "row">
+                        <div class = "column" style="width:60%">Precipitation:</div>
+                        <div class = "column" style="width:18%" id ='rainValue'>{{sepDay.day4[24]}}</div>
+                        <div class = "column" style="width:10%" id='rainID'></div>
+                      </div>
+                      <div class = "row">
+                        <div class = "column" style="width:60%">Humidity:</div>
+                        <div class = "column" style="width:10%">{{sepDay.day4[25]}}</div>
+                        <div class = "column" style="width:30%">%</div>
+                      </div>
+                    </div>
                   </div>
                 </div>
-                <div class = "col">
-                  <div class = "row">
-                    <div class = "col" style="text-align:center">Evening</div>
-                  </div>
-                  <div class = "row">
-                    <div class = "col" style="text-align:center"><img src="static/{{sepDay.day3[21]}}"></div>
-                  </div>
-                  <div class = "row">
-                    <div class = "column" style="width:60%">Temperature:</div>
-                    <div class = "column" style="width:10%" id='console-event'>{{sepDay.day3[22]}}</div>
-                    <div class = "column" style="width:30%" id="icon"></div>
-                  </div>
-                  <div class = "row">
-                    <div class = "column" style="width:60%">Cloudiness:</div>
-                    <div class = "column" style="width:10%">{{sepDay.day3[23]}}</div>
-                    <div class = "column" style="width:30%">%</div>
-                  </div>
-                  <div class = "row">
-                    <div class = "column" style="width:60%">Precipitation:</div>
-                    <div class = "column" style="width:18%" id='rainValue'>{{sepDay.day3[24]}}</div>
-                    <div class = "column" style="width:10%" id='rainID'></div>
-                  </div>
-                  <div class = "row">
-                    <div class = "column" style="width:60%">Humidity:</div>
-                    <div class = "column" style="width:10%">{{sepDay.day3[25]}}</div>
-                    <div class = "column" style="width:30%">%</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            </td>
-          </tr>
-          <tr class="accordion-toggle collapsed" id="accordion4" data-toggle="collapse" data-parent="#accordion4" href="#collapseFour">
-            <td class="expand-button"></td>
-            <td>{{sepDay.day4[1]}}</td>
-            <td>{{sepDay.day4[0]}}</td>
-            <td><img src="static/{{sepDay.day4[3]}}"></td>
-            <td id='console-event'>{{sepDay.day4[4]}}</td>
-            <td class = "padding-1" id='console-event'>{{sepDay.day4[5]}}</td>
-            <td class = "padding-1" id="icon"></td>
-          </tr>
-          <tr class="hide-table-padding">
-            <td></td>
-            <td colspan="6">
-            <div id="collapseFour" class="collapse in p-3">
-              <div class="row">
-                <div class = "col-sm">
-                  <div class = "row">
-                    <div class = "col" style="text-align:center">Midnight</div>
-                  </div>
-                  <div class = "row">
-                    <div class = "col" style="text-align:center"><img src="static/{{sepDay.day4[6]}}"></div>
-                  </div>
-                  <div class = "row">
-                    <div class = "column" style="width:60%">Temperature:</div>
-                    <div class = "column" style="width:10%" id='console-event'>{{sepDay.day4[7]}}</div>
-                    <div class = "column" style="width:30%" id="icon"></div>
-                  </div>
-                  <div class = "row">
-                    <div class = "column" style="width:60%">Cloudiness:</div>
-                    <div class = "column" style="width:10%">{{sepDay.day4[8]}}</div>
-                    <div class = "column" style="width:30%">%</div>
-                  </div>
-                  <div class = "row">
-                    <div class = "column" style="width:60%">Precipitation:</div>
-                    <div class = "column" style="width:18%" id='rainValue'>{{sepDay.day4[9]}}</div>
-                    <div class = "column" style="width:10%" id='rainID'></div>
-                  </div>
-                  <div class = "row">
-                    <div class = "column" style="width:60%">Humidity:</div>
-                    <div class = "column" style="width:10%">{{sepDay.day4[10]}}</div>
-                    <div class = "column" style="width:30%">%</div>
-                  </div>
-                </div>
-                <div class = "col-sm">
-                  <div class = "row">
-                    <div class = "col" style="text-align:center">Morning</div>
-                  </div>
-                  <div class = "row">
-                    <div class = "col" style="text-align:center"><img src="static/{{sepDay.day4[11]}}"></div>
-                  </div>
-                  <div class = "row">
-                    <div class = "column" style="width:60%">Temperature:</div>
-                    <div class = "column" style="width:10%" id='console-event'>{{sepDay.day4[12]}}</div>
-                    <div class = "column" style="width:30%" id ='icon'></div>
-                  </div>
-                  <div class = "row">
-                    <div class = "column" style="width:60%">Cloudiness:</div>
-                    <div class = "column" style="width:10%">{{sepDay.day4[13]}}</div>
-                    <div class = "column" style="width:30%">%</div>
-                  </div>
-                  <div class = "row">
-                    <div class = "column" style="width:60%">Precipitation:</div>
-                    <div class = "column" style="width:18%" id='rainValue'>{{sepDay.day4[14]}}</div>
-                    <div class = "column" style="width:10%" id='rainID'></div>
-                  </div>
-                  <div class = "row">
-                    <div class = "column" style="width:60%">Humidity:</div>
-                    <div class = "column" style="width:10%">{{sepDay.day4[15]}}</div>
-                    <div class = "column" style="width:30%">%</div>
-                  </div>
-                </div>
-                <div class = "col-sm">
-                  <div class = "row">
-                    <div class = "col" style="text-align:center">Afternoon</div>
-                  </div>
-                  <div class = "row">
-                    <div class = "col" style="text-align:center"><img src="static/{{sepDay.day4[16]}}"></div>
-                  </div>
-                  <div class = "row">
-                    <div class = "column" style="width:60%">Temperature:</div>
-                    <div class = "column" style="width:10%" id='console-event'>{{sepDay.day4[17]}}</div>
-                    <div class = "column" style="width:30%" id="icon"></div>
-                  </div>
-                  <div class = "row">
-                    <div class = "column" style="width:60%">Cloudiness:</div>
-                    <div class = "column" style="width:10%">{{sepDay.day4[18]}}</div>
-                    <div class = "column" style="width:30%">%</div>
-                  </div>
-                  <div class = "row">
-                    <div class = "column" style="width:60%">Precipitation:</div>
-                    <div class = "column" style="width:18%" id='rainValue'>{{sepDay.day4[19]}}</div>
-                    <div class = "column" style="width:10%" id='rainID'></div>
-                  </div>
-                  <div class = "row">
-                    <div class = "column" style="width:60%">Humidity:</div>
-                    <div class = "column" style="width:10%">{{sepDay.day4[20]}}</div>
-                    <div class = "column" style="width:30%">%</div>
-                  </div>
-                </div>
-                <div class = "col">
-                  <div class = "row">
-                    <div class = "col" style="text-align:center">Evening</div>
-                  </div>
-                  <div class = "row">
-                    <div class = "col" style="text-align:center"><img src="static/{{sepDay.day4[21]}}"></div>
-                  </div>
-                  <div class = "row">
-                    <div class = "column" style="width:60%">Temperature:</div>
-                    <div class = "column" style="width:10%" id='console-event'>{{sepDay.day4[22]}}</div>
-                    <div class = "column" style="width:30%" id="icon"></div>
-                  </div>
-                  <div class = "row">
-                    <div class = "column" style="width:60%">Cloudiness:</div>
-                    <div class = "column" style="width:10%">{{sepDay.day4[23]}}</div>
-                    <div class = "column" style="width:30%">%</div>
-                  </div>
-                  <div class = "row">
-                    <div class = "column" style="width:60%">Precipitation:</div>
-                    <div class = "column" style="width:18%" id ='rainValue'>{{sepDay.day4[24]}}</div>
-                    <div class = "column" style="width:10%" id='rainID'></div>
-                  </div>
-                  <div class = "row">
-                    <div class = "column" style="width:60%">Humidity:</div>
-                    <div class = "column" style="width:10%">{{sepDay.day4[25]}}</div>
-                    <div class = "column" style="width:30%">%</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            </td>
-          </tr>          
-        </tbody>
-      </table>
+              </td>
+            </tr>          
+          </tbody>
+        </table>
+        
       </div>
     </div>
   </div>
-  </div> 
-  </div>
-
+</div> 
 {% endblock %}
