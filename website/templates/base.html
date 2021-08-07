@@ -13,7 +13,7 @@
   <title>{% block title %}{% endblock %}</title>
 </head>
 <body>
-	<nav class="navbar navbar-expand-sm navbar-dark" style="background-color: #257cfd;">
+	<nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #257cfd;">
     <a class="navbar-app-name mr-sm-4" style="text-decoration: none; color:white; font-size:large">
       <img src="{{url_for('static', filename='images/weatherbooth.png')}}" width="60" height="60" class="d-inline-block" alt="">
       Weatherbooth
@@ -23,7 +23,7 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarText">
       <a class="nav-link disabled mx-auto h1" style="color:white" href="#"><h2>Singapore</h2></a>
-      <input type="checkbox" style="min-width:150px;" id="change-units" data-toggle="toggle" data-on="Imperial" data-off="Metric" data-onstyle="warning" data-offstyle="success">
+      <input type="checkbox" style="min-width:150px;" id="change-units" data-toggle="toggle" data-on="Imp" data-off="Met" data-onstyle="warning" data-offstyle="success">
     </div>
 	</nav>
   &copy; FYP-21-S2-03. Last system update {{current.date}}
