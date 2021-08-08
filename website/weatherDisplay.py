@@ -9,22 +9,29 @@ import time
 
 weatherDisplay = Blueprint('weatherDisplay', __name__)
 
-@weatherDisplay.route("/feedback", methods=['GET','POST'])
+#To add feedback into database
+@weatherDisplay.route("/feedback", methods=['POST'])
 def feedback():
+
+    #dictionary of current(from api), twentyfour hour and four day data(predicted data)
     info = {"current":request.form['curhr'], "tfHour":request.form['twfhr'], "sDay":request.form['svndy']}
-    question = Feedback(prediction = info)
+    #create feedback model object with the dictionary
+    record = Feedback(prediction = info)
     try:
-        db.session.add(question)
+        #add record to feedback table
+        db.session.add(record)
     except:
         db.session.rollback()
         raise
     finally:
+        #commit the changes
+        #close the session
         db.session.commit()
         db.session.close()
 
     return ('', 204)
 
-@weatherDisplay.route("/", methods=['GET','POST'])
+@weatherDisplay.route("/", methods=['GET'])
 def currentPage():
     try:
         # current.py

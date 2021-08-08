@@ -18,6 +18,7 @@ function htmlDecode(input) {
 function displayMsg(value, current, tfHour, sepDay) {
 
   alert("Thank you for your feedback!!!");
+
   if (value=='no') {
 
     $.ajax({
@@ -29,10 +30,14 @@ function displayMsg(value, current, tfHour, sepDay) {
         svndy: htmlDecode(JSON.stringify(sepDay)),
       },
       success: function () {
-        setTimeout(() => {
-          closeForm();
-        }, 1000);
+        console.log('Feedback saved.');
       }
     })
   }
+
+  setTimeout(() => {
+    closeForm();
+  }, 1000);
+
+  return false;
 };
