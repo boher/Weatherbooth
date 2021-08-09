@@ -8,6 +8,8 @@ Webapp micro framework:
 Webapp deployment platform (CI/CD):
 
 ### [Heroku](https://devcenter.heroku.com/categories/reference "Heroku Documentation")
+
+### Directory diagram
 <br>
 --- Weatherbooth
 <br>
@@ -30,7 +32,7 @@ Webapp deployment platform (CI/CD):
 |- README.md
 <br>
 |- requirements.txt
-<br>
+
 ### To run website locally
 <br>
 Step-1: Clone the repository (main branch)
