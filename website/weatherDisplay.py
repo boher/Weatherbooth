@@ -4,8 +4,6 @@ from website.twentyFourHour import TwentyFourHourWeather
 from website.fourDay import FourDayWeather
 from website.extensions import db
 from website.models import Feedback
-import json
-import time
 
 weatherDisplay = Blueprint('weatherDisplay', __name__)
 
