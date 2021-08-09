@@ -10,6 +10,7 @@ Webapp deployment platform (CI/CD):
 ### [Heroku](https://devcenter.heroku.com/categories/reference "Heroku Documentation")
 
 ### [To run locally]
+<br>
 Step-1: Clone the repository (main branch)
 Step-2: Go to the repository folder on your machine
 Step-3: Find the requirement.txt folder directory
