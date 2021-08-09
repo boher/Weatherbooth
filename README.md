@@ -9,7 +9,7 @@ Webapp deployment platform (CI/CD):
 
 ### [Heroku](https://devcenter.heroku.com/categories/reference "Heroku Documentation")
 
-### To run locally
+### To run website locally
 <br>
 Step-1: Clone the repository (main branch)
 <br>
