@@ -45,8 +45,8 @@ Step-4: Open command-line prompt in the directory (eg: D:\GitHub\Weatherbooth>)
 <br>
 Step-5: Run the command "pip install -r requirements.txt" (eg: D:\GitHub\Weatherbooth>pip install -r requirements.txt)
 <br>
-Step-6: Go to website folder and find config.py
+Step-6: Go to website folder and find config.py (eg: D:\GitHub\Weatherbooth\website)
 <br>
-Step-7: Comment line 5 and uncomment line 10. Save the file
+Step-7: Comment line 5 and uncomment line 10 in config.py. Save the file
 <br>
 Step-8: Run app.py and follow the link provided (similar to http://localhost:5000/)
