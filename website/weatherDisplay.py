@@ -1,91 +1,76 @@
-from flask import Blueprint, redirect, url_for, render_template, request, session, flash
-from datetime import datetime, timedelta
+from flask import Blueprint, render_template, request, redirect
+from website.current import CurrentHourWeather
+from website.twentyFourHour import TwentyFourHourWeather
+from website.fourDay import FourDayWeather
+from website.extensions import db
+from website.models import Feedback
+import json
 import time
-from website.current import startRun, getCurrent, getImg 
-from website.twentyFourHour import getHourly, startHour
-from website.sevenDay import getSevenDay
 
 weatherDisplay = Blueprint('weatherDisplay', __name__)
 
-@weatherDisplay.route("/")
+# To add feedback into the database
+@weatherDisplay.route("/feedback", methods=['POST'])
+def feedback():
+
+    # Dictionary of current (from API), twenty four hour and four day data (predicted data)
+    info = {"current":request.form['curhr'], "tfHour":request.form['twfhr'], "sDay":request.form['svndy']}
+    # Create feedback model object with the dictionary
+    record = Feedback(prediction = info)
+    try:
+        # Add record to feedback DB tables
+        db.session.add(record)
+    except:
+        db.session.rollback()
+        raise
+    finally:
+        # Commit the changes and close the session
+        db.session.commit()
+        db.session.close()
+
+    return ('', 204)
+
+@weatherDisplay.route("/", methods=['GET'])
 def currentPage():
-    dt = datetime.now()
-    dt = int(time.mktime(dt.timetuple()))
+    try:
+        # current.py
+        c = CurrentHourWeather()
+        current ={
+            'temp': c.temp,
+            'cond': c.cond,
+            'date': c.date,
+            'time': c.time,
+            'uvi': c.uvi,
+            'humd': c.humd,
+            'cloud': c.cloud,
+            'ws': c.ws,
+            'p': c.p,
+            'img': c.img,
+            'rain': c.rain,
+        }
 
-    data = startRun(dt)
-    dateTime, temp, tm, condi, uvi, humd, hm, cloud, cm, ws, wsm, p, pm, rain = getCurrent(data)
-    date = dateTime.split(' ')
-    img = getImg(condi)
+        # twentyFourHour.py
+        tf = TwentyFourHourWeather()
+        tfHour = {
+            't': tf.t,
+            'h': tf.h,
+            'pe': tf.pe,
+            'a': tf.a,
+            "w": tf.w,
+            "c": tf.c
+        }
 
-    tfHour = get24HourJSON()
+        # sevenDay.py
+        dataframe = tf.getDataFrame()
+        s = FourDayWeather(dataframe, tf)
+        sepDay ={
+            'day1':s.day1,
+            'day2':s.day2,
+            'day3':s.day3,
+            'day4':s.day4
+        }
 
-    current ={
-        'temp': int(temp),
-        'tm': int(tm),
-        'hm': hm,
-        'cm': cm,
-        'wsm': round(wsm, 2),
-        'pm': pm,
-        'cond': condi,
-        'date': date[0],
-        'time': date[1],
-        'uvi': round(uvi,2),
-        'humd': humd,
-        'cloud': cloud,
-        'ws': ws,
-        'p': p,
-        'img': img,
-        'rain': rain
-    }
-
-    day, dateS, condS, icon, tempMin, tempMax, humdMin, humdMax, prcpVolMin, prcpVolMax, airPreMin, airPreMax, avgWSMax, avgWSMin, cloudMin, cloudMax = getSevenDay()
-
-    res ={
-        'day': day,
-        'date': dateS,
-        'cond': condS,
-        'icon': icon,
-        'tempMin': tempMin,
-        'tempMax': tempMax,
-        'humdMin': humdMin,
-        'humdMax': humdMax,
-        'prcpVolMin': prcpVolMin,
-        'prcpVolMax': prcpVolMax,
-        'airPreMin': airPreMin,
-        'airPreMax': airPreMax,
-        'avgWSMax': avgWSMax,
-        'avgWSMin': avgWSMin,
-        'cloudMin': cloudMin,
-        'cloudMax': cloudMax
-    }
-    return render_template('index.html', current = current, tfHour = tfHour, res = res, CHART_ENDPOINT = url_for('weatherDisplay.get24HourJSON'))
-
-@weatherDisplay.route("/get24HourJSON")
-def get24HourJSON():
-    hourly = ["12am", "1am", "2am", "3am", "4am", "5am", "6am", "7am", "8am", "9am", "10am", "11am",
-             "12pm", "1pm", "2pm", "3pm", "4pm", "5pm", "6pm", "7pm", "8pm", "9pm", "10pm", "11pm"]
-    dt1 = datetime.now()- timedelta(1)
-    dt1 = int(time.mktime(dt1.timetuple()))
-
-    datahour = startHour(dt1)
-    t, h, pe, a, w, c = getHourly(datahour)
-    tfHour = {
-        't': t,
-        'h': h,
-        'pe': pe,
-        'a': a,
-        "w": w,
-        "c": c
-    }
-    
-    query = request.args.get('query')
-    print(query)
-
-    '''tfHour = {'datasets': 
-        [
-            {'title': query,
-            'data': [{'x': t, 'y': hourly}, {'x': h, 'y': hourly}, {'x': pe, 'y': hourly}, {'x': a, 'y': hourly}, {'x': w, 'y': hourly}, {'x': c, 'y': hourly}],
-            },
-        ]
-    }'''
-    return tfHour
+        return render_template('index.html', current = current, tfHour = tfHour, sepDay = sepDay)
+    # Custom handling of 500 internal server error
+    except Exception as error:
+        return render_template('error500.html', error = error)

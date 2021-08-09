@@ -1,128 +1,171 @@
+// Initialise variables for metric / imperial toggle switch event and selected div IDs of the 4 affected attributes
 var elms = document.querySelectorAll("#console-event");
 var icon = document.querySelectorAll("#icon");  
+var rainID = document.querySelectorAll("#rainID");
+var rainV = document.querySelectorAll('#rainValue');
+var presID = document.querySelectorAll("#pID");
+var presV = document.querySelectorAll("#pValue");
+var wsID = document.querySelectorAll("#wsID");
+var wsV = document.querySelectorAll("#wsValue");
 
-  for(var i = 0; i < elms.length; i++) {
-    var temp = elms[i].innerHTML;
-    elms[i].innerHTML = temp;
-  }
+// Default metric units of the 4 attributes
+// Temperature in degree Celcius
+for (var i = 0; i < icon.length; i++) {
+  icon[i].innerHTML = "<span>&#8451;</span>";
+}
+// Precipitation volume in millimetres
+for (var i = 0; i < rainID.length; i++) {
+  rainID[i].innerHTML = "mm";
+}
+// Air pressire in hectoPascal
+for (var i = 0; i < presID.length; i++) {
+  presID[i].innerHTML = "hPa";
+}
+// Wind speed in metres per second
+for (var i = 0; i < wsID.length; i++) {
+  wsID[i].innerHTML = "m/s";
+}
 
-  for(var i = 0; i < icon.length; i++) {
-    icon[i].innerHTML = "<span>&#8451;</span>";
-  }
-  
-  $(function() {
-    $('#change-temp').change(function() {
-      if ($(this).prop('checked') == true){
-        for(var i = 0; i < elms.length; i++){
-          var temp = elms[i].innerHTML;
-          var f = Math.round((temp * 9/5) + 32);
-          elms[i].innerHTML = f;
-        }
-        for(var i = 0; i < icon.length; i++) {
-          icon[i].innerHTML = "<span>&#8457;</span>";
-        }
-        for(var i = 0; i < t.length; i++){
-          t[i] = Math.round((t[i] * 9/5) + 32);
-        }
-        tempChart.data.datasets[0].data = t;
-        tempChart.update();
-      }else if ($(this).prop('checked') == false){
-        for(var i = 0; i < elms.length; i++){
-          var f = elms[i].innerHTML;
-          var temp = Math.round((f - 32) * 5/9);
-          elms[i].innerHTML = temp;
-        }
-        for(var i = 0; i < icon.length; i++) {
-          icon[i].innerHTML = "<span>&#8451;</span>";
-        }
-        for(var i = 0; i < t.length; i++){
-          t[i] = Math.round((t[i] - 32) * 5/9);
-        }
-        tempChart.data.datasets[0].data = t;
-        tempChart.update();
+// Console event triggered only after Flask have passed the default metric values to the rendered HTML pages
+$(function() {
+  $('#change-units').change(function() {
+    // Imperial values conversion
+    if ($(this).prop('checked') == true) {
+      // Temperature (Current hour and Four day tab)
+      for (var i = 0; i < elms.length; i++) {
+        var temp = elms[i].innerHTML;
+        var toImperial = Math.round((temp * 9/5) + 32);
+        elms[i].innerHTML = toImperial;
       }
-    });
-  })
+      for (var i = 0; i < icon.length; i++) {
+        icon[i].innerHTML = "<span>&#8457;</span>";
+      }
+      // Precipitation (Current hour and Four day tab)
+      for (var i = 0; i < rainID.length; i++) {
+        rainID[i].innerHTML = "in.";
+      }
+      for (var i = 0; i < rainV.length; i++) {
+        var pcpn = rainV[i].innerHTML;
+        var toImperial = pcpn/25.4;
+        rainV[i].innerHTML = toImperial.toFixed(4);
+      }
+      // Air pressure (Current hour and Four day tab)
+      for (var i = 0; i < presV.length; i++) {
+        var pres = presV[i].innerHTML;
+        var toImperial = pres*0.01450377;
+        presV[i].innerHTML = toImperial.toFixed(2);
+      }
+      for (var i = 0; i < presID.length; i++) {
+        presID[i].innerHTML = "psi";
+      }
+      // Wind speed (Current hour and Four day tab)
+      for (var i = 0; i < wsV.length; i++) {
+        var wind = wsV[i].innerHTML;
+        var toImperial = wind/2.237;
+        wsV[i].innerHTML = toImperial.toFixed(2);
+      }
+      for (var i = 0; i < wsID.length; i++) {
+        wsID[i].innerHTML = "miles/h";
+      }
+      // Temperature (Twenty four hour tab)
+      for (var i = 0; i < tfHourTemp.length; i++) {
+        tfHourTemp[i] = ((tfHourTemp[i] * 9/5) + 32).toFixed(3);
+      }
+      // Precipitation (Twenty four hour tab)
+      for (var i = 0; i < tfHourPcpn.length; i++) {
+        toImperial = tfHourPcpn[i]/25.4;
+        tfHourPcpn[i] = toImperial.toFixed(3);
+      }
+      // Air pressure (Twenty four hour tab)
+      for (var i = 0; i < tfHourPres.length; i++) {
+        toImperialMetric = tfHourPres[i]*0.01450377;
+        tfHourPres[i] = toImperialMetric.toFixed(3);
+      }
+      // Wind speed (Twenty four hour tab)
+      for (var i = 0; i < tfHourWind.length; i++) {
+        toImperialMetric = tfHourWind[i]/2.237;
+        tfHourWind[i] = toImperialMetric.toFixed(3);
+      }
 
-function getConfig() {
-  return {
-    type: 'line',
-    data: {
-      datasets: []
-    },
-    options: {
-      scales: {
-        xAxes: [{
-          type: 'time',
-          time: {
-            unit: 'hour'
-          },
-        }, ],
-        yAxes: [{
-          display: true,
-          // type: 'logarithmic',
-        }]
-      },
-      responsive: true
+      // Update the charts of the 4 affected attributes
+      tempLabel = "Temp °F";
+      pcpnLabel = 'Volume in.';
+      presLabel = 'Air Pressure psi';
+      windLabel = 'Speed miles/h';
+      updateChart(tempChart, tfHourTemp, tempLabel);
+      updateChart(pcpnChart, tfHourPcpn, pcpnLabel);
+      updateChart(presChart, tfHourPres, presLabel);
+      updateChart(windChart, tfHourWind, windLabel);
+
     }
-  };
-}
+    // Metric values conversion
+    else if ($(this).prop('checked') == false) {
+      // Temperature (Current hour and Four day tab)
+      for (var i = 0; i < elms.length; i++) {
+        var toMetric = elms[i].innerHTML;
+        var temp = Math.round((toMetric - 32) * 5/9);
+        elms[i].innerHTML = temp;
+      }
+      for (var i = 0; i < icon.length; i++) {
+        icon[i].innerHTML = "<span>&#8451;</span>";
+      }
+      // Precipitation (Current hour and Four day tab)
+      for (var i = 0; i < rainID.length; i++) {
+        rainID[i].innerHTML = "mm";
+      }
+      for (var i = 0; i < rainV.length; i++) {
+        var pcpn = rainV[i].innerHTML;
+        var toMetric = pcpn*25.4;
+        rainV[i].innerHTML = toMetric.toFixed(2);
+      }
+      // Air pressure (Current hour and Four day tab)
+      for (var i = 0; i < presV.length; i++) {
+        var pres = presV[i].innerHTML;
+        var toMetric = pres/0.01450377;
+        presV[i].innerHTML = toMetric.toFixed(0);
+      } 
+      for (var i = 0; i < presID.length; i++) {
+        presID[i].innerHTML = "hPa";
+      }
+      // Wind speed (Current hour and Four day tab)
+      for (var i = 0; i < wsV.length; i++) {
+        var wind = wsV[i].innerHTML;
+        var toMetric = wind*2.237;
+        wsV[i].innerHTML = toMetric.toFixed(2);
+      } 
+      for (var i = 0; i < wsID.length; i++) {
+        wsID[i].innerHTML = "m/s";
+      }
+      // Temperature (Twenty four hour tab)
+      for (var i = 0; i < tfHourTemp.length; i++) {
+        tfHourTemp[i] = ((tfHourTemp[i] - 32) * 5/9).toFixed(3);
+      }
+      // Precipitation (Twenty four hour tab)
+      for (var i = 0; i < tfHourPcpn.length; i++) {
+        toMetric = tfHourPcpn[i]*25.4;
+        tfHourPcpn[i] = toMetric.toFixed(3);
+      }
+      // Air pressure (Twenty four hour tab)
+      for (var i = 0; i < tfHourPres.length; i++) {
+        toMetric = tfHourPres[i]/0.01450377;
+        tfHourPres[i] = toMetric.toFixed(3);
+      }
+      // Wind speed (Twenty four hour tab)
+      for (var i = 0; i < tfHourWind.length; i++) {
+        toMetric = tfHourWind[i]*2.237;
+        tfHourWind[i] = toMetric.toFixed(3);
+      }
 
-Array.prototype.convertData = function() {
-  /// Function which convers X values to moment object
-  for (i = 0; i < this.length; i++) {
-    this[i] = {
-      'x': moment(this[i].x),
-      'y': this[i].y
+      // Update the charts of the 4 affected attributes
+      tempLabel = "Temp °C";
+      pcpnLabel = 'Volume mm';
+      presLabel = 'Air Pressure hPa';
+      windLabel = 'Speed m/h';
+      updateChart(tempChart, tfHourTemp, tempLabel);
+      updateChart(pcpnChart, tfHourPcpn, pcpnLabel);
+      updateChart(presChart, tfHourPres, presLabel);
+      updateChart(windChart, tfHourWind, windLabel);
+
     }
-  }
-  return this;
-}
-
-function create_chart(ctx, unit = 'hour') {
-
-  config = getConfig()
-
-  // Set unit
-  config.options.scales.xAxes[0].time.unit = unit;
-
-  // Assign endpoint from 'data-endpoint' attrib to config object
-  config.endpoint = ctx.dataset.endpoint;
-
-  return new Chart(ctx.getContext('2d'), config);
-}
-
-function load_data(chart, query = false) {
-
-  var url = new URL("http://" + window.location.host + chart.config.endpoint),
-    params = {
-      'query': query
-    }
-
-  // If query is provided, add this to the URL
-  if (query != false) {
-    Object.keys(params).forEach(key => url.searchParams.append(key, params[key]))
-  }
-
-  // Run the API call.
-  fetch(url)
-    .then((response) => {
-      return response.json();
-    })
-    .then((resp_data) => {
-
-      // Push this data to the config object of this chart.
-      resp_data.datasets.forEach((dataSet) => {
-        chart.data.datasets.push({
-          label: dataSet['title'],
-          data: dataSet['data'].convertData(),
-          fill: false,
-          backgroundColor: '#b9f1fa',
-        })
-      });
-
-      // Finally update that visual chart
-      chart.update();
-
-    });
-};
+  });
+})
