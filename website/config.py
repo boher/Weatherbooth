@@ -7,7 +7,7 @@ SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL')
 # development environment(comment out line 5, uncomment line 10)
 # developer might have to get the uri from heroku > resource > heroku postgres > setting > database credentials > uri
 # in case heroku changes the credentials
-# SQLALCHEMY_DATABASE_URI = 'postgres://rgxjqgobbtljqs:f4447d822d9e1b2f6526bdf2b5ea54957e428bfaeabd178e32be3bb27550a4ab@ec2-54-145-185-178.compute-1.amazonaws.com:5432/dd2ajh9gg4035p'
+# SQLALCHEMY_DATABASE_URI = 'postgres://lprdxsyiahhfct:f44d8db20964da67efb43b7f2e95577097c752363445672105a306fa9a4b6c8a@ec2-44-196-250-191.compute-1.amazonaws.com:5432/depamo6hom3bg4'
 
 if SQLALCHEMY_DATABASE_URI.startswith("postgres://"):
     SQLALCHEMY_DATABASE_URI = SQLALCHEMY_DATABASE_URI.replace("postgres://", "postgresql://", 1)
