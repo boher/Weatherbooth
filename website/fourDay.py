@@ -7,12 +7,12 @@ from tensorflow.keras.models import load_model
 from numpy import array
 from joblib import load
 
-#This is the class which will extract all the information needed for the 7day tab with the models we have
-class SevenDayWeather:
+# The class which will extract all information needed for the 4 day tab with the models we have
+class FourDayWeather:
 
-    #This function will return a list of values needed for the 7 day tab (e.g firstDay, secondDay)
-    #It takes in the predicted attributes and dataframe from the 24hour.py 
-    #We also need do do classification of the condition as we did not predict condition
+    # Get a list of values needed for the 4 day tab (i.e. firstDay, secondDay)
+    # It takes in the predicted attributes and dataframe from twentyFourHour.py 
+    # Weather conditions are classified as we did not predict condition
     def get7Day(self, dataframe, tfhour):
         temp = tfhour.t
         humd = tfhour.h
@@ -36,13 +36,9 @@ class SevenDayWeather:
         
         return firstDay, secondDay, thirdDay, fourthDay
 
-    #Function that handles the targeted day
-    #It will get the dates and day needed
-    #It will create the dataframe needed for the predict model
-    #Feed dataframe into the models for prediction
-    #It than get values per section (e.g Midnight, Morning, Afternoon, Evening)
-    #Return the target day list of values, the dataframe and 7 attributes so that it can be used for predicting the next day values
-
+    # Get the dates and day needed to create the dataframe required for the predict model
+    # Feed dataframe into the models for prediction to get values for each section (Midnight, Morning, Afternoon, Evening)
+    # Return the target day list of values, the dataframe and 7 attributes so that it can be used for predicting the next day values
     def getPerDay(self, df_new, temp, humd, rain, pressure, ws, cloud, c, clear, rn):
         years = []
         months = []
@@ -84,11 +80,11 @@ class SevenDayWeather:
 
         return day, temp, humd, rain, pressure, ws, cloud, df, c, clear, rn
 
-    #Function that Select the most frequent condition
+    # Select the most frequent condition
     def most_frequent(self, List):
         return max(set(List), key = List.count)
 
-    #Function that gets the initial condition prediction
+    # Get the initial condition prediction
     def getCondFirst(self, cloud, rain, temp, humd, pressure, ws, hour_sin, hour_cos, month_sin, month_cos):
         c = []
         clear = []
@@ -113,7 +109,7 @@ class SevenDayWeather:
 
         return c, clear, rn
 
-    #This function will return values per section of the day.
+    # Return values per section of the day
     def daySection(self, data, a):
         morn = []
         after = []
@@ -145,12 +141,12 @@ class SevenDayWeather:
 
         return morning, afternoon, nightt, midnight
 
-    #Function return image path
+    # Get image path
     def getImg(self, data):
         str = "images/"+data+".png"
         return str
 
-    #Function return average
+    # Get average of values
     def Average(self, data):
         x = 0
         for i in data:
@@ -158,11 +154,11 @@ class SevenDayWeather:
         x = x/6
         return x
 
-    #Function that returns the Min and Max Temperature of the day
+    # Min and Max Temperature of the day
     def getMinMaxTemp(self, temp):
         return int(min(temp)), int(max(temp))
 
-    #The next 7 get Function will return predicted values per attribute.
+    # Get predicted values for each of the 7 attributes
     def getCond(self, df):
         c = []
         clear = []
@@ -265,22 +261,22 @@ class SevenDayWeather:
         
         return rainP
 
-    #Function that helps reverse scalar values
+    # Reverse scalar values
     def scalarBack(self, data, min_value, max_value):
         x = [(i * (max_value - min_value)) + min_value for i in data]        
         return x
 
-    #Function that change value to a percentage
+    # Convert values to percentages
     def getListPercentage(self, data):
         x = [int(i*100) if i<=1 else 100 for i in data[0]]
         return x
 
-    #Function that makes its values to list
+    # Create a list from values
     def getList(self, data):
         x = [i for i in data[0]]
         return x
 
-    #This function scalar features in our dataframe
+    # Get scalar features for the dataframe
     def getScalar(self, df):
         df['month'] = df['month'].astype(int)
         df['day'] = df['day'].astype(int)
@@ -297,7 +293,7 @@ class SevenDayWeather:
 
         return df
 
-    #This function will find the date and day
+    # Get the date and day
     def getDate(self, df, years, months, days):
         year = df['year'].iloc[-1]
         month = df['month'].iloc[-1]
@@ -323,10 +319,9 @@ class SevenDayWeather:
 
         return years, months, days, dayys, tmr
 
-    #Function handle concatenation of dataframe
-    #Since we predict using 3 days ago values
-    #We will remove the top 24 values and concatenate in the new 24 hour values
-    #This will keep the dataframe updated to the latest 72hour value
+    # Concatenate dataframe for predicted values from 3 days ago
+    # The top 24 values are removed and concatenated in the new 24 hour values
+    # The dataframe will be updated to the latest 72 hour values
     def concatDF(self, df, years, months, days, hour, cloud, humd, c, clear, rn, pressure, temp, ws, rain):
         add = {'year':years, 
             'month':months, 
@@ -347,7 +342,7 @@ class SevenDayWeather:
 
         return df
 
-    #Function to get columns needed for the models
+    # Get columns required for the models
     def getMonthNHour(self, df):
         month_sin = []
         month_cos = []
@@ -372,7 +367,7 @@ class SevenDayWeather:
         
         return month_sin, month_cos, hour_sin, hour_cos
     
-    #Init function
+    # Init function
     def __init__(self, df, dict) -> None:
         
         firstDay, secondDay, thirdDay, fourthDay = self.get7Day(df, dict)

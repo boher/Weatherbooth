@@ -36,5 +36,6 @@ function getChart(ctx, attrValues, labelTxt) {
   }
 
   var newChart = new Chart(ctx, config);
+  
   return newChart
 };

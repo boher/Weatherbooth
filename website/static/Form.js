@@ -17,7 +17,7 @@ function htmlDecode(input) {
 // Message to show users after clicking on either options
 function displayMsg(value, current, tfHour, sepDay) {
 
-  alert("Thank you for your feedback!!!");
+  alert("Thank you for your feedback!");
 
   if (value=='no') {
 

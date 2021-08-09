@@ -13,7 +13,7 @@ var wsV = document.querySelectorAll("#wsValue");
 for (var i = 0; i < icon.length; i++) {
   icon[i].innerHTML = "<span>&#8451;</span>";
 }
-// Precipitation volume in milimetres
+// Precipitation volume in millimetres
 for (var i = 0; i < rainID.length; i++) {
   rainID[i].innerHTML = "mm";
 }

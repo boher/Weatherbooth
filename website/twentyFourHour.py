@@ -11,16 +11,16 @@ import numpy as np
 from tensorflow.keras.models import load_model
 import pytz
 
-#This is the class which will extract all the information needed for the 24hour tab in the openweather API
+# The class which will extract all information needed for the 24 hour tab from the Openweather API
 class TwentyFourHourWeather:
 
     df_new = ''
 
-    #return the dataframe. Used for 7 day tab
+    # Get the dataframe to be used for 4 day tab
     def getDataFrame(self):
         return df_new
 
-    #Function that extracts and get the values of attributes we target and return it back to init
+    # Get the values of attributes before it is initialised
     def getHourly(self):
         global df_new
         global min_pressure
@@ -31,9 +31,9 @@ class TwentyFourHourWeather:
         td = self.testdata()
         dataframe, min_pressure, max_pressure, min_ws, max_ws, df_new = self.dataFrame(td)
 
-        #There will be 6 prediction done by 6 different models loaded into our project
-        #Each Individual attribute will return a list of 24 values that represent a hour of the day
-        #After which each attribute will go throught its own pre processing before it is returned to the init.
+        # 6 predictions are completed by 6 different models loaded into our project
+        # Each attribute will return a list of 24 values that represent an hour of the day
+        # After that, each attribute will go through its defined rules for data preprocessing before it is initialised
         tempm = self.getTemp(dataframe)
         tempModel = load_model('website/model/temp.h5')
         tempP = tempModel.predict(tempm)
@@ -68,21 +68,21 @@ class TwentyFourHourWeather:
 
         return tempP, humP, rainP, apP, windP, cloudP
 
-    #Function that helps reverse scalar values
+    # Reverse scalar values
     def scalarBack(self, data, min_value, max_value):
         x = [(i * (max_value - min_value)) + min_value for i in data]        
         return x
 
-    #Function that change value to a percentage
+    # Convert values to percentages
     def getListPercentage(self, data):
         x = [int(i*100) if i<=1 else 100 for i in data[0]]
         return x
-    #Function that makes its values to list
+    # makes its values to list
     def getList(self, data):
         x = [i for i in data[0]]
         return x
 
-    #This function will talk with the openweather API to get the data in a json object
+    # Get data from Openweather API to retrieved as a JSON object
     def testdata(self):
 
         kl=pytz.timezone('Asia/Kuala_Lumpur')
@@ -113,9 +113,9 @@ class TwentyFourHourWeather:
         else:
             return 0
 
-    #This function change the json object to a pandas dataframe
-    #It also does the data cleaning e.g(creates columns such as the dates, hotcodes the weather conditions, and doing a MinMax Scalar)
-    #Returns a dataframe ready for the models to predict
+    # Convert JSON object to a pandas dataframe which undergoes a data cleaning process
+    # (i.e. creating columns for the dates, hotcoding for the weather conditions, applying a MinMax Scalar)
+    # for the model predictions
     def dataFrame(self, data):
         hourly = data["list"]
 
@@ -198,7 +198,7 @@ class TwentyFourHourWeather:
 
         return  df, min_pressure, max_pressure, min_ws, max_ws, df_new
 
-    #The 6 function return a set of unique features used for its target prediction
+    # Get a set of unique features from each attributes used for its target prediction
     def getHum(self, df):
         df = df[['p', 'cloud', 'rain', 'hour_cos', 'hour_sin', 'month_cos', 'month_sin']]
         X = array(df[:72])
@@ -241,7 +241,7 @@ class TwentyFourHourWeather:
 
         return X
 
-    #init function
+    # Init function
     def __init__(self) -> None:
     
         t, h, pe, a, w, c = self.getHourly()

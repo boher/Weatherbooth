@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, redirect
 from website.current import CurrentHourWeather
 from website.twentyFourHour import TwentyFourHourWeather
-from website.sevenDay import SevenDayWeather
+from website.fourDay import FourDayWeather
 from website.extensions import db
 from website.models import Feedback
 import json
@@ -9,23 +9,22 @@ import time
 
 weatherDisplay = Blueprint('weatherDisplay', __name__)
 
-#To add feedback into database
+# To add feedback into the database
 @weatherDisplay.route("/feedback", methods=['POST'])
 def feedback():
 
-    #dictionary of current(from api), twentyfour hour and four day data(predicted data)
+    # Dictionary of current (from API), twenty four hour and four day data (predicted data)
     info = {"current":request.form['curhr'], "tfHour":request.form['twfhr'], "sDay":request.form['svndy']}
-    #create feedback model object with the dictionary
+    # Create feedback model object with the dictionary
     record = Feedback(prediction = info)
     try:
-        #add record to feedback table
+        # Add record to feedback DB tables
         db.session.add(record)
     except:
         db.session.rollback()
         raise
     finally:
-        #commit the changes
-        #close the session
+        # Commit the changes and close the session
         db.session.commit()
         db.session.close()
 
@@ -63,7 +62,7 @@ def currentPage():
 
         # sevenDay.py
         dataframe = tf.getDataFrame()
-        s = SevenDayWeather(dataframe, tf)
+        s = FourDayWeather(dataframe, tf)
         sepDay ={
             'day1':s.day1,
             'day2':s.day2,
@@ -72,5 +71,6 @@ def currentPage():
         }
 
         return render_template('index.html', current = current, tfHour = tfHour, sepDay = sepDay)
+    # Custom handling of 500 internal server error
     except Exception as error:
         return render_template('error500.html', error = error)
