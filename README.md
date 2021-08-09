@@ -32,6 +32,7 @@ Webapp deployment platform (CI/CD):
 |- requirements.txt
 
 ### To run website locally
+### Assumptions: Python3 is installed and added to path in environment variables. VS code installation preferred.
 <br>
 Step-1: Clone the repository (main branch)
 <br>
