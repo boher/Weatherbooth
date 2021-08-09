@@ -8,34 +8,34 @@ Webapp micro framework:
 Webapp deployment platform (CI/CD):
 
 ### [Heroku](https://devcenter.heroku.com/categories/reference "Heroku Documentation")
-
+<br>
+--- Weatherbooth
+<br>
+|- .git
+<br>
+|- .github
+<br>
+|- _pycache_
+<br>
+|- website
+<br>
+|- .gitattributes
+<br>
+|- .gitignore
+<br>
+|- app
+<br>
+|- Procfile
+<br>
+|- README.md
+<br>
+|- requirements.txt
+<br>
 ### To run website locally
 <br>
 Step-1: Clone the repository (main branch)
 <br>
 Step-2: Go to the repository folder (Weatherbooth) on your machine 
-<br>
----Weatherbooth
-<br>
-|-.git
-<br>
-|-.github
-<br>
-|-_pycache_
-<br>
-|-website
-<br>
-|-.gitattributes
-<br>
-|-.gitignore
-<br>
-|-app
-<br>
-|-Procfile
-<br>
-|-README.md
-<br>
-|-requirements.txt
 <br>
 Step-3: Find the requirement.txt folder directory (eg: D:\GitHub\Weatherbooth)
 <br>
