@@ -1,16 +1,5 @@
 # Weatherbooth
-<br>
-Webapp micro framework:
-
-
-### [Flask](https://flask.palletsprojects.com/en/2.0.x/ "Flask Documentation")
-<br>
-Webapp deployment platform (CI/CD):
-
-### [Heroku](https://devcenter.heroku.com/categories/reference "Heroku Documentation")
-
-### Directory diagram
-<br>
+## Directory diagram
 --- Weatherbooth
 <br>
 |- .github
@@ -31,21 +20,31 @@ Webapp deployment platform (CI/CD):
 <br>
 |- requirements.txt
 
-### To run website locally
-### Assumptions: Python3 is installed and added to path in environment variables. VS code installation preferred.
-<br>
+## Lets run the application on your local machine
+### Assumptions: 
+- Python3 is installed and added to path in environment variables
+- VS code installation preferred.
+
+### Steps to perform:
 Step-1: Clone the repository (main branch)
 <br>
-Step-2: Go to the repository folder (Weatherbooth) on your machine 
+Step-2: Navigate to the repository folder (Weatherbooth) on your machine (e.g., ".\Weatherbooth")
 <br>
-Step-3: Find the requirement.txt folder directory (eg: D:\GitHub\Weatherbooth)
+Step-3: Copy the directory that contains the requirements.txt 
 <br>
-Step-4: Open command-line prompt in the directory (eg: D:\GitHub\Weatherbooth>)
+Step-4: Open the command-line prompt 
 <br>
-Step-5: Run the command "pip install -r requirements.txt" (eg: D:\GitHub\Weatherbooth>pip install -r requirements.txt)
+Step-5: On the command-line prompt, navigate to the directory you have just copied by running the command `cd .\Weatherbooth`
 <br>
-Step-6: Go to website folder and find config.py (eg: D:\GitHub\Weatherbooth\website)
+Step-6: On the command-line prompt, run the command `pip install -r requirements.txt`
 <br>
-Step-7: Comment line 5 and uncomment line 10 in config.py. Save the file
+Step-7: Navigate to the subdirectory folder (./Weatherbooth/website) and find the file, config.py 
 <br>
-Step-8: Run app.py and follow the link provided (similar to http://localhost:5000/)
+Step-8: In the file, config.py, comment line 5 and uncomment line 10. Save the file
+<br>
+Step-8: Finally, on the command-line prompt, run the command `python app.py` and follow the link provided (similar to http://localhost:5000/)
+
+## References
+Website micro framework: [Flask](https://flask.palletsprojects.com/en/2.0.x/ "Flask Documentation")
+<br>
+Website deployment platform (CI/CD): [Heroku](https://devcenter.heroku.com/categories/reference "Heroku Documentation")
