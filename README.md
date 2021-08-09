@@ -13,8 +13,6 @@ Webapp deployment platform (CI/CD):
 <br>
 --- Weatherbooth
 <br>
-|- .git
-<br>
 |- .github
 <br>
 |- _pycache_
@@ -25,7 +23,7 @@ Webapp deployment platform (CI/CD):
 <br>
 |- .gitignore
 <br>
-|- app
+|- app.py
 <br>
 |- Procfile
 <br>
