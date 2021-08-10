@@ -23,7 +23,8 @@
 ## Lets run the application on your local machine
 ### Assumptions: 
 - Python3 is installed and added to path in environment variables
-- VS code installation preferred.
+- VS code installation preferred
+- Windows operating system
 
 ### Steps to perform:
 Step-1: Clone the repository (main branch)
