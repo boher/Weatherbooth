@@ -42,7 +42,7 @@ Step-7: Navigate to the subdirectory folder (./Weatherbooth/website) and find th
 <br>
 Step-8: In the file, config.py, comment line 5 and uncomment line 10. Save the file
 <br>
-Step-8: Finally, on the command-line prompt, run the command `python app.py` and follow the link provided (similar to http://localhost:5000/)
+Step-9: Finally, on the command-line prompt, run the command `python app.py` and follow the link provided (similar to http://localhost:5000/)
 
 ## References
 Website micro framework: [Flask](https://flask.palletsprojects.com/en/2.0.x/ "Flask Documentation")
