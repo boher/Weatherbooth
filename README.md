@@ -8,6 +8,46 @@
 <br>
 |- website
 <br>
+|--- __pycache__
+<br>
+|--- model
+<br>
+|--- static 
+<br>
+|----- images
+<br>
+|----- Charts.js
+<br>
+|----- Form.js
+<br>
+|----- WrngAdvy.js
+<br>
+|----- main.css
+<br>
+|----- main.js
+<br>
+|--- templates
+<br>
+|--- __init__.py
+<br>
+|--- commands.py
+<br>
+|--- config.py
+<br>
+|--- current.py
+<br>
+|--- errorHandler.py
+<br>
+|--- extensions.py
+<br>
+|--- fourDay.py
+<br>
+|--- models.py
+<br>
+|--- twentyFourHour.py
+<br>
+|--- weatherDisplay.py
+<br>
 |- .gitattributes
 <br>
 |- .gitignore
