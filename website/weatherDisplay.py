@@ -12,7 +12,7 @@ weatherDisplay = Blueprint('weatherDisplay', __name__)
 def feedback():
 
     # Dictionary of current (from API), twenty four hour and four day data (predicted data)
-    info = {"current":request.form['curhr'], "tfHour":request.form['twfhr'], "sDay":request.form['svndy']}
+    info = {"current":request.form['curhr'], "tfHour":request.form['twfhr'], "fDay":request.form['fdy']}
     # Create feedback model object with the dictionary
     record = Feedback(prediction = info)
     try:
@@ -61,14 +61,14 @@ def currentPage():
         # sevenDay.py
         dataframe = tf.getDataFrame()
         s = FourDayWeather(dataframe, tf)
-        sepDay ={
+        fDay ={
             'day1':s.day1,
             'day2':s.day2,
             'day3':s.day3,
             'day4':s.day4
         }
 
-        return render_template('index.html', current = current, tfHour = tfHour, sepDay = sepDay)
+        return render_template('index.html', current = current, tfHour = tfHour, fDay = fDay)
     # Custom handling of 500 internal server error
     except Exception as error:
         return render_template('error500.html', error = error)

@@ -15,7 +15,7 @@ function htmlDecode(input) {
 };
 
 // Message to show users after clicking on either options
-function displayMsg(value, current, tfHour, sepDay) {
+function displayMsg(value, current, tfHour, fDay) {
 
   alert("Thank you for your feedback!");
 
@@ -27,7 +27,7 @@ function displayMsg(value, current, tfHour, sepDay) {
       data: {
         curhr: htmlDecode(JSON.stringify(current)),
         twfhr: htmlDecode(JSON.stringify(tfHour)),
-        svndy: htmlDecode(JSON.stringify(sepDay)),
+        fdy: htmlDecode(JSON.stringify(fDay)),
       },
       success: function () {
         console.log('Feedback saved.');
