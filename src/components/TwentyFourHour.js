@@ -1,4 +1,6 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useContext, useState, useEffect, useMemo } from 'react';
+import { tfHourTempChange, tfHourPcpnChange, tfHourPresChange, tfHourWindChange, updateChart } from '../utils/UnitConversion.js';
+import { UnitToggleContext } from '../context/UnitToggleContext.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTemperatureLow, faCloudRain, faLongArrowAltDown, faWind, faCloud } from '@fortawesome/free-solid-svg-icons';
 import { faSafari } from "@fortawesome/free-brands-svg-icons";
@@ -16,6 +18,9 @@ function TwentyFourHour(props) {
 
   const [chartData, setChartData] = useState({});
   const [attr, setAttr] = useState("Temperature");
+  const [active, setActive] = useState("temp");
+
+  const { unit } = useContext(UnitToggleContext);
 
   function createChart(attr, hour, values) {
     setChartData({
@@ -35,9 +40,7 @@ function TwentyFourHour(props) {
   };
 
   const attrString = useMemo(() => {
-    if (attr === "temp")
-      return "Temperature"
-    else if (attr === "pcpn")
+    if (attr === "pcpn")
       return "Precipitation"
     else if (attr === "humd")
       return "Humidity"
@@ -46,7 +49,9 @@ function TwentyFourHour(props) {
     else if (attr === "wind")
       return "Wind Speed"
     else if (attr === "cloud")
-      return "Cloudiness"
+      return "Cloud Cover"
+    else
+      return "Temperature"
   }, [attr])
 
   useEffect(() => {
@@ -83,35 +88,35 @@ function TwentyFourHour(props) {
           <p>{attrString}</p>
         </div>
         <div className = "col-expand-sm d-flex justify-content-end">
-        <Nav variant="tabs">
+        <Nav variant="tabs" activeKey={active} onSelect={(selectedKey) => setActive(selectedKey)}>
           <Nav.Item>
             {tfHour && tfHour.map((tf) => (
-            tf.attr === "temp" ? <Nav.Link data-toggle="tab" eventKey={"temp"} onClick={() => {createChart(tf.attr, tf.hour, tf.values); setAttr(tf.attr);}}><Button variant="dark"><FontAwesomeIcon icon={faTemperatureLow} /></Button></Nav.Link>
+            tf.attr === "temp" ? <Nav.Link data-toggle="tab" eventKey="temp" onClick={() => {unit === true ? createChart("Temp °F", tf.hour, tfHourTempChange(tf.values)) : createChart("Temp °C", tf.hour, tf.values); setAttr(tf.attr);}}><Button variant="dark"><FontAwesomeIcon icon={faTemperatureLow} /></Button></Nav.Link>
             : ''))}
           </Nav.Item>
           <Nav.Item>
             {tfHour && tfHour.map((tf) => (
-            tf.attr === "pcpn" ? <Nav.Link data-toggle="tab" eventKey={"pcpn"} onClick={() => {createChart(tf.attr, tf.hour, tf.values); setAttr(tf.attr);}}><Button variant="dark"><FontAwesomeIcon icon={faCloudRain} /></Button></Nav.Link>
+            tf.attr === "pcpn" ? <Nav.Link data-toggle="tab" eventKey="pcpn" onClick={() => {unit === true ? createChart("Volume in.", tf.hour, tfHourPcpnChange(tf.values)) : createChart("Volume mm", tf.hour, tf.values); setAttr(tf.attr);}}><Button variant="dark"><FontAwesomeIcon icon={faCloudRain} /></Button></Nav.Link>
           : ''))}
           </Nav.Item>
           <Nav.Item>
             {tfHour && tfHour.map((tf) => (
-            tf.attr === "humd" ? <Nav.Link data-toggle="tab" eventKey={"humd"} onClick={() => {createChart(tf.attr, tf.hour, tf.values); setAttr(tf.attr);}}><Button variant="dark"><FontAwesomeIcon icon={faSafari} /></Button></Nav.Link>
+            tf.attr === "humd" ? <Nav.Link data-toggle="tab" eventKey="humd" onClick={() => {createChart("Humidity %", tf.hour, tf.values); setAttr(tf.attr);}}><Button variant="dark"><FontAwesomeIcon icon={faSafari} /></Button></Nav.Link>
           : ''))}
           </Nav.Item>
           <Nav.Item>
             {tfHour && tfHour.map((tf) => (
-            tf.attr === "pres" ? <Nav.Link data-toggle="tab" eventKey={"pres"} onClick={() => {createChart(tf.attr, tf.hour, tf.values); setAttr(tf.attr);}}><Button variant="dark"><FontAwesomeIcon icon={faLongArrowAltDown} /></Button></Nav.Link>
+            tf.attr === "pres" ? <Nav.Link data-toggle="tab" eventKey="pres" onClick={() => {unit === true ? createChart("Air Pressure psi", tf.hour, tfHourPresChange(tf.values)) : createChart("Air Pressure hPa", tf.hour, tf.values); setAttr(tf.attr);}}><Button variant="dark"><FontAwesomeIcon icon={faLongArrowAltDown} /></Button></Nav.Link>
           : ''))}
           </Nav.Item>
           <Nav.Item>
             {tfHour && tfHour.map((tf) => (
-            tf.attr === "wind" ? <Nav.Link data-toggle="tab" eventKey={"wind"} onClick={() => {createChart(tf.attr, tf.hour, tf.values); setAttr(tf.attr);}}><Button variant="dark"><FontAwesomeIcon icon={faWind} /></Button></Nav.Link>
+            tf.attr === "wind" ? <Nav.Link data-toggle="tab" eventKey="wind" onClick={() => {unit === true ? createChart("Speed miles/h", tf.hour, tfHourWindChange(tf.values)) : createChart("Speed m/s", tf.hour, tf.values); setAttr(tf.attr);}}><Button variant="dark"><FontAwesomeIcon icon={faWind} /></Button></Nav.Link>
           : ''))}
           </Nav.Item>
           <Nav.Item>
             {tfHour && tfHour.map((tf) => (
-            tf.attr === "cloud" ? <Nav.Link data-toggle="tab" eventKey={"cloud"} onClick={() => {createChart(tf.attr, tf.hour, tf.values); setAttr(tf.attr);}}><Button variant="dark"><FontAwesomeIcon icon={faCloud} /></Button></Nav.Link>
+            tf.attr === "cloud" ? <Nav.Link data-toggle="tab" eventKey="cloud" onClick={() => {createChart("Cloudiness %", tf.hour, tf.values); setAttr(tf.attr);}}><Button variant="dark"><FontAwesomeIcon icon={faCloud} /></Button></Nav.Link>
           : ''))}
           </Nav.Item>
         </Nav>
@@ -121,11 +126,20 @@ function TwentyFourHour(props) {
         <Line
           data={chartData}
           options={{
-            responsive: true,
             scales: {
               y: {
                   beginAtZero: true
               }
+            },
+            plugins: {
+              tooltip: {
+                mode: 'index',
+                intersect: false
+              }
+            },
+            hover: {
+              mode: 'index',
+              intersect: false
             }
           }}
         />

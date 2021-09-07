@@ -8,6 +8,7 @@ from numpy import array
 from sklearn.preprocessing import MinMaxScaler
 import datetime
 import numpy as np
+import tensorflow as tf
 from tensorflow.keras.models import load_model
 
 class TwentyFourHourWeather:
@@ -79,8 +80,8 @@ class TwentyFourHourWeather:
         rainP = self.getList(rainP)
         rain = list(map(lambda x: float(str(x).replace(",", "")), rainP)) # Cast numpy.float32 to String, then map to primitive float
 
-        attributes = [temp, rain, hum, ap, wind, cloud]
-        attribute_list = ['temp', 'pcpn', 'humd', 'pres', 'wind', 'cloud']
+        attributes = [cloud, rain, hum, ap, wind, temp]
+        attribute_list = ['cloud', 'pcpn', 'humd', 'pres', 'wind', 'temp']
         tfHour = []
         for i in range(len(attribute_list)):
             tfHourDict = dict()
@@ -91,6 +92,15 @@ class TwentyFourHourWeather:
                 tfHourDict['hour'].append(hr)
                 tfHourDict['values'].append(attr)
             tfHour.append(tfHourDict)
+            '''走到尽头
+            hourly_details = {'hour': ["12am", "1am", "2am", "3am", "4am", "5am", "6am", "7am", "8am", "9am", "10am", "11am", "12pm", 
+                  "1pm", "2pm", "3pm", "4pm", "5pm", "6pm", "7pm", "8pm", "9pm", "10pm", "11pm"]}
+            for i in range(len(attribute_list)):
+                tfHourDict = dict()
+                tfHourDict['attr'] = attribute_list[i]
+                tfHourDict['values'] = attributes[i]
+                tfHour.append(tfHourDict)
+            tfHour.append(hourly_details)'''
 
         return tfHour, temp, rain, hum, ap, wind, cloud
 
@@ -132,7 +142,7 @@ class TwentyFourHourWeather:
         api_key = "94c05f2e1e1a930f1a8e3ddba65af770"
         lat = "1.3521"
         lon = "103.8198"
-        url = "http://history.openweathermap.org/data/2.5/history/city?lat=%s&lon=%s&type=hour&start=%s&end=%s&appid=%s" % (lat, lon, dt1, dt2, api_key)
+        url = "https://history.openweathermap.org/data/2.5/history/city?lat=%s&lon=%s&type=hour&start=%s&end=%s&appid=%s" % (lat, lon, dt1, dt2, api_key)
 
         response = requests.get(url)
         data = json.loads(response.text)
@@ -222,7 +232,7 @@ class TwentyFourHourWeather:
         scaler = MinMaxScaler()
         df[['feel_like', 'cloud', 'hum', 'p', 't','cond_is_cloud','cond_is_clear', 'cond_is_rain', 'ws', 'rain']] = scaler.fit_transform(df[['feel_like', 'cloud', 'hum', 'p', 't', 'cond_is_cloud','cond_is_clear', 'cond_is_rain', 'ws', 'rain']])
 
-        return  df, min_pressure, max_pressure, min_ws, max_ws, df_new
+        return df, min_pressure, max_pressure, min_ws, max_ws, df_new
 
     def getHum(self, df):
         df = df[['p', 'cloud', 'rain', 'hour_cos', 'hour_sin', 'month_cos', 'month_sin']]

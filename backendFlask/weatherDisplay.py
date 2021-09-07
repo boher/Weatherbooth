@@ -7,6 +7,7 @@ from backendFlask.sevenDay import SevenDayWeather
 class weatherDisplay(Resource):
     def get(self):
         
+        # current.py
         c = CurrentHourWeather()
         current  = [{
             
@@ -23,14 +24,14 @@ class weatherDisplay(Resource):
             "rain": c.rain,
         }]
 
+        # twentyFourHour.py
         tf = TwentyFourHourWeather()
         tfHour = tf.tfHour
 
+        # sevenDay.py
         dataframe = tf.getDataFrame()
         sdObj = SevenDayWeather(dataframe, tf)
 
-        # ** Changed here **
-        # Changed into a list of dictionaries
         sevenDay = [
             sdObj.day1, 
             sdObj.day2, 
