@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect, useMemo } from 'react';
-import { tfHourTempChange, tfHourPcpnChange, tfHourPresChange, tfHourWindChange, updateChart } from '../utils/UnitConversion.js';
+import { tfHourConvert, updateChart } from '../utils/UnitConversion.js';
 import { UnitToggleContext } from '../context/UnitToggleContext.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTemperatureLow, faCloudRain, faLongArrowAltDown, faWind, faCloud } from '@fortawesome/free-solid-svg-icons';
@@ -91,12 +91,12 @@ function TwentyFourHour(props) {
         <Nav variant="tabs" activeKey={active} onSelect={(selectedKey) => setActive(selectedKey)}>
           <Nav.Item>
             {tfHour && tfHour.map((tf) => (
-            tf.attr === "temp" ? <Nav.Link data-toggle="tab" eventKey="temp" onClick={() => {unit === true ? createChart("Temp °F", tf.hour, tfHourTempChange(tf.values)) : createChart("Temp °C", tf.hour, tf.values); setAttr(tf.attr);}}><Button variant="dark"><FontAwesomeIcon icon={faTemperatureLow} /></Button></Nav.Link>
+            tf.attr === "temp" ? <Nav.Link data-toggle="tab" eventKey="temp" onClick={() => {unit === true ? createChart("Temp °F", tf.hour, tfHourConvert(tf.values, tf.attr)) : createChart("Temp °C", tf.hour, tf.values); setAttr(tf.attr);}}><Button variant="dark"><FontAwesomeIcon icon={faTemperatureLow} /></Button></Nav.Link>
             : ''))}
           </Nav.Item>
           <Nav.Item>
             {tfHour && tfHour.map((tf) => (
-            tf.attr === "pcpn" ? <Nav.Link data-toggle="tab" eventKey="pcpn" onClick={() => {unit === true ? createChart("Volume in.", tf.hour, tfHourPcpnChange(tf.values)) : createChart("Volume mm", tf.hour, tf.values); setAttr(tf.attr);}}><Button variant="dark"><FontAwesomeIcon icon={faCloudRain} /></Button></Nav.Link>
+            tf.attr === "pcpn" ? <Nav.Link data-toggle="tab" eventKey="pcpn" onClick={() => {unit === true ? createChart("Volume in.", tf.hour, tfHourConvert(tf.values, tf.attr)) : createChart("Volume mm", tf.hour, tf.values); setAttr(tf.attr);}}><Button variant="dark"><FontAwesomeIcon icon={faCloudRain} /></Button></Nav.Link>
           : ''))}
           </Nav.Item>
           <Nav.Item>
@@ -106,12 +106,12 @@ function TwentyFourHour(props) {
           </Nav.Item>
           <Nav.Item>
             {tfHour && tfHour.map((tf) => (
-            tf.attr === "pres" ? <Nav.Link data-toggle="tab" eventKey="pres" onClick={() => {unit === true ? createChart("Air Pressure psi", tf.hour, tfHourPresChange(tf.values)) : createChart("Air Pressure hPa", tf.hour, tf.values); setAttr(tf.attr);}}><Button variant="dark"><FontAwesomeIcon icon={faLongArrowAltDown} /></Button></Nav.Link>
+            tf.attr === "pres" ? <Nav.Link data-toggle="tab" eventKey="pres" onClick={() => {unit === true ? createChart("Air Pressure psi", tf.hour, tfHourConvert(tf.values, tf.attr)) : createChart("Air Pressure hPa", tf.hour, tf.values); setAttr(tf.attr);}}><Button variant="dark"><FontAwesomeIcon icon={faLongArrowAltDown} /></Button></Nav.Link>
           : ''))}
           </Nav.Item>
           <Nav.Item>
             {tfHour && tfHour.map((tf) => (
-            tf.attr === "wind" ? <Nav.Link data-toggle="tab" eventKey="wind" onClick={() => {unit === true ? createChart("Speed miles/h", tf.hour, tfHourWindChange(tf.values)) : createChart("Speed m/s", tf.hour, tf.values); setAttr(tf.attr);}}><Button variant="dark"><FontAwesomeIcon icon={faWind} /></Button></Nav.Link>
+            tf.attr === "wind" ? <Nav.Link data-toggle="tab" eventKey="wind" onClick={() => {unit === true ? createChart("Speed miles/h", tf.hour, tfHourConvert(tf.values, tf.attr)) : createChart("Speed m/s", tf.hour, tf.values); setAttr(tf.attr);}}><Button variant="dark"><FontAwesomeIcon icon={faWind} /></Button></Nav.Link>
           : ''))}
           </Nav.Item>
           <Nav.Item>

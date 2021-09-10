@@ -1,6 +1,22 @@
+.col-sm {
+    height: 750px;
+    background-color: rgb(201, 201, 195);
+}
+
+.col-sm-4 {
+    height: 30px;
+}
+
+.list-group-item {
+    margin-top: 20px;
+    height: 20px;
+    background-color: transparent;
+
+}
+
 .charts {
-    width:1100px !important;
     height:600px !important;
+    margin: auto;
 }
 
 .nav-link {
@@ -12,14 +28,27 @@
     background-color: darkgrey;
 }
 
-.card:hover {
+.card:hover, .card-header.active, .collapse.show {
+    cursor: pointer;
     background-color: #efefef;
 }
 
 .card-header {
     padding:  0.35rem 1.25rem;
+    background-color: transparent;
 }
 
 .card-body {
     text-align: left;
+}
+
+@media (max-width: 600px) {
+    tr {
+        text-align: center;
+        vertical-align: middle;
+    }
+    
+    td {
+        display: inline-flex;
+    }
 }

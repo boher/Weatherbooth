@@ -5,10 +5,6 @@ export const tempChange = (temp, unit) => {
       toFahrenheit(temp) :
       temp;
 };
-/* Twenty four hour tab */
-export const tfHourTempChange = (tfHourTemp) => {
-  return tfHourTemp.forEach((tf) => { toFahrenheit(tf) });
-};
 
 const toFahrenheit = celsius => {
   return Math.round((celsius * 9 / 5) + 32);
@@ -19,10 +15,6 @@ export const pcpnChange = (pcpn, unit) => {
   return unit ?
       toInches(pcpn) :
       pcpn;
-};
-/* Twenty four hour tab */
-export const tfHourPcpnChange = (tfHourPcpn) => {
-  return tfHourPcpn.forEach((tf) => { toInches(tf) });
 };
 
 const toInches = millimetres => {
@@ -35,10 +27,6 @@ export const presChange = (pres, unit) => {
       toPSI(pres) :
       pres;
 };
-/* Twenty four hour tab */
-export const tfHourPresChange = (tfHourPres) => {
-  return tfHourPres.forEach((tf) => { toPSI(tf) });
-};
 
 const toPSI = hectopascal => {
   return (hectopascal * 0.01450377).toFixed(2);
@@ -50,20 +38,35 @@ export const windChange = (wind, unit) => {
       toMilesPh(wind) :
       wind;
 };
-/* Twenty four hour tab */
-export const tfHourWindChange = (tfHourWind) => {
-  return tfHourWind.forEach((tf) => { toMilesPh(tf) });
-};
 
 const toMilesPh = metresPh => {
   return (metresPh * 2.237).toFixed(2);
 };
 
+/* Twenty four hour tab */
+export const tfHourConvert = (tfHour, attr) => {
+  let toImperial = [];
+  tfHour.forEach((tf) => { 
+    if (attr === "temp")
+      toImperial.unshift(toFahrenheit(tf));
+    else if (attr === "pcpn")
+      toImperial.unshift(toInches(tf));
+    else if (attr === "pres")
+      toImperial.unshift(toPSI(tf));
+    else if (attr === "wind")
+      toImperial.unshift(toMilesPh(tf));
+  });
+
+  return toImperial;
+};
+
 /* Update Chart */
 export const updateChart = (chart, labelTxt, attrValues) => {
-  chart.data.datasets.forEach((dataset) => {
+  chart.current.chartInstance.data.datasets.forEach((dataset) => {
         dataset.data = attrValues;
     });
-  chart.data.datasets[0].label = labelTxt;
-  chart.update();
+  chart.current.chartInstance.data.datasets[0].label = labelTxt;
+  chart.current.chartInstance.update({
+    preservation: true,
+  });
 };

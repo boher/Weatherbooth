@@ -36,7 +36,7 @@ function App() {
       <Navbar expand="lg" style={{backgroundColor: "#257cfd"}}>
         <a className="navbar-app-name mr-sm-4" style={{textDecoration: "none", color: "white", fontSize: "large"}}>
           <img className="d-inline-block" src={'./images/weatherbooth.png'} width="60" height="60" alt="" />
-          Weatherbooth
+          &nbsp;Weatherbooth
         </a>
           <Navbar.Toggle aria-controls="navbarCollapse" />
           <Navbar.Collapse id="navbarCollapse">

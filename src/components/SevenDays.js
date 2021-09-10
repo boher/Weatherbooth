@@ -1,7 +1,7 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { tempChange, pcpnChange } from '../utils/UnitConversion.js';
 import { UnitToggleContext } from '../context/UnitToggleContext.js';
-import { Accordion,  Card, Spinner, Table } from 'react-bootstrap';
+import { Accordion, Card, Spinner, Table } from 'react-bootstrap';
 import '../main.css';
 
 function SevenDays(props) {
@@ -12,7 +12,17 @@ function SevenDays(props) {
   else if (Array.isArray(sevenDay))
     console.log("Is Array")
 
+  const [activeCard, setActiveCard] = useState('0');
+
   const { unit } = useContext(UnitToggleContext);
+
+  function toggleActive(active) {
+    if (activeCard === active) {
+      setActiveCard(null);
+    } else {
+      setActiveCard(active);
+    }
+  }
 
   if (sevenDay == null) {
     
@@ -29,9 +39,9 @@ function SevenDays(props) {
     <Table responsive="lg" className="container mt-3">
       <tbody>
         {sevenDay && sevenDay.map(day => (
-          <Accordion key={day.day} /*activeKey={day.day} onSelect={(e) => setActive(e)}*/>
-            <Card>
-              <Card.Header>
+          <Accordion defaultActiveKey={activeCard}>
+            <Card key={day.day}>
+              <Card.Header onClick={() => toggleActive(day.day)} className={activeCard === day.day ? "active" : null}>
                 <Accordion.Toggle as={Card.Header} eventKey={day.day}>
                   <Table borderless className="container mx-1">
                     <tr>
