@@ -1,6 +1,6 @@
 <p align="center">
   <img alt="Weatherbooth" title="Weatherbooth"
-   src="https://github.com/boher/Weatherbooth/blob/update-main/website/static/images/weatherbooth.png" width="480"></img>
+   src="https://github.com/boher/Weatherbooth/blob/main/website/static/images/weatherbooth.png" width="480"></img>
 </p>
 
 <h1 align="center"> Weatherbooth </h1>
