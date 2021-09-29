@@ -160,7 +160,7 @@ $(function() {
       tempLabel = "Temp °C";
       pcpnLabel = 'Volume mm';
       presLabel = 'Air Pressure hPa';
-      windLabel = 'Speed m/h';
+      windLabel = 'Speed m/s';
       updateChart(tempChart, tfHourTemp, tempLabel);
       updateChart(pcpnChart, tfHourPcpn, pcpnLabel);
       updateChart(presChart, tfHourPres, presLabel);
