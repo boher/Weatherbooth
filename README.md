@@ -88,7 +88,7 @@ Any reproductions of this webapp hosted publicly must be open source, generate y
 <br>
 [Chart.js](https://www.chartjs.org/docs/latest/) for visualizing hourly weather predictions
 <br>
-[React](https://github.com/facebook/react/blob/main/README.md) supported with [API requests](https://axios-http.com/docs/intro), [route navigation](reactrouter.com/web/guides), wrappers for [Bootstrap](https://react-bootstrap.github.io/getting-started/introduction/) and [Chart.js](https://github.com/chartjs/Chart.js/releases) dependencies as our frontend (REST API version)
+[React](https://github.com/facebook/react/blob/main/README.md) supported with [API requests](https://axios-http.com/docs/intro), [route navigation](https://reactrouter.com/web/guides), wrappers for [Bootstrap](https://react-bootstrap.github.io/getting-started/introduction/) and [Chart.js](https://github.com/chartjs/Chart.js/releases) dependencies as our frontend (REST API version)
 <br>
 [Tensorflow](https://www.tensorflow.org/guide/keras/rnn) for modeling data pipelines of target weather attributes, to predict hourly and daily values for the next few days
 <br>
