@@ -39,6 +39,41 @@ function TwentyFourHour(props) {
     console.log(attr, values, hour);
   };
 
+  /* Rerender createChart() according to: 
+     1. HTML nav-link active onclick eventKey aka tf.attr = "THE 4 ATTR STRINGS"
+     2. Toggle switch change of React Context true OR false
+     3. Conditionally render OUTSIDE of onClick anon function, somehow detecting that
+     4. Crtieria from Step 1 & executing desired createChart() as such
+     5. RMB createChart() NEEDS tfHour data to be mapped OR looped */
+  const onClickRender = useMemo(() => {
+    tfHour.forEach(function(tf) {
+      if (unit === true) {
+        switch(attr) {
+          case "temp": return createChart("Temp °F", tf.hour, tfHourConvert(tf.values, tf.attr));
+          break;
+          case "pcpn": return createChart("Volume in.", tf.hour, tfHourConvert(tf.values, tf.attr));
+          break;
+          case "pres": return createChart("Air Pressure psi", tf.hour, tfHourConvert(tf.values, tf.attr));
+          break;
+          case "wind": return createChart("Speed miles/h", tf.hour, tfHourConvert(tf.values, tf.attr));
+          break;
+        }
+      }
+      else {
+        switch(attr) {
+          case "temp": createChart("Temp °C", tf.hour, tf.values);
+          break;
+          case "pcpn": createChart("Volume mm", tf.hour, tf.values);
+          break;
+          case "pres": createChart("Air Pressure hPa", tf.hour, tf.values);
+          break;
+          case "wind": createChart("Speed m/s", tf.hour, tf.values);
+          break;
+        }
+      }
+    })
+  }, [attr]);
+
   const attrString = useMemo(() => {
     if (attr === "pcpn")
       return "Precipitation"
@@ -52,7 +87,7 @@ function TwentyFourHour(props) {
       return "Cloud Cover"
     else
       return "Temperature"
-  }, [attr])
+  }, [attr]);
 
   useEffect(() => {
     if (tfHour) {

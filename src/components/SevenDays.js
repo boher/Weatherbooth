@@ -12,7 +12,7 @@ function SevenDays(props) {
   else if (Array.isArray(sevenDay))
     console.log("Is Array")
 
-  const [activeCard, setActiveCard] = useState('0');
+  const [activeCard, setActiveCard] = useState();
 
   const { unit } = useContext(UnitToggleContext);
 
